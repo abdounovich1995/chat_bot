@@ -69,8 +69,9 @@ app.post('/webhook', async (req, res) => {
 else{
 
         if (messageText.toLowerCase() === 'hello') {
-            senderAction(senderPsid);
+            senderAction(senderPsid,"typing_on");
           messengerBot.sendResponse(senderPsid, 'hi');
+          senderAction(senderPsid,"typing_off");
         } else if (messageText.toLowerCase() === 'b') {
             messengerBot.sendResponse(senderPsid, 'B selected');
           }  else {

@@ -1,6 +1,6 @@
 const request = require('request');
 
-module.exports = function senderAction(recipientId){
+module.exports = function senderAction(recipientId,type){
     request({
         url: "https://graph.facebook.com/v2.6/me/messages",
         qs: {
@@ -9,7 +9,7 @@ module.exports = function senderAction(recipientId){
         method: "POST",
         json: {
             recipient: {id: recipientId},
-            "sender_action":"typing_on"
+            "sender_action":type
         }
     }, function(error, response, body) {
         if (error) {
