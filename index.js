@@ -4,6 +4,8 @@ const axios = require('axios');
 const messengerBot = require('./payloads');
 const quickReplies = require('./quickReplies');
 const senderAction = require('./senderAction'); // Import the senderAction module
+const persistentMenu = require('./persistentMenu'); // Import the persistentMenu module
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -85,6 +87,34 @@ app.post('/webhook', async (req, res) => {
   } else {
     res.sendStatus(404);
   }
+});
+
+
+
+function setPersistentMenu() {
+  request({
+    uri: 'https://graph.facebook.com/v13.0/me/messenger_profile',
+    qs: { access_token: PAGE_ACCESS_TOKEN },
+    method: 'POST',
+    json: {
+      persistent_menu: persistentMenu, // Use the imported persistent menu configuration
+    },
+  },
+  (error, _response, _body) => {
+    if (!error) {
+      console.log('Persistent menu set successfully');
+    } else {
+      console.error('Unable to set persistent menu:', error);
+    }
+  });
+}
+
+// Create a route to set the menu when /setMenu is accessed in the browser
+app.get('/setMenu', (req, res) => {
+  // Set the persistent menu
+  setPersistentMenu();
+  
+  res.send('Persistent menu set successfully');
 });
 
 app.listen(PORT, () => {
