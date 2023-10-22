@@ -80,7 +80,7 @@ app.post('/webhook', async (req, res) => {
           messengerBot.sendResponse(senderPsid, "I don't understand");
           setTimeout(() => {
             senderAction(senderPsid, 'typing_off');
-          }, 3000); // 3000 milliseconds (3 seconds) delay
+          }, 100); // 3000 milliseconds (3 seconds) delay
         }
       }
     });
