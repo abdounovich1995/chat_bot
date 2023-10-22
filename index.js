@@ -96,7 +96,6 @@ app.post('/webhook', async (req, res) => {
           messageManager.sendTextMessage(senderPsid, 'Hi');
         } else if (messageText.toLowerCase() === 'b') {
           // Ensure first_name, last_name, and profile_pic are defined
-          if (first_name && last_name && profile_pic) {
             console.log(first_name);
             console.log(last_name);
             console.log(profile_pic);
@@ -109,9 +108,7 @@ app.post('/webhook', async (req, res) => {
               });
 
             messageManager.sendTextMessage(senderPsid, 'User information added to Firebase "client" collection.');
-          } else {
-            messageManager.sendTextMessage(senderPsid, 'User information is missing.');
-          }
+         
         } else {
           messageManager.sendTextMessage(senderPsid, "I don't understand");
         }
