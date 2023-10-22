@@ -74,6 +74,9 @@ app.post('/webhook', async (req, res) => {
         } else if (messageText.toLowerCase() === 'b') {
           messengerBot.sendResponse(senderPsid, 'B selected');
         } else {
+          setTimeout(() => {
+            senderAction(senderPsid, 'typing_off');
+          }, 3000); // 3000 milliseconds (3 seconds) delay
           messengerBot.sendResponse(senderPsid, "I don't understand");
         }
       }
