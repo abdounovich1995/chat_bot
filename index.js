@@ -1,21 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const request = require('request');
-const axios = require('axios'); // Use the Axios library for making HTTP requests
-const messengerBot = require('./payloads'); // Import the messengerBot module
-const quickReplies = require('./quickReplies'); // Import the quickReplies module
-const senderAction = require('./senderAction');
-
+const axios = require('axios');
+const messengerBot = require('./payloads');
+const quickReplies = require('./quickReplies');
+const senderAction = require('./senderAction'); // Import the senderAction module
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3000;
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN; // Replace with your own verify token
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN; // Replace with your Page Access Token
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
-// Function to get the user's name
 async function getUserName(senderPsid) {
   try {
     const response = await axios.get(
@@ -55,28 +52,31 @@ app.post('/webhook', async (req, res) => {
       if (webhookEvent.postback) {
         if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
           const senderPsid = webhookEvent.sender.id;
-          const username = await getUserName(senderPsid); // Get the user's name
+          const username = await getUserName(senderPsid);
+          senderAction(senderPsid, 'typing_on');
           messengerBot.sendWelcomeMessage(senderPsid, username);
+          // Delay for a few seconds before showing typing action off
+          setTimeout(() => {
+            senderAction(senderPsid, 'typing_off');
+          }, 3000); // 3000 milliseconds (3 seconds) delay
         }
       } else if (webhookEvent.message) {
         const senderPsid = webhookEvent.sender.id;
         const messageText = webhookEvent.message.text;
 
-        if (messageText.toLowerCase() === 'aaa') {
-            // Send quick replies from the quickReplies module
-            quickReplies.sendQuickReplies(senderPsid, PAGE_ACCESS_TOKEN);
-          } 
-else{
-
         if (messageText.toLowerCase() === 'hello') {
-            senderAction(senderPsid,"typing_on");
-  
+          senderAction(senderPsid, 'typing_on');
+          messengerBot.sendResponse(senderPsid, 'hi');
+          // Delay for a few seconds before showing typing action off
+          setTimeout(() => {
+            senderAction(senderPsid, 'typing_off');
+          }, 3000); // 3000 milliseconds (3 seconds) delay
         } else if (messageText.toLowerCase() === 'b') {
-            messengerBot.sendResponse(senderPsid, 'B selected');
-          }  else {
+          messengerBot.sendResponse(senderPsid, 'B selected');
+        } else {
           messengerBot.sendResponse(senderPsid, "I don't understand");
         }
-      }}
+      }
     });
 
     res.status(200).send('EVENT_RECEIVED');
