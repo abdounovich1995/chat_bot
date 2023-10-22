@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const axios = require('axios'); // Use the Axios library for making HTTP requests
 const messengerBot = require('./payloads'); // Import the messengerBot module
+const quickReplies = require('./quickReplies'); // Import the quickReplies module
 
 const app = express();
 app.use(bodyParser.json());
