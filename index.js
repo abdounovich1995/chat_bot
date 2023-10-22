@@ -6,7 +6,6 @@ const persistentMenu = require('./persistentMenu'); // Import the persistentMenu
 const messageManager = require('./messageManager'); // Import the messageManager module
 const payloads = require('./payloads'); // Import the payloads module
 const verifyWebhook = require('./webhookVerification'); // Import the webhook verification module
-const quickReplies = require('./quickReplies'); // Import the quickReplies module
 
 const app = express();
 app.use(bodyParser.json());
@@ -62,10 +61,7 @@ app.post('/webhook', async (req, res) => {
         const senderPsid = webhookEvent.sender.id;
         const messageText = webhookEvent.message.text;
 
-        if (messageText.toLowerCase() === 'aaa') {
-          // Send quick replies from the quickReplies module
-          messageManager.sendTextMessageWithQuickReplies(senderPsid, 'Please select an option:', quickReplies);
-        } else {
+     
           if (messageText.toLowerCase() === 'hello') {
             messageManager.sendTextMessage(senderPsid, 'Hi');
           } else if (messageText.toLowerCase() === 'b') {
@@ -74,7 +70,7 @@ app.post('/webhook', async (req, res) => {
             messageManager.sendTextMessage(senderPsid, "I don't understand");
           }
         }
-      }
+      
     });
 
     res.status(200).send('EVENT_RECEIVED');
