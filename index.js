@@ -1,19 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios'); // Import the axios package for making HTTP requests
-const messengerBot = require('./payloads');
 const senderAction = require('./senderAction');
 const persistentMenu = require('./persistentMenu'); // Import the persistentMenu module
 const messageManager = require('./messageManager'); // Import the messageManager module
+const payloads = require('./payloads'); // Import the payloads module
+const verifyWebhook = require('./webhookVerification'); // Import the webhook verification module
 const quickReplies = require('./quickReplies'); // Import the quickReplies module
-
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3000;
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 // Set the persistent menu using the imported configuration
@@ -35,23 +34,14 @@ function setPersistentMenu() {
 app.get('/setMenu', (req, res) => {
   // Set the persistent menu
   setPersistentMenu();
-  
+
   res.send('Persistent menu set successfully');
 });
 
-// Handle Facebook Webhook verification and incoming messages
-app.get('/webhook', (req, res) => {
-  const mode = req.query['hub.mode'];
-  const token = req.query['hub.verify_token'];
-  const challenge = req.query['hub.challenge'];
+// Handle Facebook Webhook verification using the imported function
+app.get('/webhook', verifyWebhook);
 
-  if (mode === 'subscribe' && token === VERIFY_TOKEN) {
-    res.status(200).send(challenge);
-  } else {
-    res.sendStatus(403);
-  }
-});
-
+// Handle Facebook Webhook events
 app.post('/webhook', async (req, res) => {
   const body = req.body;
 
@@ -60,10 +50,13 @@ app.post('/webhook', async (req, res) => {
       const webhookEvent = entry.messaging[0];
 
       if (webhookEvent.postback) {
-        if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
+        if (webhookEvent.postback.payload === payloads.GET_STARTED_PAYLOAD) {
           const senderPsid = webhookEvent.sender.id;
           const username = await getUserName(senderPsid); // Get the user's name
-          messengerBot.sendWelcomeMessage(senderPsid, username);
+          messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
+        } else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
+          const senderPsid = webhookEvent.sender.id;
+          messageManager.sendTextMessage(senderPsid, 'If you need assistance, please reach out to our support team.');
         }
       } else if (webhookEvent.message) {
         const senderPsid = webhookEvent.sender.id;
