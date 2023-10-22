@@ -58,7 +58,25 @@ app.post('/webhook', async (req, res) => {
         
 
 
-          const username = await getUserInfo(senderPsid); // Get the user's name
+          
+
+
+
+          getUserInfo(senderPsid)
+          .then(userInfo => {
+            const firstName = userInfo.first_name;
+            const last_name = userInfo.last_name;
+            const profile_pic = userInfo.profile_pic;
+            const username = userInfo.first_name;
+
+
+
+
+          })
+        
+
+          
+           // Get the user's name
           messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
         } else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
           const senderPsid = webhookEvent.sender.id;
