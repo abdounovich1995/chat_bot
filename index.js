@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const axios = require('axios');
-const messageManager = require('./messageManager'); // Import the messageManager module
+const axios = require('axios'); // Import the axios package for making HTTP requests
+const messengerBot = require('./payloads');
+const senderAction = require('./senderAction');
 const persistentMenu = require('./persistentMenu'); // Import the persistentMenu module
+const messageManager = require('./messageManager'); // Import the messageManager module
 
 const app = express();
 app.use(bodyParser.json());
@@ -59,7 +61,7 @@ app.post('/webhook', async (req, res) => {
         if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
           const senderPsid = webhookEvent.sender.id;
           const username = await getUserName(senderPsid); // Get the user's name
-          messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
+          messengerBot.sendWelcomeMessage(senderPsid, username);
         }
       } else if (webhookEvent.message) {
         const senderPsid = webhookEvent.sender.id;
@@ -67,19 +69,7 @@ app.post('/webhook', async (req, res) => {
 
         if (messageText.toLowerCase() === 'aaa') {
           // Send quick replies from the quickReplies module
-          const quickReplies = [
-            {
-              content_type: 'text',
-              title: 'Option 1',
-              payload: 'OPTION_1_PAYLOAD',
-            },
-            {
-              content_type: 'text',
-              title: 'Option 2',
-              payload: 'OPTION_2_PAYLOAD',
-            },
-          ];
-          messageManager.sendQuickReply(senderPsid, 'Select an option:', quickReplies);
+          messageManager.sendTextMessageWithQuickReplies(senderPsid, 'Please select an option:', quickReplies);
         } else {
           if (messageText.toLowerCase() === 'hello') {
             messageManager.sendTextMessage(senderPsid, 'Hi');
@@ -98,7 +88,23 @@ app.post('/webhook', async (req, res) => {
   }
 });
 
-// ... (Other code remains the same)
+// Function to get the user's name
+async function getUserName(senderPsid) {
+  try {
+    const response = await axios.get(
+      `https://graph.facebook.com/v13.0/${senderPsid}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`
+    );
+
+    if (response.data.name) {
+      return response.data.name;
+    } else {
+      return 'User';
+    }
+  } catch (error) {
+    console.error('Error getting user name:', error);
+    return 'User';
+  }
+}
 
 // Start the Express server
 app.listen(PORT, () => {
