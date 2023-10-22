@@ -1,0 +1,29 @@
+{
+  "name": "chatbot",
+  "version": "1.0.0",
+  "description": "ras",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node index.js"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdounovich1995/chat_bot.git"
+  },
+  "keywords": [
+    "bot"
+  ],
+  "author": "abdounovich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abdounovich1995/chat_bot/issues"
+  },
+  "homepage": "https://github.com/abdounovich1995/chat_bot#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6"
+  }
+}
