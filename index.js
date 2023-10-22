@@ -59,6 +59,12 @@ app.post('/webhook', async (req, res) => {
         const senderPsid = webhookEvent.sender.id;
         const messageText = webhookEvent.message.text;
 
+        if (messageText.toLowerCase() === 'aaa') {
+            // Send quick replies from the quickReplies module
+            quickReplies.sendQuickReplies(senderPsid, PAGE_ACCESS_TOKEN);
+          } 
+
+
         if (messageText.toLowerCase() === 'hello') {
           messengerBot.sendResponse(senderPsid, 'hi');
         } else {
