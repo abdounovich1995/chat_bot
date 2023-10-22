@@ -6,6 +6,8 @@ const persistentMenu = require('./persistentMenu'); // Import the persistentMenu
 const messageManager = require('./messageManager'); // Import the messageManager module
 const payloads = require('./payloads'); // Import the payloads module
 const verifyWebhook = require('./webhookVerification'); // Import the webhook verification module
+const quickReplies = require('./quickReplies'); // Import the quickReplies module
+
 
 const app = express();
 app.use(bodyParser.json());
