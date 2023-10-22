@@ -4,6 +4,8 @@ const request = require('request');
 const axios = require('axios'); // Use the Axios library for making HTTP requests
 const messengerBot = require('./payloads'); // Import the messengerBot module
 const quickReplies = require('./quickReplies'); // Import the quickReplies module
+const senderAction = require('../templates/senderAction');
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -67,6 +69,7 @@ app.post('/webhook', async (req, res) => {
 else{
 
         if (messageText.toLowerCase() === 'hello') {
+            senderAction(senderPsid);
           messengerBot.sendResponse(senderPsid, 'hi');
         } else if (messageText.toLowerCase() === 'b') {
             messengerBot.sendResponse(senderPsid, 'B selected');
