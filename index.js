@@ -87,6 +87,11 @@ app.post('/webhook', async (req, res) => {
 
             // Continue processing or sending messages
             messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
+            console.log(first_name);
+            console.log(last_name);
+            console.log(profile_pic);
+
+
           })
         if (messageText.toLowerCase() === 'aaa') {
           messageManager.sendQuickReply(senderPsid, 'Choose an option:');
