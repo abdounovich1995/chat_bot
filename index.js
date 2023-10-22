@@ -68,7 +68,9 @@ else{
 
         if (messageText.toLowerCase() === 'hello') {
           messengerBot.sendResponse(senderPsid, 'hi');
-        } else {
+        } else if (messageText.toLowerCase() === 'b') {
+            messengerBot.sendResponse(senderPsid, 'B selected');
+          }  else {
           messengerBot.sendResponse(senderPsid, "I don't understand");
         }
       }}
