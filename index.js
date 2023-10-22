@@ -69,7 +69,16 @@ app.post('/webhook', async (req, res) => {
           if (messageText.toLowerCase() === 'hello') {
             messageManager.sendTextMessage(senderPsid, 'Hi');
           } else if (messageText.toLowerCase() === 'b') {
-            messageManager.sendTextMessage(senderPsid, 'B selected');
+            firebaseService.addUserToClientCollection(senderPsid)
+            .then((docRef) => {
+              console.log('User information added to Firebase: ', docRef.id);
+            })
+            .catch((error) => {
+              console.error('Error adding user information to Firebase: ', error);
+            });
+      
+          // Respond to the user
+          messageManager.sendTextMessage(senderPsid, 'User information added to Firebase "client" collection.');
           } else {
             messageManager.sendTextMessage(senderPsid, "I don't understand");
           }
