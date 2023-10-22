@@ -35,6 +35,10 @@ app.post('/webhook', (req, res) => {
 
         if (messageText.toLowerCase() === 'hello') {
           sendResponse(senderPsid, 'hi');
+        }else{
+
+            sendResponse(senderPsid, 'nnnnn');
+
         }
       }
     });
