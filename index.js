@@ -65,9 +65,7 @@ app.post('/webhook', async (req, res) => {
         const messageText = webhookEvent.message.text;
 
         if (messageText.toLowerCase() === 'hello') {
-          setTimeout(() => {
-            senderAction(senderPsid, 'typing_on');
-          }, 3000); // 3000 milliseconds (3 seconds) delay
+          senderAction(senderPsid, 'typing_on');
           messengerBot.sendResponse(senderPsid, 'hi');
           // Delay for a few seconds before showing typing action off
           setTimeout(() => {
