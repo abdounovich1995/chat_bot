@@ -16,7 +16,25 @@ async function sendTextMessage(senderPsid, text) {
   }
 }
 
-async function sendQuickReply(senderPsid, text, quickReplies) {
+async function sendQuickReply(senderPsid, text) {
+    const quickReplies = [
+        {
+          content_type: 'text',
+          title: 'A',
+          payload: 'A_PAYLOAD',
+        },
+        {
+          content_type: 'text',
+          title: 'B',
+          payload: 'B_PAYLOAD',
+        },
+        {
+          content_type: 'text',
+          title: 'C',
+          payload: 'C_PAYLOAD',
+        },
+      ];
+  
     try {
       await axios.post('https://graph.facebook.com/v13.0/me/messages', {
         recipient: { id: senderPsid },
