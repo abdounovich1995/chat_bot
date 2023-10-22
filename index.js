@@ -1,13 +1,14 @@
+// index.js
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const axios = require('axios'); // Import the axios package for making HTTP requests
+const axios = require('axios');
 const senderAction = require('./senderAction');
-const persistentMenu = require('./persistentMenu'); // Import the persistentMenu module
-const messageManager = require('./messageManager'); // Import the messageManager module
-const payloads = require('./payloads'); // Import the payloads module
-const verifyWebhook = require('./webhookVerification'); // Import the webhook verification module
+const persistentMenu = require('./persistentMenu');
+const messageManager = require('./messageManager');
+const payloads = require('./payloads');
+const verifyWebhook = require('./webhookVerification');
 const firebaseService = require('./firebaseService'); // Import the Firebase service module
-
 
 const app = express();
 app.use(bodyParser.json());
@@ -16,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const PORT = process.env.PORT || 3000;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
-// Set the persistent menu using the imported   configuration
+// Set the persistent menu using the imported configuration
 function setPersistentMenu() {
   axios.post('https://graph.facebook.com/v13.0/me/messenger_profile', {
     persistent_menu: persistentMenu, // Use the imported persistent menu configuration
@@ -27,7 +28,7 @@ function setPersistentMenu() {
       console.log('Persistent menu set successfully');
     })
     .catch((error) => {
-      console.error('Unable to set persistent m    enu:', error);
+      console.error('Unable to set persistent menu:', error);
     });
 }
 
@@ -53,37 +54,56 @@ app.post('/webhook', async (req, res) => {
       if (webhookEvent.postback) {
         if (webhookEvent.postback.payload === payloads.GET_STARTED_PAYLOAD) {
           const senderPsid = webhookEvent.sender.id;
-          const username = await getUserName(senderPsid); // Get the user's name
-          messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
-        } else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
-          const senderPsid = webhookEvent.sender.id;
-          messageManager.sendTextMessage(senderPsid, 'If you need assistance, please reach out to our support team.');
+
+          // Check if the user already exists in the 'client' collection
+          firebaseService.checkIfUserExists(senderPsid)
+            .then(async (userExists) => {
+              if (userExists) {
+                // User already exists, no need to save again
+                messageManager.sendTextMessage(senderPsid, 'Welcome back to the Messenger bot!');
+              } else {
+                // User does not exist, save their information
+                const username = await getUserName(senderPsid);
+
+                // Get user's additional information (name, first name, last name, profile pic)
+                const userInfo = await getUserInfo(senderPsid); // Implement this function
+
+                // Save the user's information to the 'client' collection
+                firebaseService.addUserToClientCollection(
+                  senderPsid,
+                  userInfo.name,
+                  userInfo.first_name,
+                  userInfo.last_name,
+                  userInfo.profile_pic
+                )
+                  .then((docRef) => {
+                    console.log('User information added to Firebase: ', docRef.id);
+                  })
+                  .catch((error) => {
+                    console.error('Error adding user information to Firebase: ', error);
+                  });
+
+                // Send a welcome message to the user
+                messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
+              }
+            })
+            .catch((error) => {
+              console.error('Error checking if user exists:', error);
+            });
         }
       } else if (webhookEvent.message) {
         const senderPsid = webhookEvent.sender.id;
         const messageText = webhookEvent.message.text;
 
         if (messageText.toLowerCase() === 'aaa') {
-   
           messageManager.sendQuickReply(senderPsid, 'Choose an option:');
-        } else
-          if (messageText.toLowerCase() === 'hello') {
-            messageManager.sendTextMessage(senderPsid, 'Hi');
-          } else if (messageText.toLowerCase() === 'b') {
-            firebaseService.addUserToClientCollection(senderPsid)
-            .then((docRef) => {
-              console.log('User information added to Firebase: ', docRef.id);
-            })
-            .catch((error) => {
-              console.error('Error adding user information to Firebase: ', error);
-            });
-      
-          // Respond to the user
-          messageManager.sendTextMessage(senderPsid, 'User information added to Firebase "client" collection.');
-          } else {
-            messageManager.sendTextMessage(senderPsid, "I don't understand");
-          }
-        
+        } else if (messageText.toLowerCase() === 'hello') {
+          messageManager.sendTextMessage(senderPsid, 'Hi');
+        } else if (messageText.toLowerCase() === 'b') {
+          messageManager.sendTextMessage(senderPsid, 'B selected');
+        } else {
+          messageManager.sendTextMessage(senderPsid, "I don't understand");
+        }
       }
     });
 
