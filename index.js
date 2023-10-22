@@ -1,10 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const axios = require('axios'); // Import the axios package for making HTTP requests
-const messengerBot = require('./payloads');
-const senderAction = require('./senderAction');
-const persistentMenu = require('./persistentMenu'); // Import the persistentMenu module
+const axios = require('axios');
 const messageManager = require('./messageManager'); // Import the messageManager module
+const persistentMenu = require('./persistentMenu'); // Import the persistentMenu module
 
 const app = express();
 app.use(bodyParser.json());
@@ -22,7 +20,7 @@ function setPersistentMenu() {
     params: { access_token: PAGE_ACCESS_TOKEN },
   })
     .then(() => {
-      console.log('Persistent menu is set successfully');
+      console.log('Persistent menu set successfully');
     })
     .catch((error) => {
       console.error('Unable to set persistent menu:', error);
@@ -38,15 +36,69 @@ app.get('/setMenu', (req, res) => {
 });
 
 // Handle Facebook Webhook verification and incoming messages
-// ... (Your existing code for handling Webhook and messages)
+app.get('/webhook', (req, res) => {
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
 
-// Send a text message using the messageManager module
-app.get('/sendMessage', (req, res) => {
-  const senderPsid = 'USER_PSID'; // Replace with the actual user's PSID
-  const message = 'Hello from the messageManager module!';
-  messageManager.sendTextMessage(senderPsid, message);
-  res.send('Text message sent successfully');
+  if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+    res.status(200).send(challenge);
+  } else {
+    res.sendStatus(403);
+  }
 });
+
+app.post('/webhook', async (req, res) => {
+  const body = req.body;
+
+  if (body.object === 'page') {
+    body.entry.forEach(async (entry) => {
+      const webhookEvent = entry.messaging[0];
+
+      if (webhookEvent.postback) {
+        if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
+          const senderPsid = webhookEvent.sender.id;
+          const username = await getUserName(senderPsid); // Get the user's name
+          messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
+        }
+      } else if (webhookEvent.message) {
+        const senderPsid = webhookEvent.sender.id;
+        const messageText = webhookEvent.message.text;
+
+        if (messageText.toLowerCase() === 'aaa') {
+          // Send quick replies from the quickReplies module
+          const quickReplies = [
+            {
+              content_type: 'text',
+              title: 'Option 1',
+              payload: 'OPTION_1_PAYLOAD',
+            },
+            {
+              content_type: 'text',
+              title: 'Option 2',
+              payload: 'OPTION_2_PAYLOAD',
+            },
+          ];
+          messageManager.sendQuickReply(senderPsid, 'Select an option:', quickReplies);
+        } else {
+          if (messageText.toLowerCase() === 'hello') {
+            messageManager.sendTextMessage(senderPsid, 'Hi');
+          } else if (messageText.toLowerCase() === 'b') {
+            messageManager.sendTextMessage(senderPsid, 'B selected');
+          } else {
+            messageManager.sendTextMessage(senderPsid, "I don't understand");
+          }
+        }
+      }
+    });
+
+    res.status(200).send('EVENT_RECEIVED');
+  } else {
+    res.sendStatus(404);
+  }
+});
+
+// ... (Other code remains the same)
 
 // Start the Express server
 app.listen(PORT, () => {
