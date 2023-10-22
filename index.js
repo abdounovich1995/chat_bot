@@ -86,10 +86,7 @@ app.post('/webhook', async (req, res) => {
             username = userInfo.name;
 
             // Continue processing or sending messages
-            messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
-            console.log(first_name);
-            console.log(last_name);
-            console.log(profile_pic);
+           
 
 
           })
@@ -100,6 +97,9 @@ app.post('/webhook', async (req, res) => {
         } else if (messageText.toLowerCase() === 'b') {
           // Ensure first_name, last_name, and profile_pic are defined
           if (first_name && last_name && profile_pic) {
+            console.log(first_name);
+            console.log(last_name);
+            console.log(profile_pic);
             firebaseService.addUserToClientCollection(senderPsid, first_name, last_name, profile_pic)
               .then((docRef) => {
                 console.log('User information added to Firebase: ', docRef.id);
