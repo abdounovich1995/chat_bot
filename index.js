@@ -54,21 +54,11 @@ app.post('/webhook', async (req, res) => {
       if (webhookEvent.postback) {
         if (webhookEvent.postback.payload === payloads.GET_STARTED_PAYLOAD) {
           const senderPsid = webhookEvent.sender.id;
+              messageManager.sendTextMessage(senderPsid, `Hello,  Welcome to the Messenger bot.`);
 
           // Get user information
-          getUserInfo(senderPsid)
-            .then(userInfo => {
-              first_name = userInfo.first_name;
-              last_name = userInfo.last_name;
-              profile_pic = userInfo.profile_pic;
-              username = userInfo.name;
-
-              // Continue processing or sending messages
-              messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
-            })
-            .catch(error => {
-              console.error('Error getting user information:', error);
-            });
+         
+          
         } else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
           const senderPsid = webhookEvent.sender.id;
           messageManager.sendTextMessage(senderPsid, 'If you need assistance, please reach out to our support team.');
@@ -77,19 +67,7 @@ app.post('/webhook', async (req, res) => {
         const senderPsid = webhookEvent.sender.id;
         const messageText = webhookEvent.message.text;
 
-        // Get user information
-        getUserInfo(senderPsid)
-          .then(userInfo => {
-            first_name = userInfo.first_name;
-            last_name = userInfo.last_name;
-            profile_pic = userInfo.profile_pic;
-            username = userInfo.name;
-
-            // Continue processing or sending messages
-           
-
-
-          })
+      
         if (messageText.toLowerCase() === 'aaa') {
           messageManager.sendQuickReply(senderPsid, 'Choose an option:');
         } else if (messageText.toLowerCase() === 'hello') {
