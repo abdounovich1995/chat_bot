@@ -22,7 +22,7 @@ function setPersistentMenu() {
     params: { access_token: PAGE_ACCESS_TOKEN },
   })
     .then(() => {
-      console.log('Persistent menu set successfully');
+      console.log('Persistent menu is set successfully');
     })
     .catch((error) => {
       console.error('Unable to set persistent menu:', error);
