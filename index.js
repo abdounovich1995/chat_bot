@@ -4,7 +4,7 @@ const request = require('request');
 const axios = require('axios'); // Use the Axios library for making HTTP requests
 const messengerBot = require('./payloads'); // Import the messengerBot module
 const quickReplies = require('./quickReplies'); // Import the quickReplies module
-const senderAction = require('../templates/senderAction');
+const senderAction = require('./senderAction');
 
 
 const app = express();

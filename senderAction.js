@@ -13,7 +13,7 @@ module.exports = function senderAction(recipientId){
         }
     }, function(error, response, body) {
         if (error) {
-            console.log("Error sending message: " + response.error);
+            console.log("Error  sending  message: " + response.error);
         }
     });
 }
