@@ -79,7 +79,7 @@ app.post('/webhook', async (req, res) => {
           messageManager.sendTextMessage(senderPsid, 'Hi');
         } else if (messageText.toLowerCase() === 'b') {
           // Add user information to Firebase
-          firebaseService.addUserToClientCollection(senderPsid, first_name, last_name, profile_pic)
+          firebaseService.addUserToClientCollection(senderPsid, userInfo.first_name, userInfo.last_name, userInfo.profile_pic)
             .then((docRef) => {
               console.log('User information added to Firebase: ', docRef.id);
             })
