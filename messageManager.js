@@ -16,9 +16,27 @@ async function sendTextMessage(senderPsid, text) {
   }
 }
 
-
+async function sendQuickReply(senderPsid, text, quickReplies) {
+    try {
+      await axios.post('https://graph.facebook.com/v13.0/me/messages', {
+        recipient: { id: senderPsid },
+        message: {
+          text,
+          quick_replies: quickReplies,
+        },
+      }, {
+        params: { access_token: process.env.PAGE_ACCESS_TOKEN },
+      });
+      console.log('Quick reply message sent');
+    } catch (error) {
+      console.error('Error sending quick reply message:', error);
+    }
+  }
 
 module.exports = {
   sendTextMessage,
-
+  sendQuickReply,
 };
+
+
+

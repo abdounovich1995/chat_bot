@@ -62,7 +62,27 @@ app.post('/webhook', async (req, res) => {
         const senderPsid = webhookEvent.sender.id;
         const messageText = webhookEvent.message.text;
 
-       
+        if (messageText.toLowerCase() === 'aaa') {
+          const quickReplies = [
+            {
+              content_type: 'text',
+              title: 'A',
+              payload: 'A_PAYLOAD',
+            },
+            {
+              content_type: 'text',
+              title: 'B',
+              payload: 'B_PAYLOAD',
+            },
+            {
+              content_type: 'text',
+              title: 'C',
+              payload: 'C_PAYLOAD',
+            },
+          ];
+      
+          messageManager.sendQuickReply(senderPsid, 'Choose an option:', quickReplies);
+        } else
           if (messageText.toLowerCase() === 'hello') {
             messageManager.sendTextMessage(senderPsid, 'Hi');
           } else if (messageText.toLowerCase() === 'b') {
