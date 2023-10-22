@@ -1,48 +1,24 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const axios = require('axios'); // Import the axios package for making HTTP requests
-const senderAction = require('./senderAction');
-const persistentMenu = require('./persistentMenu'); // Import the persistentMenu module
-const messageManager = require('./messageManager'); // Import the messageManager module
-const payloads = require('./payloads'); // Import the payloads module
-const verifyWebhook = require('./webhookVerification'); // Import the webhook verification module
-const firebaseService = require('./firebaseService'); // Import the Firebase service module
-
+const axios = require('axios');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3000;
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const PAGE_ACCESS_TOKEN = 'YOUR_PAGE_ACCESS_TOKEN';
 
-// Set the persistent menu using the imported configuration
-function setPersistentMenu() {
-  axios.post('https://graph.facebook.com/v13.0/me/messenger_profile', {
-    persistent_menu: persistentMenu, // Use the imported persistent menu configuration
-  }, {
-    params: { access_token: PAGE_ACCESS_TOKEN },
-  })
-    .then(() => {
-      console.log('Persistent menu set successfully');
-    })
-    .catch((error) => {
-      console.error('Unable to set persistent m    enu:', error);
-    });
-}
-
-// Create a route to set the menu when /setMenu is accessed in the browser
-app.get('/setMenu', (req, res) => {
-  // Set the persistent menu
-  setPersistentMenu();
-
-  res.send('Persistent menu set successfully');
+// Handle Facebook Webhook verification
+app.get('/webhook', (req, res) => {
+  if (req.query['hub.verify_token'] === 'YOUR_VERIFICATION_TOKEN') {
+    res.send(req.query['hub.challenge']);
+  } else {
+    res.sendStatus(403);
+  }
 });
 
-// Handle Facebook Webhook verification using the imported function
-app.get('/webhook', verifyWebhook);
-
-// Handle Facebook Webhook events
+// Handle incoming messages and postbacks
 app.post('/webhook', async (req, res) => {
   const body = req.body;
 
@@ -51,62 +27,26 @@ app.post('/webhook', async (req, res) => {
       const webhookEvent = entry.messaging[0];
 
       if (webhookEvent.postback) {
-        if (webhookEvent.postback.payload === payloads.GET_STARTED_PAYLOAD) {
+        if (webhookEvent.postback.payload === 'GET_STARTED') {
           const senderPsid = webhookEvent.sender.id;
-         
-       
-        
 
+          // Get user information
+          const userInfo = await getUserInfo(senderPsid);
+          const firstName = userInfo.first_name;
+          const lastName = userInfo.last_name;
+          const profilePic = userInfo.profile_pic;
 
-          
-
-
-
-          getUserInfo(senderPsid)
-          .then(userInfo => {
-            const firstName = userInfo.first_name;
-            const last_name = userInfo.last_name;
-            const profile_pic = userInfo.profile_pic;
-            const username = userInfo.first_name;
-
-
-
-
-          })
-        
-
-          
-           // Get the user's name
-          messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
-        } else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
-          const senderPsid = webhookEvent.sender.id;
-          messageManager.sendTextMessage(senderPsid, 'If you need assistance, please reach out to our support team.');
+          // Send a welcome message
+          const welcomeMessage = `Hello, ${firstName} ${lastName}! Welcome to the Messenger bot.`;
+          sendMessage(senderPsid, welcomeMessage);
         }
       } else if (webhookEvent.message) {
         const senderPsid = webhookEvent.sender.id;
         const messageText = webhookEvent.message.text;
 
-        if (messageText.toLowerCase() === 'aaa') {
-   
-          messageManager.sendQuickReply(senderPsid, 'Choose an option:');
-        } else
-          if (messageText.toLowerCase() === 'hello') {
-            messageManager.sendTextMessage(senderPsid, 'Hi');
-          } else if (messageText.toLowerCase() === 'b') {
-            firebaseService.addUserToClientCollection(senderPsid,first_name,last_name,profile_pic)
-            .then((docRef) => {
-              console.log('User information added to Firebase: ', docRef.id);
-            })
-            .catch((error) => {
-              console.error('Error adding user information to Firebase: ', error);
-            });
-      
-          // Respond to the user
-          messageManager.sendTextMessage(senderPsid, 'User information added to Firebase "client" collection.');
-          } else {
-            messageManager.sendTextMessage(senderPsid, "I don't understand");
-          }
-        
+        if (messageText.toLowerCase() === 'hello') {
+          sendMessage(senderPsid, 'Hi there!');
+        }
       }
     });
 
@@ -116,7 +56,7 @@ app.post('/webhook', async (req, res) => {
   }
 });
 
-// Function to get the user's name
+// Function to get user information
 async function getUserInfo(senderPsid) {
   try {
     const response = await axios.get(
@@ -152,6 +92,19 @@ async function getUserInfo(senderPsid) {
   }
 }
 
+// Function to send a text message
+async function sendMessage(senderPsid, message) {
+  try {
+    await axios.post('https://graph.facebook.com/v13.0/me/messages', {
+      recipient: { id: senderPsid },
+      message: { text: message },
+    }, {
+      params: { access_token: PAGE_ACCESS_TOKEN },
+    });
+  } catch (error) {
+    console.error('Error sending message:', error);
+  }
+}
 
 // Start the Express server
 app.listen(PORT, () => {
