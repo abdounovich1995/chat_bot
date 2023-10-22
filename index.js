@@ -5,12 +5,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const PORT = env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 app.get('/webhook', (req, res) => {
-    const VERIFY_TOKEN = env.VERIFY_TOKEN; // Replace with your own token
+    const VERIFY_TOKEN = process.env.VERIFY_TOKEN; // Replace with your own token
     const mode = req.query['hub.mode'];
     const token = req.query['hub.verify_token'];
     const challenge = req.query['hub.challenge'];
