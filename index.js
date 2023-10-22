@@ -64,14 +64,14 @@ app.post('/webhook', async (req, res) => {
             // Send quick replies from the quickReplies module
             quickReplies.sendQuickReplies(senderPsid, PAGE_ACCESS_TOKEN);
           } 
-
+else{
 
         if (messageText.toLowerCase() === 'hello') {
           messengerBot.sendResponse(senderPsid, 'hi');
         } else {
           messengerBot.sendResponse(senderPsid, "I don't understand");
         }
-      }
+      }}
     });
 
     res.status(200).send('EVENT_RECEIVED');
