@@ -53,7 +53,12 @@ app.post('/webhook', async (req, res) => {
       if (webhookEvent.postback) {
         if (webhookEvent.postback.payload === payloads.GET_STARTED_PAYLOAD) {
           const senderPsid = webhookEvent.sender.id;
-          const username = await getUserName(senderPsid); // Get the user's name
+         
+       
+        
+
+
+          const username = await getUserInfo(senderPsid); // Get the user's name
           messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
         } else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
           const senderPsid = webhookEvent.sender.id;
@@ -70,7 +75,7 @@ app.post('/webhook', async (req, res) => {
           if (messageText.toLowerCase() === 'hello') {
             messageManager.sendTextMessage(senderPsid, 'Hi');
           } else if (messageText.toLowerCase() === 'b') {
-            firebaseService.addUserToClientCollection(senderPsid)
+            firebaseService.addUserToClientCollection(senderPsid,first_name,last_name,profile_pic)
             .then((docRef) => {
               console.log('User information added to Firebase: ', docRef.id);
             })
@@ -94,22 +99,41 @@ app.post('/webhook', async (req, res) => {
 });
 
 // Function to get the user's name
-async function getUserName(senderPsid) {
+async function getUserInfo(senderPsid) {
   try {
     const response = await axios.get(
-      `https://graph.facebook.com/v13.0/${senderPsid}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`
+      `https://graph.facebook.com/v13.0/${senderPsid}?fields=id,name,first_name,last_name,profile_pic&access_token=${PAGE_ACCESS_TOKEN}`
     );
 
-    if (response.data.name) {
-      return response.data.name;
+    if (response.data.id) {
+      return {
+        id: response.data.id,
+        name: response.data.name,
+        first_name: response.data.first_name,
+        last_name: response.data.last_name,
+        profile_pic: response.data.profile_pic
+      };
     } else {
-      return 'User';
+      return {
+        id: senderPsid,
+        name: 'User',
+        first_name: 'User',
+        last_name: 'User',
+        profile_pic: ''
+      };
     }
   } catch (error) {
-    console.error('Error getting user name:', error);
-    return 'User';
+    console.error('Error getting user info:', error);
+    return {
+      id: senderPsid,
+      name: 'User',
+      first_name: 'User',
+      last_name: 'User',
+      profile_pic: ''
+    };
   }
 }
+
 
 // Start the Express server
 app.listen(PORT, () => {
