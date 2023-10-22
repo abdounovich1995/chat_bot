@@ -1,12 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const axios = require('axios'); // Import the axios package for making HTTP requests
+const axios = require('axios'); 
 const senderAction = require('./senderAction');
-const persistentMenu = require('./persistentMenu'); // Import the persistentMenu module
-const messageManager = require('./messageManager'); // Import the messageManager module
-const payloads = require('./payloads'); // Import the payloads module
-const verifyWebhook = require('./webhookVerification'); // Import the webhook verification module
-const firebaseService = require('./firebaseService'); // Import the Firebase service module
+const persistentMenu = require('./persistentMenu'); 
+const messageManager = require('./messageManager'); 
+const payloads = require('./payloads'); 
+const verifyWebhook = require('./webhookVerification'); 
+const firebaseService = require('./firebaseService'); 
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,7 +18,7 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 // Set the persistent menu using the imported configuration
 function setPersistentMenu() {
   axios.post('https://graph.facebook.com/v13.0/me/messenger_profile', {
-    persistent_menu: persistentMenu, // Use the imported persistent menu configuration
+    persistent_menu: persistentMenu,
   }, {
     params: { access_token: PAGE_ACCESS_TOKEN },
   })
@@ -49,22 +49,26 @@ app.post('/webhook', async (req, res) => {
     body.entry.forEach(async (entry) => {
       const webhookEvent = entry.messaging[0];
 
+      let first_name, last_name, profile_pic, username;
+
       if (webhookEvent.postback) {
         if (webhookEvent.postback.payload === payloads.GET_STARTED_PAYLOAD) {
           const senderPsid = webhookEvent.sender.id;
 
-          // Get the user's info
-          const userInfo = await getUserInfo(senderPsid);
-          const first_name = userInfo.first_name;
-          const last_name = userInfo.last_name;
-          const profile_pic = userInfo.profile_pic;
-          const username = userInfo.name;
+          // Get user information
+          getUserInfo(senderPsid)
+            .then(userInfo => {
+              first_name = userInfo.first_name;
+              last_name = userInfo.last_name;
+              profile_pic = userInfo.profile_pic;
+              username = userInfo.name;
 
-          // Now you can use `firstName`, `lastName`, `profilePic`, and `username` as needed.
-          // ...
-
-          // Get the user's name
-          messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
+              // Continue processing or sending messages
+              messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
+            })
+            .catch(error => {
+              console.error('Error getting user information:', error);
+            });
         } else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
           const senderPsid = webhookEvent.sender.id;
           messageManager.sendTextMessage(senderPsid, 'If you need assistance, please reach out to our support team.');
@@ -78,8 +82,7 @@ app.post('/webhook', async (req, res) => {
         } else if (messageText.toLowerCase() === 'hello') {
           messageManager.sendTextMessage(senderPsid, 'Hi');
         } else if (messageText.toLowerCase() === 'b') {
-          // Add user information to Firebase
-          firebaseService.addUserToClientCollection(senderPsid, userInfo.first_name, userInfo.last_name, userInfo.profile_pic)
+          firebaseService.addUserToClientCollection(senderPsid, first_name, last_name, profile_pic)
             .then((docRef) => {
               console.log('User information added to Firebase: ', docRef.id);
             })
@@ -87,7 +90,6 @@ app.post('/webhook', async (req, res) => {
               console.error('Error adding user information to Firebase: ', error);
             });
 
-          // Respond to the user
           messageManager.sendTextMessage(senderPsid, 'User information added to Firebase "client" collection.');
         } else {
           messageManager.sendTextMessage(senderPsid, "I don't understand");
@@ -126,7 +128,7 @@ async function getUserInfo(senderPsid) {
       };
     }
   } catch (error) {
-    console.error('Error getting user info:', error);
+    console.error('Error getting user information:', error);
     return {
       id: senderPsid,
       name: 'User',
