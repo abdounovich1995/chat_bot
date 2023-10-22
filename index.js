@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
-const messengerBot = require('./messengerBot'); // Import the messengerBot module
+const messengerBot = require('./payloads'); // Import the messengerBot module
 
 const app = express();
 app.use(bodyParser.json());
