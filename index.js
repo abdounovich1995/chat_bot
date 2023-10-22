@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const PORT = process.env.PORT || 3000;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
-// Set the persistent menu using the imported configuration
+// Set the persistent menu using the imported   configuration
 function setPersistentMenu() {
   axios.post('https://graph.facebook.com/v13.0/me/messenger_profile', {
     persistent_menu: persistentMenu, // Use the imported persistent menu configuration
