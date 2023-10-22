@@ -129,7 +129,7 @@ async function getUserInfo(senderPsid) {
         name: 'User',
         first_name: 'User',
         last_name: 'User',
-        profile_pic: ''
+        profile_pic: 'User'
       };
     }
   } catch (error) {
@@ -139,7 +139,7 @@ async function getUserInfo(senderPsid) {
       name: 'User',
       first_name: 'User',
       last_name: 'User',
-      profile_pic: ''
+      profile_pic: 'user'
     };
   }
 }
