@@ -11,13 +11,11 @@ admin.initializeApp({
 const db = admin.firestore();
 
 // Function to add user information to the 'client' collection
-function addUserToClientCollection(userId,first_name,last_name,profile_pic) {
+function addUserToClientCollection(userId) {
   const userInformation = {
     userId,
     timestamp: new Date().toISOString(),
-    first_name,
-    last_name,
-    profile_pic
+
   };
 
   const clientCollection = db.collection('client');
