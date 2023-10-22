@@ -11,13 +11,9 @@ admin.initializeApp({
 const db = admin.firestore();
 
 // Function to add user information to the 'client' collection
-function addUserToClientCollection(userId, name, firstName, lastName, profilePic) {
+function addUserToClientCollection(userId) {
   const userInformation = {
     userId,
-    name,
-    firstName,
-    lastName,
-    profilePic,
     timestamp: new Date().toISOString(),
   };
 
@@ -26,23 +22,6 @@ function addUserToClientCollection(userId, name, firstName, lastName, profilePic
   return clientCollection.add(userInformation);
 }
 
-// Function to check if a user exists in the 'client' collection
-function checkIfUserExists(userId) {
-  const clientCollection = db.collection('client');
-
-  return clientCollection
-    .where('userId', '==', userId)
-    .get()
-    .then((querySnapshot) => {
-      return !querySnapshot.empty;
-    })
-    .catch((error) => {
-      console.error('Error checking if user exists:', error);
-      return false;
-    });
-}
-
 module.exports = {
   addUserToClientCollection,
-  checkIfUserExists,
 };
