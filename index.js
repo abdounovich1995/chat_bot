@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const getStartedPayload = require('./getStartedPayload'); // Import the renamed module
 const request = require('request');
 
 const app = express();
@@ -7,8 +8,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 3000;
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN; // Replace with your own verify token
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN; // Replace with your Page Access Token
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 app.get('/webhook', (req, res) => {
   const mode = req.query['hub.mode'];
@@ -34,12 +34,12 @@ app.post('/webhook', (req, res) => {
         const messageText = webhookEvent.message.text;
 
         if (messageText.toLowerCase() === 'hello') {
-          sendResponse(senderPsid, 'hi');
-        }else{
-
-            sendResponse(senderPsid, 'nnnnn');
-
+          getStartedPayload.sendTextMessage(senderPsid, 'hi');
+        } else {
+          getStartedPayload.sendTextMessage(senderPsid, 'I don\'t understand');
         }
+      } else if (webhookEvent.postback) {
+        getStartedPayload.handlePostback(senderPsid, webhookEvent.postback);
       }
     });
 
@@ -48,30 +48,6 @@ app.post('/webhook', (req, res) => {
     res.sendStatus(404);
   }
 });
-
-function sendResponse(senderPsid, response) {
-  const requestBody = {
-    recipient: {
-      id: senderPsid
-    },
-    message: {
-      text: response
-    }
-  };
-
-  request({
-    uri: 'https://graph.facebook.com/v13.0/me/messages',
-    qs: { access_token: PAGE_ACCESS_TOKEN },
-    method: 'POST',
-    json: requestBody
-  }, (err, _res, _body) => {
-    if (!err) {
-      console.log('Message sent');
-    } else {
-      console.error('Unable to send message:', err);
-    }
-  });
-}
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
