@@ -55,9 +55,9 @@ app.post('/webhook', async (req, res) => {
 
           // Get the user's info
           const userInfo = await getUserInfo(senderPsid);
-          const firstName = userInfo.first_name;
-          const lastName = userInfo.last_name;
-          const profilePic = userInfo.profile_pic;
+          const first_name = userInfo.first_name;
+          const last_name = userInfo.last_name;
+          const profile_pic = userInfo.profile_pic;
           const username = userInfo.name;
 
           // Now you can use `firstName`, `lastName`, `profilePic`, and `username` as needed.
