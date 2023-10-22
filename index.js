@@ -5,6 +5,8 @@ const messengerBot = require('./payloads');
 const senderAction = require('./senderAction');
 const persistentMenu = require('./persistentMenu'); // Import the persistentMenu module
 const messageManager = require('./messageManager'); // Import the messageManager module
+const quickReplies = require('./quickReplies'); // Import the quickReplies module
+
 
 const app = express();
 app.use(bodyParser.json());
