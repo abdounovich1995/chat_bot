@@ -6,6 +6,7 @@ const persistentMenu = require('./persistentMenu'); // Import the persistentMenu
 const messageManager = require('./messageManager'); // Import the messageManager module
 const payloads = require('./payloads'); // Import the payloads module
 const verifyWebhook = require('./webhookVerification'); // Import the webhook verification module
+const firebaseService = require('./firebaseService'); // Import the Firebase service module
 
 
 const app = express();
