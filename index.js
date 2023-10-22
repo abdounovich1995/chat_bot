@@ -95,10 +95,12 @@ app.post('/webhook', async (req, res) => {
         } else if (messageText.toLowerCase() === 'hello') {
           messageManager.sendTextMessage(senderPsid, 'Hi');
         } else if (messageText.toLowerCase() === 'b') {
+          console.log(first_name);
+          console.log(last_name);
+          console.log(profile_pic);
           // Ensure first_name, last_name, and profile_pic are defined
-            console.log(first_name);
-            console.log(last_name);
-            console.log(profile_pic);
+          if (first_name && last_name && profile_pic) {
+           
             firebaseService.addUserToClientCollection(senderPsid, first_name, last_name, profile_pic)
               .then((docRef) => {
                 console.log('User information added to Firebase: ', docRef.id);
@@ -108,7 +110,9 @@ app.post('/webhook', async (req, res) => {
               });
 
             messageManager.sendTextMessage(senderPsid, 'User information added to Firebase "client" collection.');
-         
+          } else {
+            messageManager.sendTextMessage(senderPsid, 'User information is missing.');
+          }
         } else {
           messageManager.sendTextMessage(senderPsid, "I don't understand");
         }
