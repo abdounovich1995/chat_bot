@@ -95,6 +95,19 @@ app.post('/webhook', async (req, res) => {
         } else if (messageText.toLowerCase() === 'hello') {
           messageManager.sendTextMessage(senderPsid, 'Hi');
         } else if (messageText.toLowerCase() === 'b') {
+
+          getUserInfo(senderPsid)
+          .then(userInfo => {
+            first_name = userInfo.first_name;
+            last_name = userInfo.last_name;
+            profile_pic = userInfo.profile_pic;
+            username = userInfo.name;
+
+            // Continue processing or sending messages
+           
+
+
+          })
           console.log(first_name);
           console.log(last_name);
           console.log(profile_pic);
