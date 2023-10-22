@@ -1,11 +1,11 @@
 // firebaseService.js
 
 const admin = require('firebase-admin');
-const serviceAccount = require('path/to/serviceAccountKey.json'); // Replace with your own service account key
+const serviceAccount = require('./serviceAccountKey.jsonce'); // Replace with your own service account key
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://your-firebase-project-id.firebaseio.com', // Replace with your Firebase project URL
+  databaseURL: 'https://chatbotapp-3e7c8.firebaseio.com', // Replace with your Firebase project URL
 });
 
 const db = admin.firestore();
