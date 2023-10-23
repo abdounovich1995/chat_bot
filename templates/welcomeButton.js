@@ -22,7 +22,7 @@ async function sendButtonTemplate(userId) {
                   {
                     type:"postback",
                     title:"تصفح مواعيدي ",
-                    payload:"SHOW_MY_APPOINTEMENT"
+                    payload:"GET_STARTED_PAYLOAD"
                   }
             ]
             
