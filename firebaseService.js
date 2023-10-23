@@ -2,6 +2,8 @@ const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json');
 const axios = require('axios'); // Import the axios library
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN; // Replace with your actual Page Access Token
+const getUser = require('./index'); // Import the messageManager module
+const messageManager = require('./messageManager'); // Import the messageManager module
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -12,6 +14,11 @@ const db = admin.firestore();
 
 // Function to add user information to the 'client' collection
 async function addUserToClientCollection(userId) {
+  const existingUser = await db.collection('clients').where('userId', '==', userId).get();
+
+  if (existingUser.empty) {
+
+
   const userInfo = await getUserInfo(userId);
 
   if (userInfo) {
@@ -33,7 +40,14 @@ async function addUserToClientCollection(userId) {
     console.error('Failed to fetch user information.');
     return null;
   }
-}
+}else{
+  const username = await getUser.getUserName(senderPsid);
+  const welcomeMessage = `Hello again, ${username}! Welcome to the Messenger bot.`;
+  messageManager.sendTextMessage(senderPsid,welcomeMessage);
+
+
+
+}}
 
 async function getUserInfo(psid) {
   try {
