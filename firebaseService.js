@@ -43,16 +43,31 @@ async function addUserToClientCollection(userId) {
     return null;
   }
 }else{
-  const username = await newFunction(userId);
-  const welcomeAgainMessage = `Hello again, ${username}`;
+  const username = await getUserName(userId);
+  const welcomeAgainMessage = `Hello again, ${username}.`;
   messageManager.sendTextMessage(senderPsid,welcomeAgainMessage);
 
 
 
 }}
 
-async function newFunction(userId) {
-  return await getUser.getUserName(userId);
+
+
+async function getUserName(senderPsid) {
+  try {
+    const response = await axios.get(
+      `https://graph.facebook.com/v13.0/${senderPsid}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`
+    );
+
+    if (response.data.name) {
+      return response.data.name;
+    } else {
+      return 'User';
+    }
+  } catch (error) {
+    console.error('Error getting user name:', error);
+    return 'User';
+  }
 }
 
 async function getUserInfo(psid) {
