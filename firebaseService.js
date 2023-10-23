@@ -17,9 +17,9 @@ async function addUserToClientCollection(userId) {
   const existingUser = await db.collection('clients').where('userId', '==', userId).get();
 
   if (existingUser.empty) {
-    const username = await getUser.getUserName(userId);
+    const username = await getUserName(userId);
     const welcomeMessage = `Hello, ${username}! Welcome to the Messenger bot.`;
-    messageManager.sendTextMessage(senderPsid,welcomeMessage);
+    messageManager.sendTextMessage(userId,welcomeMessage);
 
   const userInfo = await getUserInfo(userId);
 
