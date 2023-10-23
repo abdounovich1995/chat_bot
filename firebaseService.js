@@ -17,7 +17,7 @@ async function addUserToClientCollection(userId) {
   if (userInfo) {
     const userInformation = {
       userId,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toUTCString(),
       first_name: userInfo.firstName,
       last_name: userInfo.lastName,
       username:userInfo.firstName+" "+userInfo.lastName,
