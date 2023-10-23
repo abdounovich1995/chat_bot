@@ -53,8 +53,9 @@ app.post('/webhook', async (req, res) => {
       if (webhookEvent.postback) {
         if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
           const senderPsid = webhookEvent.sender.id;
+          const welcomeMessage = `Hello, ${username}! Welcome to the Messenger bot.`;
           const username = await getUserName(senderPsid); // Get the user's name
-          messageManager.sendTextMessage(senderPsid, "Hello! "+{$username}+" how are you ?");
+          messageManager.sendTextMessage(senderPsid,welcomeMessage);
         
       }  else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
           const senderPsid = webhookEvent.sender.id;
