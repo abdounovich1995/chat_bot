@@ -28,3 +28,7 @@ async function sendButtonTemplate(userId) {
       console.error('Error sending button template:', error.response.data);
     }
   }
+
+  module.exports = {
+    sendButtonTemplate,
+  };
