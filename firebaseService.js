@@ -85,18 +85,15 @@ async function addUserToClientCollection(userId) {
     const clientCollection = db.collection('clients');
 
     return clientCollection.add(userInformation);
+
+    const username = await getUserName(userId);
+  const welcomeAgainMessage = `أهلا بك مجددا , ${username}.`;
+  messageManager.sendTextMessage(userId,welcomeAgainMessage);
+  sendButtonTemplate(userId);
   } else {
     console.error('Failed to fetch user information.');
     return null;
   }
-}else{
-  const username = await getUserName(userId);
-  const welcomeAgainMessage = `أهلا بك مجددا , ${username}.`;
-  messageManager.sendTextMessage(userId,welcomeAgainMessage);
-  sendButtonTemplate(userId);
-
-
-
 }}
 
 
