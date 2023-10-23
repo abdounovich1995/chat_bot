@@ -2,11 +2,7 @@ const request = require('request');
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
-function sendWelcomeMessage(senderPsid, username) {
-  const welcomeMessage = `Hello, ${username}! Welcome to the Messenger bot.`;
 
-  sendResponse(senderPsid, welcomeMessage);
-}
 
 function sendResponse(senderPsid, response) {
   const requestBody = {
@@ -36,6 +32,5 @@ function sendResponse(senderPsid, response) {
 }
 
 module.exports = {
-  sendWelcomeMessage,
   sendResponse,
 };
