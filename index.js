@@ -53,12 +53,8 @@ app.post('/webhook', async (req, res) => {
       if (webhookEvent.postback) {
         if (webhookEvent.postback.payload === payloads.GET_STARTED_PAYLOAD) {
           const senderPsid = webhookEvent.sender.id;
-          const username = await getUserName(senderPsid); // Get the user's name
-          messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
-        } else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
-          const senderPsid = webhookEvent.sender.id;
-          messageManager.sendTextMessage(senderPsid, 'If you need assistance, please reach out to our support team.');
-        }
+          messageManager.sendTextMessage(senderPsid, `Hello,! Welcome to the Messenger bot.`);
+        } 
       } else if (webhookEvent.message) {
         const senderPsid = webhookEvent.sender.id;
         const messageText = webhookEvent.message.text;

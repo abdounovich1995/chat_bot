@@ -1,6 +1,5 @@
 // welcomePayload.js
 const messageManager = require('./messageManager');
-const payloads = require('./payloads');
 const axios = require('axios');
 
 async function handleGetStartedPayload(senderPsid, PAGE_ACCESS_TOKEN) {
