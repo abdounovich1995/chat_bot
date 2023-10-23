@@ -52,7 +52,9 @@ app.post('/webhook', async (req, res) => {
       if (webhookEvent.postback) {
         if (webhookEvent.postback.payload === payloads.GET_STARTED_PAYLOAD) {
           const senderPsid = webhookEvent.sender.id;
+          console.log("hello");
           getStartedHandler.handleGetStarted(senderPsid); // Use the new handler for "Get Started" payload
+          console.log("welcome");
         }
       } else if (webhookEvent.message) {
         const senderPsid = webhookEvent.sender.id;
