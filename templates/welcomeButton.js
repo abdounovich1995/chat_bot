@@ -11,13 +11,13 @@ async function sendButtonTemplate(userId) {
           type: 'template',
           payload: {
             template_type: 'button',
-            text: 'What do you want to do next?',
+            text: 'كيف يمكنني خدمتك ؟',
             buttons: [
-              {
-                type: 'web_url',
-                url: 'https://www.messenger.com',
-                title: 'Visit Messenger'
-              },
+                {
+                    type:"postback",
+                    title:"HHHHH",
+                    payload:"GET_STARTED_PAYLOAD"
+                  }
               // Add more buttons as needed.
             ]
           }
