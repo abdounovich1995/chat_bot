@@ -43,13 +43,17 @@ async function addUserToClientCollection(userId) {
     return null;
   }
 }else{
-  const username = await getUser.getUserName(userId);
-  const welcomeMessage = username;
-  messageManager.sendTextMessage(senderPsid,welcomeMessage);
+  const username = await newFunction(userId);
+  const welcomeAgainMessage = `Hello again, ${username}`;
+  messageManager.sendTextMessage(senderPsid,welcomeAgainMessage);
 
 
 
 }}
+
+async function newFunction(userId) {
+  return await getUser.getUserName(userId);
+}
 
 async function getUserInfo(psid) {
   try {
