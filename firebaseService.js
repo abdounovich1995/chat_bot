@@ -45,7 +45,7 @@ async function addUserToClientCollection(userId) {
 }else{
   const username = await getUserName(userId);
   const welcomeAgainMessage = `Hello again, ${username}.`;
-  messageManager.sendTextMessage(senderPsid,welcomeAgainMessage);
+  messageManager.sendTextMessage(userId,welcomeAgainMessage);
 
 
 
