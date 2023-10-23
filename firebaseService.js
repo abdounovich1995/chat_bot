@@ -23,15 +23,15 @@ async function addUserToClientCollection(userId) {
 
   const userInfo = await getUserInfo(userId);
 
-  sendButtonTemplate(senderId);
+  sendButtonTemplate(userId);
 
 
 
 
-  async function sendButtonTemplate(senderId) {
+  async function sendButtonTemplate(userId) {
   
     const requestBody = {
-      recipient: { id: senderId },
+      recipient: { id: userId },
       message: {
         attachment: {
           type: 'template',
@@ -93,6 +93,7 @@ async function addUserToClientCollection(userId) {
   const username = await getUserName(userId);
   const welcomeAgainMessage = `أهلا بك مجددا , ${username}.`;
   messageManager.sendTextMessage(userId,welcomeAgainMessage);
+  sendButtonTemplate(userId);
 
 
 
