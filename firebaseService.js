@@ -24,20 +24,6 @@ async function addUserToClientCollection(userId) {
 
   welcomeButton.sendButtonTemplate(userId);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const userInfo = await getUserInfo(userId);
 
 
