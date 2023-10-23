@@ -53,12 +53,9 @@ app.post('/webhook', async (req, res) => {
       if (webhookEvent.postback) {
         if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
           const senderPsid = webhookEvent.sender.id;
-          const username = await getUserName(senderPsid); // Get the user's name         
-          const welcomeMessage = `Hello, ${username}! Welcome to the Messenger bot.`;
 
-          messageManager.sendTextMessage(senderPsid,welcomeMessage);
 
-           firebaseService.addUserToClientCollection(senderPsid)
+           firebaseService.addUserToClientCollection(senderPsid);
       
         
       }  else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
@@ -72,20 +69,12 @@ app.post('/webhook', async (req, res) => {
         if (messageText.toLowerCase() === 'aaa') {
    
           messageManager.sendQuickReply(senderPsid, 'Choose an option:');
-        } else
-          if (messageText.toLowerCase() === 'hello') {
+        } else if (messageText.toLowerCase() === 'hello') {
             messageManager.sendTextMessage(senderPsid, 'Hi');
           } else if (messageText.toLowerCase() === 'b') {
-            firebaseService.addUserToClientCollection(senderPsid)
-            .then((docRef) => {
-              console.log('User information added to Firebase: ', docRef.id);
-            })
-            .catch((error) => {
-              console.error('Error adding user information to Firebase: ', error);
-            });
-      
-          // Respond to the user
-          messageManager.sendTextMessage(senderPsid, 'User information added to Firebase "client" collection.');
+            
+         
+          messageManager.sendTextMessage(senderPsid, 'b selected');
           } else {
             messageManager.sendTextMessage(senderPsid, "I don't understand");
           }
