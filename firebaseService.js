@@ -18,10 +18,57 @@ async function addUserToClientCollection(userId) {
 
   if (existingUser.empty) {
     const username = await getUserName(userId);
-    const welcomeMessage = `Hello, ${username}! Welcome to the Messenger bot.`;
+    const welcomeMessage = `مرحبا بك , ${username}! كيف يمكنني خدمتك.`;
     messageManager.sendTextMessage(userId,welcomeMessage);
 
   const userInfo = await getUserInfo(userId);
+
+  sendButtonTemplate(senderId);
+
+
+
+
+  async function sendButtonTemplate(senderId) {
+  
+    const requestBody = {
+      recipient: { id: senderId },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'button',
+            text: 'What do you want to do next?',
+            buttons: [
+              {
+                type: 'web_url',
+                url: 'https://www.messenger.com',
+                title: 'Visit Messenger'
+              },
+              // Add more buttons as needed.
+            ]
+          }
+        }
+      }
+    };
+  
+    try {
+      const response = await axios.post(`https://graph.facebook.com/v18.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, requestBody);
+      console.log('Button template sent:', response.data);
+    } catch (error) {
+      console.error('Error sending button template:', error.response.data);
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
 
   if (userInfo) {
     const userInformation = {
@@ -44,7 +91,7 @@ async function addUserToClientCollection(userId) {
   }
 }else{
   const username = await getUserName(userId);
-  const welcomeAgainMessage = `Hello again, ${username}.`;
+  const welcomeAgainMessage = `أهلا بك مجددا , ${username}.`;
   messageManager.sendTextMessage(userId,welcomeAgainMessage);
 
 
