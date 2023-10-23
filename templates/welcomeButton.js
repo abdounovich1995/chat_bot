@@ -15,11 +15,17 @@ async function sendButtonTemplate(userId) {
             buttons: [
                 {
                     type:"postback",
-                    title:"HHHHH",
-                    payload:"GET_STARTED_PAYLOAD"
+                    title:"حجز موعد ",
+                    payload:"TAKE_APPOINTEMENT"
+                  },
+
+                  {
+                    type:"postback",
+                    title:"تصفح مواعيدي ",
+                    payload:"SHOW_MY_APPOINTEMENT"
                   }
-              // Add more buttons as needed.
             ]
+            
           }
         }
       }

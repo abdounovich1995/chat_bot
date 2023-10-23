@@ -52,13 +52,13 @@ app.post('/webhook', async (req, res) => {
 
       if (webhookEvent.postback) {
         if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
-          const senderPsid = webhookEvent.sender.id;
 
+          payloads.handlePostback(webhookEvent);
 
-           firebaseService.addUserToClientCollection(senderPsid);
+  
       
         
-      }  else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
+      }  else if (webhookEvent.postback.payload ===" payloads.CARE_HELP") {
           const senderPsid = webhookEvent.sender.id;
           messageManager.sendTextMessage(senderPsid, 'If you need assistance, please reach out to our support team.');
         }
