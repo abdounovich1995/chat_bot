@@ -2,8 +2,8 @@ const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json');
 const axios = require('axios'); // Import the axios library
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN; // Replace with your actual Page Access Token
-const getUser = require('./index'); // Import the messageManager module
 const messageManager = require('./messageManager'); // Import the messageManager module
+const welcomeButton = require('./templates/welcomeButton'); // Import the messageManager module
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -23,41 +23,12 @@ async function addUserToClientCollection(userId) {
 
   const userInfo = await getUserInfo(userId);
 
-  sendButtonTemplate(userId);
+  welcomeButton.sendButtonTemplate(userId);
 
 
 
 
-  async function sendButtonTemplate(userId) {
-  
-    const requestBody = {
-      recipient: { id: userId },
-      message: {
-        attachment: {
-          type: 'template',
-          payload: {
-            template_type: 'button',
-            text: 'What do you want to do next?',
-            buttons: [
-              {
-                type: 'web_url',
-                url: 'https://www.messenger.com',
-                title: 'Visit Messenger'
-              },
-              // Add more buttons as needed.
-            ]
-          }
-        }
-      }
-    };
-  
-    try {
-      const response = await axios.post(`https://graph.facebook.com/v18.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, requestBody);
-      console.log('Button template sent:', response.data);
-    } catch (error) {
-      console.error('Error sending button template:', error.response.data);
-    }
-  }
+
 
 
 
@@ -85,15 +56,18 @@ async function addUserToClientCollection(userId) {
     const clientCollection = db.collection('clients');
 
     return clientCollection.add(userInformation);
-
-    const username = await getUserName(userId);
-  const welcomeAgainMessage = `أهلا بك مجددا , ${username}.`;
-  messageManager.sendTextMessage(userId,welcomeAgainMessage);
-  sendButtonTemplate(userId);
   } else {
     console.error('Failed to fetch user information.');
     return null;
   }
+}else{
+  const username = await getUserName(userId);
+  const welcomeAgainMessage = `أهلا بك مجددا , ${username}.`;
+  messageManager.sendTextMessage(userId,welcomeAgainMessage);
+  welcomeButton.sendButtonTemplate(userId);
+
+
+
 }}
 
 
