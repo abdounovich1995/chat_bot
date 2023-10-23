@@ -51,17 +51,11 @@ app.post('/webhook', async (req, res) => {
       const webhookEvent = entry.messaging[0];
 
       if (webhookEvent.postback) {
-        if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
+       
 
           payloads.handlePostback(webhookEvent);
 
   
-      
-        
-      }  else if (webhookEvent.postback.payload ===" payloads.CARE_HELP") {
-          const senderPsid = webhookEvent.sender.id;
-          messageManager.sendTextMessage(senderPsid, 'If you need assistance, please reach out to our support team.');
-        }
       } else if (webhookEvent.message) {
         const senderPsid = webhookEvent.sender.id;
         const messageText = webhookEvent.message.text;
