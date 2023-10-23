@@ -54,7 +54,7 @@ app.post('/webhook', async (req, res) => {
         if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
           const senderPsid = webhookEvent.sender.id;
           const username = await getUserName(senderPsid); // Get the user's name
-          messageManager.sendTextMessage(senderPsid, username);
+          messageManager.sendTextMessage(senderPsid, "Hello! "+{username}+" how are you ?");
         
       }  else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
           const senderPsid = webhookEvent.sender.id;
