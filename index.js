@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
-
+const messageManager = require('./messageManager');
 
 
 const app = express();
@@ -53,16 +53,16 @@ app.post('/webhook', async (req, res) => {
         if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
           const senderPsid = webhookEvent.sender.id;
           const username = await getUserName(senderPsid); // Get the user's name
-          messengerBot.sendWelcomeMessage(senderPsid, username);
+          messageManager.sendTextMessage(senderPsid, username);
         }
       } else if (webhookEvent.message) {
         const senderPsid = webhookEvent.sender.id;
         const messageText = webhookEvent.message.text;
 
         if (messageText.toLowerCase() === 'hello') {
-          messengerBot.sendResponse(senderPsid, 'hi');
+          messageManager.sendTextMessage(senderPsid, 'hi');
         } else {
-          messengerBot.sendResponse(senderPsid, "I don't understand");
+          messageManager.sendTextMessage(senderPsid, "I don't understand");
         }
       }
     });
