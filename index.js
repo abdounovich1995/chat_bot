@@ -58,16 +58,16 @@ app.post('/webhook', async (req, res) => {
 
           messageManager.sendTextMessage(senderPsid,welcomeMessage);
 
-          firebaseService.addUserToClientCollection(senderPsid)
-          .then((docRef) => {
-            console.log('User information added to Firebase: ', docRef.id);
-          })
-          .catch((error) => {
-            console.error('Error adding user information to Firebase: ', error);
-          });
-    
-        // Respond to the user
-        messageManager.sendTextMessage(senderPsid, 'User information added to Firebase "client" collection.');
+           firebaseService.addUserToClientCollection(senderPsid)
+            .then((docRef) => {
+              console.log('User information added to Firebase: ', docRef.id);
+            })
+            .catch((error) => {
+              console.error('Error adding user information to Firebase: ', error);
+            });
+      
+          // Respond to the user
+          messageManager.sendTextMessage(senderPsid, 'User information added to Firebase "client" collection.');
         
       }  else if (webhookEvent.postback.payload === payloads.CARE_HELP) {
           const senderPsid = webhookEvent.sender.id;

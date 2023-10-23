@@ -18,9 +18,10 @@ async function addUserToClientCollection(userId) {
     const userInformation = {
       userId,
       timestamp: new Date().toISOString(),
-      firstName: userInfo.firstName,
-      lastName: userInfo.lastName,
-      profilePicture: userInfo.profilePicture,
+      first_name: userInfo.firstName,
+      last_name: userInfo.lastName,
+      userame:userInfo.lastName+userInfo.lastName,
+      profile_picture: userInfo.profilePicture,
 
 
     };
