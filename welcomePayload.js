@@ -1,29 +1,16 @@
-// welcomePayload.js
+// getStartedHandler.js
 const messageManager = require('./messageManager');
-const axios = require('axios');
 
-async function handleGetStartedPayload(senderPsid, PAGE_ACCESS_TOKEN) {
-  const username = await getUserName(senderPsid, PAGE_ACCESS_TOKEN);
-  messageManager.sendTextMessage(senderPsid, `Hello, ${username}! Welcome to the Messenger bot.`);
+// Handle the "Get Started" payload
+function handleGetStarted(senderPsid) {
+  // You can customize the response message here
+  const response = "Welcome to the bot! You can start by typing a message or use the menu.";
+
+  // Send the response to the user
+  messageManager.sendTextMessage(senderPsid, response);
 }
 
-async function getUserName(senderPsid, PAGE_ACCESS_TOKEN) {
-  try {
-    const response = await axios.get(
-      `https://graph.facebook.com/v13.0/${senderPsid}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`
-    );
-
-    if (response.data.name) {
-      return response.data.name;
-    } else {
-      return 'User';
-    }
-  } catch (error) {
-    console.error('Error getting user name:', error);
-    return 'User';
-  }
-}
-
+// Export the function to be used in other files
 module.exports = {
-  handleGetStartedPayload,
+  handleGetStarted,
 };
