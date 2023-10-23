@@ -21,7 +21,7 @@ async function addUserToClientCollection(userId) {
       first_name: userInfo.firstName,
       last_name: userInfo.lastName,
       username:userInfo.firstName+" "+userInfo.lastName,
-      profile_picture: userInfo.profilePicture,
+      profile_pic: userInfo.profilePicture,
 
 
     };
