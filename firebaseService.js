@@ -25,7 +25,7 @@ async function addUserToClientCollection(userId) {
 
     };
 
-    const clientCollection = db.collection('client');
+    const clientCollection = db.collection('clients');
 
     return clientCollection.add(userInformation);
   } else {
@@ -42,6 +42,7 @@ async function getUserInfo(psid) {
         access_token: PAGE_ACCESS_TOKEN,
       },
     });
+  
 
     const userData = response.data;
     const firstName = userData.first_name;
