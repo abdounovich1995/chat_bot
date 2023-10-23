@@ -21,7 +21,6 @@ async function addUserToClientCollection(userId) {
     const welcomeMessage = `مرحبا بك , ${username}! كيف يمكنني خدمتك.`;
     messageManager.sendTextMessage(userId,welcomeMessage);
 
-  const userInfo = await getUserInfo(userId);
 
   welcomeButton.sendButtonTemplate(userId);
 
@@ -39,6 +38,7 @@ async function addUserToClientCollection(userId) {
 
 
 
+  const userInfo = await getUserInfo(userId);
 
 
   if (userInfo) {
