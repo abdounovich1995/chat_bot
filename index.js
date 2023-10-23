@@ -7,7 +7,7 @@ const messageManager = require('./messageManager');
 const payloads = require('./payloads');
 const verifyWebhook = require('./webhookVerification');
 const firebaseService = require('./firebaseService');
-const getStartedHandler = require('./getStartedHandler'); // Import the getStartedHandler module
+const getStartedHandler = require('./welcomePayload'); // Import the getStartedHandler module
 
 const app = express();
 app.use(bodyParser.json());
