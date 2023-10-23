@@ -117,6 +117,12 @@ async function getUserName(senderPsid) {
   }
 }
 
+
+module.exports = {
+  getUserName,
+};
+
+
 // Start the Express server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
