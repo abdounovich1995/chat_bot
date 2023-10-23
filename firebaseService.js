@@ -20,7 +20,7 @@ async function addUserToClientCollection(userId) {
       timestamp: new Date().toISOString(),
       first_name: userInfo.firstName,
       last_name: userInfo.lastName,
-      userame:userInfo.lastName+userInfo.lastName,
+      username:userInfo.firstName+" "+userInfo.lastName,
       profile_picture: userInfo.profilePicture,
 
 
