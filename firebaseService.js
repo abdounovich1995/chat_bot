@@ -41,7 +41,7 @@ async function addUserToClientCollection(userId) {
     return null;
   }
 }else{
-  const username = await getUser.getUserName(senderPsid);
+  const username = await getUser.getUserName(userId);
   const welcomeMessage = `Hello again, ${username}! Welcome to the Messenger bot.`;
   messageManager.sendTextMessage(senderPsid,welcomeMessage);
 
