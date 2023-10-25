@@ -11,18 +11,18 @@ async function sendButtonTemplate(userId) {
           type: 'template',
           payload: {
             template_type: 'button',
-            text: 'كيف يمكنني خدمتك ؟',
+            text: '🤖كيف يمكنني خدمتك ؟',
             buttons: [
                 {
                     type:"postback",
-                    title:"حجز موعد ",
+                    title:"حجز موعد 📅",
                     payload:"TAKE_APPOINTEMENT"
                   },
 
                   {
                     type:"postback",
-                    title:"تصفح مواعيدي ",
-                    payload:"SHOW_MY_APPOINTEMENT"
+                    title:"تصفح مواعيدي 📋 ",
+                    payload:"SHOW_MY_APPOINTEMENTS"
                   }
             ]
             
