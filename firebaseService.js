@@ -139,5 +139,5 @@ async function getUserInfo(psid) {
 module.exports = {
   addUserToClientCollection,
   getTypesData,
-  getClientReferenceByPSID
+  getClientReferenceByPSID,
 };
