@@ -26,7 +26,7 @@ async function getClientReferenceByPSID(userPSID) {
       // User with the given PSID exists, return the reference to the client document
       const clientDocument = querySnapshot.docs[0];
       const clientReference = clientDocument.id;
-      return console.log(clientReference);
+      return clientReference;
    
    }
 
@@ -79,7 +79,7 @@ async function addUserToClientCollection(userId) {
   const username = await getUserName(userId);
   const welcomeAgainMessage = `🙋‍♂️ أهلا بك مجددا , ${username}.`;
   messageManager.sendTextMessage(userId,welcomeAgainMessage);
-  welcomeButton.sendButtonTemplate(userId);
+  welcomeButton.sendButtonTemplate(userId,getClientReferenceByPSID(userId));
 
 
 
