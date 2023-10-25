@@ -14,6 +14,7 @@ admin.initializeApp({
 const db = admin.firestore();
 
 const typesCollection = db.collection('types');
+const clientsCollection = db.collection('clients');
 
 
 
