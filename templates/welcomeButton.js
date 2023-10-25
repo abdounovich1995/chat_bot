@@ -9,10 +9,7 @@ const SITE_URL = process.env.SITE_URL;
 
 
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://chatbotapp-3e7c8.firebaseio.com',
-});
+
 
 const db = admin.firestore();
 
