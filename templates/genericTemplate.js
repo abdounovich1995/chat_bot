@@ -42,13 +42,13 @@ day="اليوم";
                 subtitle: `السعر ${type.prix} !\n المكافأة ${type.points} ; ${day}`,
                 default_action: {
                   type: 'web_url',
-                  url: `${SITE_URL}/clientAddAppointement/${userId} `,
+                  url: `${SITE_URL}/clientAddAppointement/?id=${userId} `,
                   webview_height_ratio: 'tall',
                 },
                 buttons: [
                   {
                     type: 'web_url',
-                    url: 'https://www.originalcoastclothing.com/',
+                    url: `${SITE_URL}/clientAddAppointement/${userId} `,
                     title: 'View Website',
                   },
                   {
