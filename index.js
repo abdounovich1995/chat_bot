@@ -63,8 +63,8 @@ app.post('/webhook', async (req, res) => {
         if (messageText.toLowerCase() === 'TAKE_APPOINTEMENT') {
    
           messageManager.sendQuickReply(senderPsid, ' ⬇ إخـتـر يومـا مـن القائمة:');
-        } else if (messageText.toLowerCase() === 'today') {
-            messageManager.sendTextMessage(senderPsid, 'today');
+        } else if (messageText.toLowerCase() === 'الـيــوم') {
+            messageManager.sendTextMessage(senderPsid, 'الـيــوم');
           } else if (messageText.toLowerCase() === 'tomorrow') {
             
          
