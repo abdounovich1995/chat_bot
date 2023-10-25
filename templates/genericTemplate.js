@@ -31,7 +31,7 @@ async function sendGenericTemplate(userId) {
               {
                 title: type.type,
                 image_url: type.photo,
-                subtitle: `السعر ${type.prix} المكافءة ${type.points}`,
+                subtitle: `السعر ${type.prix} !\n المكافأة ${type.points}`,
                 default_action: {
                   type: 'web_url',
                   url: 'https://www.originalcoastclothing.com/',
