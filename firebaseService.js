@@ -26,7 +26,7 @@ async function getClientReferenceByPSID(userPSID) {
     if (!querySnapshot.empty) {
       // User with the given PSID exists, return the reference to the client document
       const clientDocument = querySnapshot.docs[0];
-      const clientReference = clientDocument.ref;
+      const clientReference = clientDocument.id;
       return clientReference;
     } else {
       // User with the given PSID does not exist
@@ -58,7 +58,6 @@ async function addUserToClientCollection(userId) {
     const welcomeMessage = `🙋‍♂️ مرحبا بك , ${username}!`;
     
     messageManager.sendTextMessage(userId,welcomeMessage);
-    messageManager.sendTextMessage(userId,userId);
 
     welcomeButton.sendButtonTemplate(userId);
   const userInfo = await getUserInfo(userId);
