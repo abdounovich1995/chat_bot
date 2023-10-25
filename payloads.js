@@ -9,7 +9,7 @@ function handlePostback(webhookEvent) {
       firebaseService.addUserToClientCollection(senderPsid);
     } else if (webhookEvent.postback.payload === "TAKE_APPOINTEMENT") {
       const senderPsid = webhookEvent.sender.id;
-      messageManager.sendTextMessage(senderPsid, 'pas encore.');
+      messageManager.sendQuickReply(senderPsid, ' ⬇ إخـتـر يومـا مـن القائمة:');
     }
   }
 }
