@@ -12,6 +12,7 @@ const SITE_URL = process.env.SITE_URL;
 try {
 
   
+  const clientRef = await firebaseService.getClientReferenceByPSID(userId);
 
   
     const requestBody = {
@@ -25,7 +26,7 @@ try {
             buttons: [
               {
                 type: 'web_url', // Change the button type to 'web_url'
-                url: `${SITE_URL}/clientAddAppointement?clientPSID `,
+                url: `${SITE_URL}/clientAddAppointement?clientPSID=${clientRef} `,
                 title: 'now',
               },
 
