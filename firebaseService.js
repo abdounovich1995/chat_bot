@@ -18,10 +18,9 @@ const typesCollection = db.collection('types');
 
 
 
-async function getClientReferenceByPSID(clientRef) {
+async function getClientReferenceByPSID(userPSID) {
   try {
-    const querySnapshot  = db.collection('clients').doc(clientRef);
-
+    const querySnapshot = await clientsCollection.where('userID', '==', userPSID).get();
 
     if (!querySnapshot.empty) {
       // User with the given PSID exists, return the reference to the client document
@@ -37,7 +36,6 @@ async function getClientReferenceByPSID(clientRef) {
     throw error; // You can choose to handle the error differently
   }
 }
-
 
 // Fetch data from the "types" collection
 async function getTypesData() {
