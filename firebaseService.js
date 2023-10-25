@@ -26,7 +26,7 @@ async function getClientReferenceByPSID(userPSID) {
       // User with the given PSID exists, return the reference to the client document
       const clientDocument = querySnapshot.docs[0];
       const clientReference = clientDocument.id;
-      return clientReference;
+      return console.log(clientReference);
    
    }
 
