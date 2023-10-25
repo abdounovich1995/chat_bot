@@ -54,7 +54,10 @@ async function sendGenericTemplate(userId) {
           },
         },
       },
-    }};
+    }
+    
+    
+    
 
     const response = await axios.post(`https://graph.facebook.com/v15.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, messageData);
 
@@ -64,7 +67,7 @@ async function sendGenericTemplate(userId) {
     } else {
       console.error('Failed to send the message:', response.data);
     }
-  } catch (error) {
+  } }catch (error) {
     console.error('An error occurred:', error);
   }
   }
