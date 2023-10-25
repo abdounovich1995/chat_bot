@@ -63,13 +63,24 @@ app.post('/webhook', async (req, res) => {
         if (messageText.toLowerCase() === 'TAKE_APPOINTEMENT') {
    
           messageManager.sendQuickReply(senderPsid, ' ⬇ إخـتـر يومـا مـن القائمة:');
-        } else if (messageText.toLowerCase() === 'hello') {
-            messageManager.sendTextMessage(senderPsid, 'Hi');
-          } else if (messageText.toLowerCase() === 'b') {
+        } else if (messageText.toLowerCase() === 'today') {
+            messageManager.sendTextMessage(senderPsid, 'today');
+          } else if (messageText.toLowerCase() === 'tomorrow') {
             
          
           messageManager.sendTextMessage(senderPsid, 'b selected');
-          } else {
+          } 
+          else if (messageText.toLowerCase() === 'after tomorrow') {
+            
+         
+            messageManager.sendTextMessage(senderPsid, 'after tomorrow');
+            }
+            else if (messageText.toLowerCase() === 'vip') {
+            
+         
+              messageManager.sendTextMessage(senderPsid, 'vip');
+              }
+          else {
             messageManager.sendTextMessage(senderPsid, "I don't understand");
           }
         
