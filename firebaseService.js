@@ -50,7 +50,7 @@ async function addUserToClientCollection(userId) {
     const welcomeMessage = `🙋‍♂️ مرحبا بك , ${username}!`;
     
     messageManager.sendTextMessage(userId,welcomeMessage);
-
+return console.log(getClientReferenceByPSID(userId));
     welcomeButton.sendButtonTemplate(userId,getClientReferenceByPSID(userId));
   const userInfo = await getUserInfo(userId);
 
