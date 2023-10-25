@@ -43,13 +43,13 @@ day="اليوم";
                 subtitle: `السعر ${type.prix} !\n المكافأة ${type.points} ; ${day}`,
                 default_action: {
                   type: 'web_url',
-                  url: `${SITE_URL}/clientAddAppointement?clientPSID=${userId} `,
+                  url: `${SITE_URL}/clientAddAppointement?clientPSID=${clientRef} `,
                   webview_height_ratio: 'tall',
                 },
                 buttons: [
                   {
                     type: 'web_url',
-                    url: `${SITE_URL}/clientAddAppointement?clientPSID=${userId} `,
+                    url: `${SITE_URL}/clientAddAppointement?clientPSID=${clientRef} `,
                     title: 'View Website',
                   },
                   {
