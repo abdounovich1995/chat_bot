@@ -25,7 +25,7 @@ try {
             buttons: [
               {
                 type: 'web_url', // Change the button type to 'web_url'
-                url: `clientAddAppointement?clientPSID `,
+                url: `${SITE_URL}/clientAddAppointement?clientPSID `,
                 title: 'now',
               },
 
@@ -40,9 +40,7 @@ try {
         }
       }
     };
-  } catch (error) {
   
-  }
   
     try {
       const response = await axios.post(`https://graph.facebook.com/v18.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, requestBody);
@@ -50,6 +48,9 @@ try {
     } catch (error) {
       console.error('Error sending button template:', error.response.data);
     }
+  } catch (error) {
+  
+  }
   }
 
 
