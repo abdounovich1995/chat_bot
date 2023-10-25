@@ -65,7 +65,6 @@ app.post('/webhook', async (req, res) => {
    
           messageManager.sendQuickReply(senderPsid, ' ⬇ إخـتـر يومـا مـن القائمة:');
         } else if (messageText.toLowerCase() === 'الـيــوم') {
-            messageManager.sendTextMessage(senderPsid, 'الـيــوم');
             genericTemplate.sendGenericTemplate(senderPsid);
 
           } else if (messageText.toLowerCase() === 'tomorrow') {

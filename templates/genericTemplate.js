@@ -1,10 +1,23 @@
 
 const axios = require('axios'); // Import the axios library
+const firebaseService = require('../firebaseService'); // Import your Firebase service module here
+
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
+
+
+
+
+
 async function sendGenericTemplate(userId) {
+    try {
+    const typesData = await firebaseService.getTypesData();
+
+    for (const type of typesData) {
+
+
   
-  try {
+
     const messageData = {
       recipient: {
         id: userId,
@@ -16,7 +29,7 @@ async function sendGenericTemplate(userId) {
             template_type: 'generic',
             elements: [
               {
-                title: 'Welcome!',
+                title: type.type,
                 image_url: 'https://raw.githubusercontent.com/fbsamples/original-coast-clothing/main/public/styles/male-work.jpg',
                 subtitle: 'We have the right hat for everyone.',
                 default_action: {
@@ -41,7 +54,7 @@ async function sendGenericTemplate(userId) {
           },
         },
       },
-    };
+    }};
 
     const response = await axios.post(`https://graph.facebook.com/v15.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, messageData);
 

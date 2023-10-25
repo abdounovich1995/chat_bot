@@ -13,6 +13,19 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
+const typesCollection = db.collection('types');
+
+// Fetch data from the "types" collection
+async function getTypesData() {
+  const snapshot = await typesCollection.get();
+  const typesData = [];
+  snapshot.forEach((doc) => {
+    typesData.push(doc.data());
+  });
+  return typesData;
+}
+
+
 // Function to add user information to the 'client' collection
 async function addUserToClientCollection(userId) {
   const existingUser = await db.collection('clients').where('userId', '==', userId).get();
@@ -100,4 +113,5 @@ async function getUserInfo(psid) {
 
 module.exports = {
   addUserToClientCollection,
+  getTypesData,
 };
