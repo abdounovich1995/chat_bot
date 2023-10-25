@@ -3,6 +3,7 @@ const axios = require('axios'); // Import the axios library
 const firebaseService = require('../firebaseService'); // Import your Firebase service module here
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const SITE_URL = process.env.SITE_URL;
 
 
 
@@ -41,7 +42,7 @@ day="اليوم";
                 subtitle: `السعر ${type.prix} !\n المكافأة ${type.points} ; ${day}`,
                 default_action: {
                   type: 'web_url',
-                  url: 'https://www.originalcoastclothing.com/',
+                  url: `${SITE_URL}/clientAddAppointement/${userId} `,
                   webview_height_ratio: 'tall',
                 },
                 buttons: [
