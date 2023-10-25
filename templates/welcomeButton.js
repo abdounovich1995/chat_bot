@@ -1,4 +1,5 @@
 const admin = require('firebase-admin');
+const serviceAccount = require('./serviceAccountKey.json');
 const axios = require('axios'); // Import the axios library
 const firebaseService = require('../firebaseService'); // Import your Firebase service module here
 
