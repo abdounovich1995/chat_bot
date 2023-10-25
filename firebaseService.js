@@ -51,7 +51,7 @@ async function getTypesData() {
 
 // Function to add user information to the 'client' collection
 async function addUserToClientCollection(userId) {
-  const existingUser = await db.collection('clients').where('userId', '==', userId).get();
+  const existingUser = await db.collection('clients').where('userID', '==', userId).get();
 
   if (existingUser.empty) {
     const username = await getUserName(userId);
