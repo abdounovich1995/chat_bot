@@ -63,7 +63,10 @@ app.post('/webhook', async (req, res) => {
 
         if (messageText.toLowerCase() === 'TAKE_APPOINTEMENT') {
    
-          messageManager.sendQuickReply(senderPsid, ' ⬇ إخـتـر يومـا مـن القائمة:');
+          // messageManager.sendQuickReply(senderPsid, ' ⬇ إخـتـر يومـا مـن القائمة:');
+
+
+          
         } else if (messageText.toLowerCase() === 'الـيــوم') {
             genericTemplate.sendGenericTemplate(senderPsid,"today");
 

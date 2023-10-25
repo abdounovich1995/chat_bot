@@ -1,11 +1,14 @@
 
 const axios = require('axios'); // Import the axios library
+const firebaseService = require('../firebaseService'); // Import your Firebase service module here
+
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 
 
   async function sendButtonTemplate(userId) {
-  
+    const clientRef = await firebaseService.getClientReferenceByPSID(userId);
+
     const requestBody = {
       recipient: { id: userId },
       message: {
@@ -16,16 +19,14 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
             text: '🤖كيف يمكنني خدمتك ؟',
             buttons: [
                 {
-                    type:"postback",
+                    type:"web_url",
                     title:"حجز موعد 📅",
-                    payload:"TAKE_APPOINTEMENT"
+                    url: `${SITE_URL}/clientAddAppointement?clientPSID=${clientRef} `,
+                    webview_height_ratio: 'tall',
+
                   },
 
-                  {
-                    type:"postback",
-                    title:"تصفح مواعيدي 📋 ",
-                    payload:"SHOW_MY_APPOINTEMENTS"
-                  }
+                 
             ]
             
           }
