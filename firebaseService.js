@@ -14,14 +14,14 @@ admin.initializeApp({
 const db = admin.firestore();
 
 const typesCollection = db.collection('types');
-const clientsCollection = db.collection('clients');
 
 
 
 
 async function getClientReferenceByPSID(clientRef) {
   try {
-    const querySnapshot = await clientsCollection.doc(clientRef);
+    const querySnapshot  = db.collection('clients').doc(clientRef);
+
 
     if (!querySnapshot.empty) {
       // User with the given PSID exists, return the reference to the client document
