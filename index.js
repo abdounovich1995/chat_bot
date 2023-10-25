@@ -28,7 +28,7 @@ function setPersistentMenu() {
       console.log('Persistent menu set successfully');
     })
     .catch((error) => {
-      console.error('Unable to set persistent m    enu:', error);
+      console.error('Unable to set persistent menu:', error);
     });
 }
 
@@ -65,7 +65,7 @@ app.post('/webhook', async (req, res) => {
    
           messageManager.sendQuickReply(senderPsid, ' ⬇ إخـتـر يومـا مـن القائمة:');
         } else if (messageText.toLowerCase() === 'الـيــوم') {
-            genericTemplate.sendGenericTemplate(senderPsid);
+            genericTemplate.sendGenericTemplate(senderPsid,"today");
 
           } else if (messageText.toLowerCase() === 'tomorrow') {
             

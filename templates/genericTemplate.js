@@ -9,7 +9,14 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 
 
-async function sendGenericTemplate(userId) {
+async function sendGenericTemplate(userId,theday) {
+
+
+  const day="";
+  if(theday==="today"){
+day="اليوم";
+
+  }
     try {
     const typesData = await firebaseService.getTypesData();
 
@@ -31,7 +38,7 @@ async function sendGenericTemplate(userId) {
               {
                 title: type.type,
                 image_url: type.photo,
-                subtitle: `السعر ${type.prix} !\n المكافأة ${type.points}`,
+                subtitle: `السعر ${type.prix} !\n المكافأة ${type.points} ; ${day}`,
                 default_action: {
                   type: 'web_url',
                   url: 'https://www.originalcoastclothing.com/',
