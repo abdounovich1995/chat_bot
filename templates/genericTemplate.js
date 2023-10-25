@@ -12,7 +12,7 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 async function sendGenericTemplate(userId,theday) {
 
 
-  const day="";
+  let day="";
   if(theday==="today"){
 day="اليوم";
 
