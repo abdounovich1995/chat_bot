@@ -30,8 +30,8 @@ async function sendGenericTemplate(userId) {
             elements: [
               {
                 title: type.type,
-                image_url: 'https://raw.githubusercontent.com/fbsamples/original-coast-clothing/main/public/styles/male-work.jpg',
-                subtitle: 'We have the right hat for everyone.',
+                image_url: type.photo,
+                subtitle: `السعر ${type.prix} المكافءة ${type.points}`,
                 default_action: {
                   type: 'web_url',
                   url: 'https://www.originalcoastclothing.com/',
