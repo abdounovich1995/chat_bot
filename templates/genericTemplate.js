@@ -20,6 +20,7 @@ day="اليوم";
   }
     try {
     const typesData = await firebaseService.getTypesData();
+    const clientRef = await firebaseService.getClientReferenceByPSID(userId);
 
     for (const type of typesData) {
 
@@ -42,13 +43,13 @@ day="اليوم";
                 subtitle: `السعر ${type.prix} !\n المكافأة ${type.points} ; ${day}`,
                 default_action: {
                   type: 'web_url',
-                  url: `${SITE_URL}/clientAddAppointement/?id=${userId} `,
+                  url: `${SITE_URL}/clientAddAppointement?clientPSID=${userId} `,
                   webview_height_ratio: 'tall',
                 },
                 buttons: [
                   {
                     type: 'web_url',
-                    url: `${SITE_URL}/clientAddAppointement/${userId} `,
+                    url: `${SITE_URL}/clientAddAppointement?clientPSID=${userId} `,
                     title: 'View Website',
                   },
                   {

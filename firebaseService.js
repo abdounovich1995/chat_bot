@@ -15,6 +15,29 @@ const db = admin.firestore();
 
 const typesCollection = db.collection('types');
 
+
+
+
+async function getClientReferenceByPSID(userPSID) {
+  try {
+    const querySnapshot = await clientsCollection.where('psid', '==', userPSID).get();
+
+    if (!querySnapshot.empty) {
+      // User with the given PSID exists, return the reference to the client document
+      const clientDocument = querySnapshot.docs[0];
+      const clientReference = clientDocument.ref;
+      return clientReference;
+    } else {
+      // User with the given PSID does not exist
+      return null;
+    }
+  } catch (error) {
+    console.error('Error retrieving client reference:', error);
+    throw error; // You can choose to handle the error differently
+  }
+}
+
+
 // Fetch data from the "types" collection
 async function getTypesData() {
   const snapshot = await typesCollection.get();
@@ -114,4 +137,5 @@ async function getUserInfo(psid) {
 module.exports = {
   addUserToClientCollection,
   getTypesData,
+  getClientReferenceByPSID
 };
