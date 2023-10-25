@@ -1,7 +1,6 @@
 const admin = require('firebase-admin');
 const serviceAccount = require('../serviceAccountKey.json');
 const axios = require('axios'); // Import the axios library
-const firebaseService = require('../firebaseService'); // Import your Firebase service module here
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const SITE_URL = process.env.SITE_URL;
