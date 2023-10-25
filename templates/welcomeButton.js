@@ -8,7 +8,7 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
   async function sendButtonTemplate(userId) {
     const clientRef = await firebaseService.getClientReferenceByPSID(userId);
-console.log(clientRef);
+return console.log(clientRef);
     const requestBody = {
       recipient: { id: userId },
       message: {
