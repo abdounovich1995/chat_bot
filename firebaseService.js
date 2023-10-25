@@ -18,12 +18,9 @@ async function addUserToClientCollection(userId) {
 
   if (existingUser.empty) {
     const username = await getUserName(userId);
-    const welcomeMessage = `مرحبا بك , ${username}! كيف يمكنني خدمتك.`;
+    const welcomeMessage = `مرحبا بك , ${username}!`;
     messageManager.sendTextMessage(userId,welcomeMessage);
-
-
-  welcomeButton.sendButtonTemplate(userId);
-
+    welcomeButton.sendButtonTemplate(userId);
   const userInfo = await getUserInfo(userId);
 
 
@@ -35,6 +32,7 @@ async function addUserToClientCollection(userId) {
       last_name: userInfo.lastName,
       username:userInfo.firstName+" "+userInfo.lastName,
       profile_pic: userInfo.profilePicture,
+      points:0,
 
 
     };
