@@ -5,6 +5,7 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN; // Replace with your ac
 const messageManager = require('./messageManager'); // Import the messageManager module
 const welcomeButton = require('./templates/welcomeButton'); // Import the messageManager module
 
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://chatbotapp-3e7c8.firebaseio.com',

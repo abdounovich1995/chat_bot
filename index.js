@@ -7,6 +7,7 @@ const messageManager = require('./messageManager'); // Import the messageManager
 const payloads = require('./payloads'); // Import the payloads module
 const verifyWebhook = require('./webhookVerification'); // Import the webhook verification module
 const firebaseService = require('./firebaseService'); // Import the Firebase service module
+const genericTemplate = require('./templates/genericTemplate'); // Import the messageManager module
 
 
 const app = express();
@@ -65,6 +66,8 @@ app.post('/webhook', async (req, res) => {
           messageManager.sendQuickReply(senderPsid, ' ⬇ إخـتـر يومـا مـن القائمة:');
         } else if (messageText.toLowerCase() === 'الـيــوم') {
             messageManager.sendTextMessage(senderPsid, 'الـيــوم');
+            genericTemplate.sendGenericTemplate(senderPsid);
+
           } else if (messageText.toLowerCase() === 'tomorrow') {
             
          
