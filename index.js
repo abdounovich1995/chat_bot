@@ -60,9 +60,9 @@ app.post('/webhook', async (req, res) => {
         const senderPsid = webhookEvent.sender.id;
         const messageText = webhookEvent.message.text;
 
-        if (messageText.toLowerCase() === 'aaa') {
+        if (messageText.toLowerCase() === 'TAKE_APPOINTEMENT') {
    
-          messageManager.sendQuickReply(senderPsid, 'Choose an option:');
+          messageManager.sendQuickReply(senderPsid, ' ⬇ إخـتـر يومـا مـن القائمة:');
         } else if (messageText.toLowerCase() === 'hello') {
             messageManager.sendTextMessage(senderPsid, 'Hi');
           } else if (messageText.toLowerCase() === 'b') {

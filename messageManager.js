@@ -20,18 +20,23 @@ async function sendQuickReply(senderPsid, text) {
     const quickReplies = [
         {
           content_type: 'text',
-          title: 'A',
-          payload: 'A_PAYLOAD',
+          title: 'الـيــوم ',
+          payload: 'TODAY',
         },
         {
           content_type: 'text',
-          title: 'B',
-          payload: 'B_PAYLOAD',
+          title: 'غــدا',
+          payload: 'TOMORROW',
         },
         {
           content_type: 'text',
-          title: 'C',
-          payload: 'C_PAYLOAD',
+          title: 'بــعـد غــد',
+          payload: 'AFTER_TOMORROW',
+        },
+        {
+          content_type: 'text',
+          title: 'VIP',
+          payload: 'VIP',
         },
       ];
   
