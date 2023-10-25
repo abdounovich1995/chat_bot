@@ -59,7 +59,7 @@ async function addUserToClientCollection(userId) {
     
     messageManager.sendTextMessage(userId,welcomeMessage);
 
-    welcomeButton.sendButtonTemplate(userId);
+    welcomeButton.sendButtonTemplate(userId,getClientReferenceByPSID(userId));
   const userInfo = await getUserInfo(userId);
 
 
