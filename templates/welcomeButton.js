@@ -9,7 +9,7 @@ const SITE_URL = process.env.SITE_URL;
 
   async function sendButtonTemplate(userId) {
 
-try {
+
 
   
   const clientRef = await firebaseService.getClientReferenceByPSID(userId);
@@ -43,15 +43,13 @@ try {
     };
   
   
-    try {
+   
       const response = await axios.post(`https://graph.facebook.com/v18.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, requestBody);
       console.log('Button template sent:', response.data);
-    } catch (error) {
+    
       console.error('Error sending button template:', error.response.data);
-    }
-  } catch (error) {
+   
   
-  }
   }
 
 
