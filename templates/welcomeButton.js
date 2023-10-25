@@ -1,6 +1,6 @@
-const admin = require('firebase-admin');
-const serviceAccount = require('../serviceAccountKey.json');
+
 const axios = require('axios'); // Import the axios library
+const firebaseService = require('../firebaseService'); // Import your Firebase service module here
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const SITE_URL = process.env.SITE_URL;
@@ -9,15 +9,10 @@ const SITE_URL = process.env.SITE_URL;
 
 
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://chatbotapp-3e7c8.firebaseio.com',
-});
-
-const db = admin.firestore();
 
 
-const clientsCollection = db.collection('clients');
+
+const clientsCollection = firebaseService.getClientReferenceByPSID("");
 
 
 
@@ -41,7 +36,7 @@ async function getClientReferenceByPSID(userPSID) {
 }
 
   async function sendButtonTemplate(userId) {
-    const clientRef = await getClientReferenceByPSID(userId);
+    const clientRef = await getClientReferenceByPSID("3406277326168614");
 
 try {
 
