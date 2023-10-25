@@ -18,7 +18,7 @@ async function addUserToClientCollection(userId) {
 
   if (existingUser.empty) {
     const username = await getUserName(userId);
-    const welcomeMessage = `مرحبا بك , ${username}!`;
+    const welcomeMessage = `🙋‍♂️ مرحبا بك , ${username}!`;
     messageManager.sendTextMessage(userId,welcomeMessage);
     welcomeButton.sendButtonTemplate(userId);
   const userInfo = await getUserInfo(userId);
@@ -46,7 +46,7 @@ async function addUserToClientCollection(userId) {
   }
 }else{
   const username = await getUserName(userId);
-  const welcomeAgainMessage = `أهلا بك مجددا , ${username}.`;
+  const welcomeAgainMessage = `🙋‍♂️ أهلا بك مجددا , ${username}.`;
   messageManager.sendTextMessage(userId,welcomeAgainMessage);
   welcomeButton.sendButtonTemplate(userId);
 
