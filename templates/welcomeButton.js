@@ -12,31 +12,13 @@ const SITE_URL = process.env.SITE_URL;
 
 
 
-const clientsCollection = firebaseService.getClientReferenceByPSID("");
 
 
 
-async function getClientReferenceByPSID(userPSID) {
-  try {
-    const querySnapshot = await clientsCollection.where('userID', '==', userPSID).get();
 
-    if (!querySnapshot.empty) {
-      // User with the given PSID exists, return the reference to the client document
-      const clientDocument = querySnapshot.docs[0];
-      const clientReference = clientDocument.id;
-      return clientReference;
-    } else {
-      // User with the given PSID does not exist
-      return null;
-    }
-  } catch (error) {
-    console.error('Error retrieving client reference:', error);
-    throw error; // You can choose to handle the error differently
-  }
-}
 
   async function sendButtonTemplate(userId) {
-    const clientRef = await getClientReferenceByPSID("3406277326168614");
+    const clientRef = firebaseService.getClientReferenceByPSID("3406277326168614");
 
 try {
 
