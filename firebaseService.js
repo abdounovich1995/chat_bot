@@ -51,7 +51,7 @@ async function addUserToClientCollection(userId) {
     
     messageManager.sendTextMessage(userId,welcomeMessage);
 return console.log(getClientReferenceByPSID(userId));
-    welcomeButton.sendButtonTemplate(userId,getClientReferenceByPSID(userId));
+    welcomeButton.sendButtonTemplate(userId,await getClientReferenceByPSID(userId));
   const userInfo = await getUserInfo(userId);
 
 
@@ -79,7 +79,7 @@ return console.log(getClientReferenceByPSID(userId));
   const username = await getUserName(userId);
   const welcomeAgainMessage = `🙋‍♂️ أهلا بك مجددا , ${username}.`;
   messageManager.sendTextMessage(userId,welcomeAgainMessage);
-  return console.log(getClientReferenceByPSID(userId));
+  return console.log(await getClientReferenceByPSID(userId));
 
   welcomeButton.sendButtonTemplate(userId,getClientReferenceByPSID(userId));
 
