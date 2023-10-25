@@ -25,7 +25,7 @@ try {
             buttons: [
               {
                 type: 'web_url', // Change the button type to 'web_url'
-                url: `${SITE_URL}/clientAddAppointement?clientPSID={clientRef} `,
+                url: `clientAddAppointement?clientPSID `,
                 title: 'now',
               },
 
