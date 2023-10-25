@@ -21,7 +21,7 @@ const clientsCollection = db.collection('clients');
 
 async function getClientReferenceByPSID(userPSID) {
   try {
-    const querySnapshot = await clientsCollection.where('psid', '==', userPSID).get();
+    const querySnapshot = await clientsCollection.where('userID', '==', userPSID).get();
 
     if (!querySnapshot.empty) {
       // User with the given PSID exists, return the reference to the client document
