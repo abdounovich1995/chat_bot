@@ -1,14 +1,11 @@
 
 const axios = require('axios'); // Import the axios library
-const firebaseService = require('../firebaseService'); // Import your Firebase service module here
-
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 
 
   async function sendButtonTemplate(userId) {
-    const clientRef = await firebaseService.getClientReferenceByPSID(userId);
-return console.log(clientRef);
+  
     const requestBody = {
       recipient: { id: userId },
       message: {
@@ -18,15 +15,17 @@ return console.log(clientRef);
             template_type: 'button',
             text: '🤖كيف يمكنني خدمتك ؟',
             buttons: [
-                {
-                    type:"web_url",
-                    title:"حجز موعد 📅",
-                    url: `${SITE_URL}/clientAddAppointement?clientPSID=${clientRef} `,
-                    webview_height_ratio: 'tall',
+              {
+                type: 'web_url', // Change the button type to 'web_url'
+                url: 'https://chat.openai.com/c/bb5523f9-10e1-4832-a13a-492b0fc61fd2', // Replace with the URL you want to open in the webview
+                title: 'now',
+              },
 
-                  },
-
-                 
+                  {
+                    type:"postback",
+                    title:"تصفح مواعيدي 📋 ",
+                    payload:"SHOW_MY_APPOINTEMENTS"
+                  }
             ]
             
           }
