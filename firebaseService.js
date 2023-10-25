@@ -79,6 +79,8 @@ return console.log(getClientReferenceByPSID(userId));
   const username = await getUserName(userId);
   const welcomeAgainMessage = `🙋‍♂️ أهلا بك مجددا , ${username}.`;
   messageManager.sendTextMessage(userId,welcomeAgainMessage);
+  return console.log(getClientReferenceByPSID(userId));
+
   welcomeButton.sendButtonTemplate(userId,getClientReferenceByPSID(userId));
 
 
