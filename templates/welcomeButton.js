@@ -11,6 +11,7 @@ const SITE_URL = process.env.SITE_URL;
 
 try {
 
+  return console.log(userId, ref);
   
 
   
