@@ -56,7 +56,10 @@ async function addUserToClientCollection(userId) {
   if (existingUser.empty) {
     const username = await getUserName(userId);
     const welcomeMessage = `🙋‍♂️ مرحبا بك , ${username}!`;
+    
     messageManager.sendTextMessage(userId,welcomeMessage);
+    messageManager.sendTextMessage(userId,userId);
+
     welcomeButton.sendButtonTemplate(userId);
   const userInfo = await getUserInfo(userId);
 
