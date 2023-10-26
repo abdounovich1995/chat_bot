@@ -28,7 +28,7 @@ try {
                 url: `${SITE_URL}/clientChoiseType?clientPSID=${ref} `,
                 title: ' حـجـز مـوعـد 📅',
                 messenger_extensions :'true',
-                webview_height_ratio:'tall',
+                webview_height_ratio:'full',
                 webview_share_button:'hide'
               },
 
