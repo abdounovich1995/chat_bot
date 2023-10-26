@@ -25,8 +25,8 @@ try {
             buttons: [
               {
                 type: 'web_url', // Change the button type to 'web_url'
-                url: `${SITE_URL}/clientAddAppointement?clientPSID=${ref} `,
-                title: '📅 حـجـز مـوعـد',
+                url: `${SITE_URL}/clientChoiseType?clientPSID=${ref} `,
+                title: ' حـجـز مـوعـد 📅',
               },
 
                   {
