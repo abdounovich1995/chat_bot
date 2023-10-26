@@ -26,7 +26,7 @@ try {
               {
                 type: 'web_url', // Change the button type to 'web_url'
                 url: `${SITE_URL}/clientAddAppointement?clientPSID=${ref} `,
-                title: 'now',
+                title: '📅 حـجـز مـوعـد',
               },
 
                   {
