@@ -27,6 +27,7 @@ try {
                 type: 'web_url', // Change the button type to 'web_url'
                 url: `${SITE_URL}/clientChoiseType?clientPSID=${ref} `,
                 title: ' حـجـز مـوعـد 📅',
+                messenger_extensions :'true',
                 webview_height_ratio:'compact',
                 webview_share_button:'hide'
               },
