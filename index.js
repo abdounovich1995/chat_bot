@@ -43,7 +43,6 @@ app.get('/setMenu', (req, res) => {
 app.get('/webhook', verifyWebhook);
 app.set('view engine', 'ejs');
 
-app.get('/close', (req, res) => {
  // Define a route handler for '/close'
 app.get('/close', (req, res) => {
   // Render an HTML page to display to the user
@@ -52,7 +51,7 @@ app.get('/close', (req, res) => {
   
   console.log("so");
 });
-});
+
 
 // Handle Facebook Webhook events
 app.post('/webhook', async (req, res) => {
