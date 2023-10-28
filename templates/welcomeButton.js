@@ -28,7 +28,7 @@ try {
                 url: `${SITE_URL}/clientChoiseDay?clientPSID=${ref} `,
                 title: ' حـجـز مـوعـد 📅',
                 messenger_extensions :'true',
-                webview_height_ratio:'full',
+                webview_height_ratio:'compacted',
                 webview_share_button:'hide'
               },
 
@@ -37,7 +37,7 @@ try {
                     title:"تصفح مواعيدي 📋 ",
                     url: `https://facebook-bot-demo-production.up.railway.app/close`,
                     messenger_extensions :'true',
-                    webview_height_ratio:'full',
+                    webview_height_ratio:'tall',
                     webview_share_button:'hide'
                   }
             ]
