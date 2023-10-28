@@ -45,6 +45,8 @@ app.get('/close', (req, res) => {
  // Define a route handler for '/close'
 app.get('/close', (req, res) => {
   // Render an HTML page to display to the user
+  
+  console.log("here");
   res.send(`
     <!DOCTYPE html>
     <html>
@@ -59,6 +61,7 @@ app.get('/close', (req, res) => {
     </body>
     </html>
   `);
+  console.log("so");
 });
 });
 
