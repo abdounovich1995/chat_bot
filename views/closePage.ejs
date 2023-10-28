@@ -1,10 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Close Page</title>
+  <title>Your Page</title>
 </head>
 <body>
-  <h1>Close Page</h1>
-  <p>This is the page you want to display when accessing the /close route.</p>
+  <h1>Welcome to Your Page</h1>
+  <p>This page will automatically close the webview.</p>
+
+  <script>
+    // Make sure the Messenger Extensions SDK is loaded first
+    window.extAsyncInit = function() {
+      MessengerExtensions.requestCloseBrowser(function success() {
+        // Webview closed successfully
+      }, function error(err) {
+        // An error occurred
+      });
+    };
+  </script>
+  <script>
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/messenger.Extensions.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'Messenger'));
+  </script>
 </body>
 </html>
