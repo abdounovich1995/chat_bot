@@ -126,7 +126,14 @@ button:hover, a:hover {
   js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'Messenger'));
-    
+window.extAsyncInit = function () {
+                // the Messenger Extensions JS SDK is done loading
+                MessengerExtensions.getUserID(function success(uids) {
+    alert(psid);
+                }, function error(err) {
+                    alert("Messenger Extension Error: " + err);
+                 });
+            };
    
             function sendMessage() {
     
@@ -142,14 +149,7 @@ button:hover, a:hover {
        
 
 
-            window.extAsyncInit = function () {
-                // the Messenger Extensions JS SDK is done loading
-                MessengerExtensions.getUserID(function success(uids) {
-    alert(psid);
-                }, function error(err) {
-                    alert("Messenger Extension Error: " + err);
-                 });
-            };
+           
         </script>
 </body>
 </html>
