@@ -41,6 +41,8 @@ app.get('/setMenu', (req, res) => {
 
 // Handle Facebook Webhook verification using the imported function
 app.get('/webhook', verifyWebhook);
+app.set('view engine', 'ejs');
+
 app.get('/close', (req, res) => {
  // Define a route handler for '/close'
 app.get('/close', (req, res) => {
