@@ -33,9 +33,12 @@ try {
               },
 
                   {
-                    type:"postback",
+                    type:"web_url",
                     title:"تصفح مواعيدي 📋 ",
-                    payload:"SHOW_MY_APPOINTEMENTS"
+                    url: `https://facebook-bot-demo-production.up.railway.app/close`,
+                    messenger_extensions :'true',
+                    webview_height_ratio:'full',
+                    webview_share_button:'hide'
                   }
             ]
             
