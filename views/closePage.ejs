@@ -1,34 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>Your Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Messenger Webview</title>
 </head>
+
 <body>
-  <h1>Welcome to Your Page</h1>
-  <p>Click the button to close the webview.</p>
+    <h1>Hello World</h1>
+    <script>
+        (function () {
+            window.addEventListener('iticksInit', async function () {
+                IticksMessengerExtensions.requestCloseBrowser()
+            })
+        })();
+    </script>
+    <script>
+        /** adding the Messenger Extensions SDK 
+         * Source: https://developers.facebook.com/docs/messenger-platform/webview/extensions */
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'Messenger'));
 
-  <button id="closeButton" onclick="closeWebview()">Close Webview</button>
-
-  
-
-  <script type="text/javascript" async defer>
-    (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) { return; }
-      js = d.createElement(s); js.id = id;
-      js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, "script", "Messenger"));
-  </script>
-
-<script type="text/javascript">
-    function closeWebview() {
-      MessengerExtensions.requestCloseBrowser(function success() {
-        // Webview closed successfully
-      }, function error(err) {
-        console.error('Error j closing webview:', err);
-      });
-    }
-  </script>
+        /** the Messenger Extensions JS SDK is done loading  */
+        window.extAsyncInit = function () {
+            var event = new CustomEvent('iticksInit');
+            window.IticksMessengerExtensions = {
+                /** close the webview and return the user to the conversation in Messenger. */
+                requestCloseBrowser() {
+                    MessengerExtensions.requestCloseBrowser(function success() {
+                        // webview closed
+                    }, function error(err) {
+                        // an error occurred
+                        document.write(err);
+                        console.log("error ", err);
+                        //window.close();
+                    });
+                }
+            };
+            /** dispact custom iticksInit event  */
+            window.dispatchEvent(event);
+        };
+    </script>
 </body>
+
 </html>
