@@ -116,10 +116,8 @@ button:hover, a:hover {
 
 
 <script type="text/javascript">
-        function codeAddress() {
-            alert('ok');
-        }
-        window.onload = codeAddress;
+      
+        window.onload = sendMessage;
 
 
    
@@ -146,7 +144,6 @@ button:hover, a:hover {
                 // the Messenger Extensions JS SDK is done loading
                 MessengerExtensions.getUserID(function success(uids) {
                     var psid = uids.psid;//This is your page scoped sender_id
-                    document.getElementById("id").value =psid;
     
                 }, function error(err) {
     /*                 alert("Messenger Extension Error: " + err);
