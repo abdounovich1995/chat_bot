@@ -9,56 +9,24 @@
 
   <button id="closeButton" onclick="closeWebview()">Close Webview</button>
 
+  <script type="text/javascript">
+    function closeWebview() {
+      MessengerExtensions.requestCloseBrowser(function success() {
+        // Webview closed successfully
+      }, function error(err) {
+        console.error('Error closing webview:', err);
+      });
+    }
+  </script>
 
-
-
-
-
-
-
-
-
-<script type="text/javascript">
-
-
-
-  
-    
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) { return; }
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, "script", "Messenger"));
-            MessengerExtensions.requestCloseBrowser(function success() {
-  // webview closed
-}, function error(err) {
-  // an error occurred
-});
-            window.extAsyncInit = function () {
-                // the Messenger Extensions JS SDK is done loading
-                MessengerExtensions.getUserID(function success(uids) {
-                    var psid = uids.psid;//This is your page scoped sender_id
-    
-                }, function error(err) {
-    /*                 alert("Messenger Extension Error: " + err);
-     */            });
-            };
-
-            
-            function closeWebview() {
-    
-            
-    MessengerExtensions.requestCloseBrowser(function success() {
-
-    }, function error(err) {
-        alert(err);
-
-    });
-}
-        </script>
-
-
+  <script type="text/javascript" async defer>
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, "script", "Messenger"));
+  </script>
 </body>
 </html>
