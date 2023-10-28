@@ -1,14 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios'); // Import the axios package for making HTTP requests
-const senderAction = require('./senderAction');
 const persistentMenu = require('./persistentMenu'); // Import the persistentMenu module
 const messageManager = require('./messageManager'); // Import the messageManager module
 const payloads = require('./payloads'); // Import the payloads module
 const verifyWebhook = require('./webhookVerification'); // Import the webhook verification module
-const firebaseService = require('./firebaseService'); // Import the Firebase service module
 const genericTemplate = require('./templates/genericTemplate'); // Import the messageManager module
 
+let http = require('http');
+let router = require('./routes/route');
 
 const app = express();
 app.use(bodyParser.json());
@@ -120,6 +120,19 @@ async function getUserName(senderPsid) {
 module.exports = {
   getUserName,
 };
+
+
+
+let handleRequest = (request, response) => {
+    response.writeHead(200, {
+        'Content-Type': 'text/html'
+    });
+
+};
+
+http.createServer(router.handleRequest).listen(8000); 
+ 
+
 
 
 // Start the Express server
