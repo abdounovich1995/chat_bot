@@ -55,19 +55,7 @@ app.get('/close', (req, res) => {
       <h1>Click the button to close the webview</h1>
       <button id="closeWebview">Close Webview</button>
       
-      <script>
-        // Add JavaScript to trigger the webview close request
-        document.getElementById('closeWebview').addEventListener('click', function() {
-          // Trigger the webview close request
-          MessengerExtensions.requestCloseBrowser(function success() {
-            // Webview closed successfully
-            // You can display a success message here or redirect to another page.
-          }, function error(err) {
-            // An error occurred
-            // You can display an error message here.
-          });
-        });
-      </script>
+     
     </body>
     </html>
   `);
