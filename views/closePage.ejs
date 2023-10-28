@@ -9,15 +9,7 @@
 
   <button id="closeButton" onclick="closeWebview()">Close Webview</button>
 
-  <script type="text/javascript">
-    function closeWebview() {
-      MessengerExtensions.requestCloseBrowser(function success() {
-        // Webview closed successfully
-      }, function error(err) {
-        console.error('Error j closing webview:', err);
-      });
-    }
-  </script>
+  
 
   <script type="text/javascript" async defer>
     (function (d, s, id) {
@@ -27,6 +19,16 @@
       js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, "script", "Messenger"));
+  </script>
+
+<script type="text/javascript">
+    function closeWebview() {
+      MessengerExtensions.requestCloseBrowser(function success() {
+        // Webview closed successfully
+      }, function error(err) {
+        console.error('Error j closing webview:', err);
+      });
+    }
   </script>
 </body>
 </html>
