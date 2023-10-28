@@ -5,23 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>IK9</title>
+    <title>test</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="{{URL::asset('js/jquery.knob.js',true)}}"></script>
-    <script src="{{URL::asset('js/jquery.throttle.js',true)}}"></script>
-    <link href="{{URL::asset('css/jquery.classycountdown.css',true)}}" rel="stylesheet">
-<script src="{{URL::asset('js/jquery.classycountdown.js',true)}}"></script>
-
+  
 <style>body{
 background:url(https://res.cloudinary.com/ds9qfm1ok/image/upload/v1599670310/1_zvsdhh.jpg) ;
 background-repeat: no-repeat;
@@ -76,8 +68,6 @@ button:hover, a:hover {
 <div class="m-4">
     <div  class=" card bg-success text-white  justify-content-center align-self-center align-items-center" style="opacity: 0.9">
       
-        <img src="{{$picture}}" alt="John"  width="100" height="100" class=" align-self-center m-4 border border-white ">
-        <h3 class="mt-2 p-2  text-white bg-dark">{{$client->facebook}}</h3>
         <a onclick="sendMessage()" class="btn btn-danger  text-white col-4"> نعم </a>
 
       
@@ -91,7 +81,6 @@ button:hover, a:hover {
           
       </div>
 </div>
- @if ($difmin-3600 >'0')
       <div  class="card  mt-4 bg-success text-white " style="opacity: 0.9">
   
       
@@ -101,29 +90,10 @@ button:hover, a:hover {
 
 
                 
-                <div   dir="rtl" class="p-2 m-2 h4"> موعدك يوم   {{$yawm}}  على   {{$appointment->debut}}   </div>
-              
-<div style="direction: ltr "  id="countdown-container"></div>
-{{-- @if ($difmin>32400)  --}}
-<div>
- <a style="width: 60%" class="btn btn-danger m-2  " data-toggle="modal" data-target="#exampleModal">  إلغاء موعدي   </a>
-</div>
 
-
-
-{{-- @endif --}}
-
-<p></p>
-<p></p> 
-
-          
-      </div>
-
-          
-      @else
       <div class="col col-12 bg-dark text-white m-2  " style="opacity: 0.9"><h4 class="p-4 text-right">لا توجد مواعيد لنهار اليوم</h4></div>
      
-  @endif
+ 
     
 
 
