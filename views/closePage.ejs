@@ -7,7 +7,7 @@
   <h1>Welcome to Your Page</h1>
   <p>Click the button to close the webview.</p>
 
-  <button id="closeButton" onclick="sendMessage()">Close Webview</button>
+  <button id="closeButton" onclick="closeWebview()">Close Webview</button>
 
 
 
@@ -23,16 +23,6 @@
 
 
   
-            function closeWebview() {
-    
-            
-                MessengerExtensions.requestCloseBrowser(function success() {
-    
-                }, function error(err) {
-                    alert(err);
-    
-                });
-            }
     
             (function (d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
@@ -55,6 +45,18 @@
     /*                 alert("Messenger Extension Error: " + err);
      */            });
             };
+
+            
+            function closeWebview() {
+    
+            
+    MessengerExtensions.requestCloseBrowser(function success() {
+
+    }, function error(err) {
+        alert(err);
+
+    });
+}
         </script>
 
 
