@@ -144,10 +144,11 @@ button:hover, a:hover {
 
             window.extAsyncInit = function () {
                 // the Messenger Extensions JS SDK is done loading
-    alert("hello");
-                 function error(err) {
+                MessengerExtensions.getUserID(function success(uids) {
+    alert(psid);
+                }, function error(err) {
                     alert("Messenger Extension Error: " + err);
-                 };
+                 });
             };
         </script>
 </body>
