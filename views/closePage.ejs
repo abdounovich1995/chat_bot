@@ -5,17 +5,23 @@
 </head>
 <body>
   <h1>Welcome to Your Page</h1>
-  <p>This page will automatically close the webview.</p>
+  <p>Click the button to close the webview.</p>
+
+  <button id="closeButton">Close Webview</button>
 
   <script>
-    // Make sure the Messenger Extensions SDK is loaded first
-    window.extAsyncInit = function() {
+    // Function to close the webview
+    function closeWebview() {
       MessengerExtensions.requestCloseBrowser(function success() {
         // Webview closed successfully
       }, function error(err) {
-        // An error occurred
+        // Log errors to the console
+        console.error('Error closing webview:', err);
       });
-    };
+    }
+
+    // Attach a click event handler to the button
+    document.getElementById('closeButton').addEventListener('click', closeWebview);
   </script>
   <script>
     (function(d, s, id){
