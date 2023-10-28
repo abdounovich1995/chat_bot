@@ -78,6 +78,8 @@ button:hover, a:hover {
       
         <img src="{{$picture}}" alt="John"  width="100" height="100" class=" align-self-center m-4 border border-white ">
         <h3 class="mt-2 p-2  text-white bg-dark">{{$client->facebook}}</h3>
+        <a onclick="sendMessage()" class="btn btn-danger  text-white col-4"> نعم </a>
+
       
     <div>
         <div class="h4">        
@@ -148,13 +150,7 @@ button:hover, a:hover {
 هل تريد حقا إلغاء موعدك ؟         </div>
         <div class="modal-footer row float-right text-right">
          <div class="col">
-           <form action="/annuler" id="myForm" method="post"> 
-            <input type="hidden" name="id" id="" value="{{$client->fb_id}}">
-            <input type="hidden" name="facebook" id="" value="{{$client->facebook}}">
-            <a onclick="sendMessage()" class="btn btn-danger  text-white col-4"> نعم </a>
-
-            <a class="btn btn-secondary text-white col-4" data-dismiss="modal">  لا شكرا </a>
-          </form> </div> 
+          </div> 
 
         </div>
       </div>
