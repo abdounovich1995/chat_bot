@@ -7,40 +7,52 @@
   <h1>Welcome to Your Page</h1>
   <p>Click the button to close the webview.</p>
 
-  <button id="closeButton">Close Webview</button>
-
-  <script>
-    // Function to close the webview
-    function closeWebview() {
-      MessengerExtensions.requestCloseBrowser(function success() {
-        // Webview closed successfully
-      }, function error(err) {
-        // Log errors to the console
-        console.error('Error closing webview:', err);
-      });
-    }
-
-    // Attach a click event handler to the button
-    document.getElementById('closeButton').addEventListener('click', closeWebview);
-  </script>
-  <script>
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/messenger.Extensions.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'Messenger'));
+  <button id="closeButton" onclick="sendMessage()">Close Webview</button>
 
 
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+
+  
+            function closeWebview() {
     
-    window.extAsyncInit = function() {
-      MessengerExtensions.requestCloseBrowser(function success() {
-        // Webview closed successfully
-      }, function error(err) {
-        // An error occurred
-      });
-    };
-  </script>
+            
+                MessengerExtensions.requestCloseBrowser(function success() {
+    
+                }, function error(err) {
+                    alert(err);
+    
+                });
+            }
+    
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) { return; }
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, "script", "Messenger"));
+    
+            window.extAsyncInit = function () {
+                // the Messenger Extensions JS SDK is done loading
+                MessengerExtensions.getUserID(function success(uids) {
+                    var psid = uids.psid;//This is your page scoped sender_id
+    
+                }, function error(err) {
+    /*                 alert("Messenger Extension Error: " + err);
+     */            });
+            };
+        </script>
+
+
 </body>
 </html>
