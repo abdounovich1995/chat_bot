@@ -21,13 +21,15 @@
       }(document, "script", "Messenger"));
       function closeWebview() {
       window.extAsyncInit = function() {
-        MessengerExtensions.requestCloseBrowser(function success() {
+       
+      };
+    }
+
+    MessengerExtensions.requestCloseBrowser(function success() {
           window.close(); // Webview closed
         }, function error(err) {
           console.error('An error occurred: ' + err);
         });
-      };
-    }
   </script>
 </body>
 </html>
