@@ -21,12 +21,12 @@ try {
           type: 'template',
           payload: {
             template_type: 'button',
-            text: '🤖كيف يمكنني خدمتك ؟',
+            text: '🤖كيف  خدمتك ؟',
             buttons: [
               {
                 type: 'web_url', // Change the button type to 'web_url'
                 url: `${SITE_URL}/clientChoiseDay?clientPSID=${ref} `,
-                title: ' حـجـز مـوعـد 📅',
+                title: ' حـجـز  📅',
                 messenger_extensions :'true',
                 webview_share_button:'hide'
               },
