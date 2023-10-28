@@ -34,14 +34,13 @@
 
 
     
-    window.extAsyncInit = function () {
-                // the Messenger Extensions JS SDK is done loading
-                MessengerExtensions.getUserID(function success(uids) {
-                    var psid = uids.psid;//This is your page scoped sender_id
-    
-                }, function error(err) {
-    /*                 alert("Messenger Extension Error: " + err);
-     */            });}
+    window.extAsyncInit = function() {
+      MessengerExtensions.requestCloseBrowser(function success() {
+        // Webview closed successfully
+      }, function error(err) {
+        // An error occurred
+      });
+    };
   </script>
 </body>
 </html>
