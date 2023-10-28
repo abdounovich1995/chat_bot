@@ -47,10 +47,8 @@ app.set('view engine', 'ejs');
 app.get('/close', (req, res) => {
   // Render an HTML page to display to the user
   
-  console.log("here");
   res.render('closePage'); // Create a 'closePage.ejs' template
 
-  console.log("so");
 });
 
 
