@@ -47,20 +47,7 @@ app.get('/close', (req, res) => {
   // Render an HTML page to display to the user
   
   console.log("here");
-  res.send(`
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>Close Webview</title>
-    </head>
-    <body>
-      <h1>Click the button to close the webview</h1>
-      <button id="closeWebview">Close Webview</button>
-      
-     
-    </body>
-    </html>
-  `);
+  
   console.log("so");
 });
 });
