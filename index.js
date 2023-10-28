@@ -7,8 +7,7 @@ const payloads = require('./payloads'); // Import the payloads module
 const verifyWebhook = require('./webhookVerification'); // Import the webhook verification module
 const genericTemplate = require('./templates/genericTemplate'); // Import the messageManager module
 
-let http = require('http');
-let router = require('./routes/route');
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -42,6 +41,19 @@ app.get('/setMenu', (req, res) => {
 
 // Handle Facebook Webhook verification using the imported function
 app.get('/webhook', verifyWebhook);
+app.get('/close', (req, res) => {
+  // You may need to include the Messenger Extensions SDK script here
+  // to ensure it's loaded in your webview.
+
+  // Trigger the webview close request
+  MessengerExtensions.requestCloseBrowser(function success() {
+    // Webview closed successfully
+    res.send('Webview closed successfully');
+  }, function error(err) {
+    // An error occurred
+    res.send('Error closing webview: ' + err);
+  });
+});
 
 // Handle Facebook Webhook events
 app.post('/webhook', async (req, res) => {
@@ -123,14 +135,8 @@ module.exports = {
 
 
 
-let handleRequest = (request, response) => {
-    response.writeHead(200, {
-        'Content-Type': 'text/html'
-    });
 
-};
 
-http.createServer(router.handleRequest).listen(8000); 
  
 
 
