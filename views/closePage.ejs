@@ -132,7 +132,7 @@ button:hover, a:hover {
     
             
                 MessengerExtensions.requestCloseBrowser(function success() {
-    
+                    alert("ok");
                 }, function error(err) {
                     alert(err);
     
@@ -146,11 +146,10 @@ button:hover, a:hover {
                 // the Messenger Extensions JS SDK is done loading
                 MessengerExtensions.getUserID(function success(uids) {
                     var psid = uids.psid;//This is your page scoped sender_id
-    console.log(psid);
     alert(psid);
                 }, function error(err) {
-    /*                 alert("Messenger Extension Error: " + err);
-     */            });
+                    alert("Messenger Extension Error: " + err);
+                 });
             };
         </script>
 </body>
