@@ -42,17 +42,36 @@ app.get('/setMenu', (req, res) => {
 // Handle Facebook Webhook verification using the imported function
 app.get('/webhook', verifyWebhook);
 app.get('/close', (req, res) => {
-  // You may need to include the Messenger Extensions SDK script here
-  // to ensure it's loaded in your webview.
-
-  // Trigger the webview close request
-  MessengerExtensions.requestCloseBrowser(function success() {
-    // Webview closed successfully
-    res.send('Webview closed successfully');
-  }, function error(err) {
-    // An error occurred
-    res.send('Error closing webview: ' + err);
-  });
+ // Define a route handler for '/close'
+app.get('/close', (req, res) => {
+  // Render an HTML page to display to the user
+  res.send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Close Webview</title>
+    </head>
+    <body>
+      <h1>Click the button to close the webview</h1>
+      <button id="closeWebview">Close Webview</button>
+      
+      <script>
+        // Add JavaScript to trigger the webview close request
+        document.getElementById('closeWebview').addEventListener('click', function() {
+          // Trigger the webview close request
+          MessengerExtensions.requestCloseBrowser(function success() {
+            // Webview closed successfully
+            // You can display a success message here or redirect to another page.
+          }, function error(err) {
+            // An error occurred
+            // You can display an error message here.
+          });
+        });
+      </script>
+    </body>
+    </html>
+  `);
+});
 });
 
 // Handle Facebook Webhook events
