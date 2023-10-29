@@ -1,54 +1,54 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title> Login to See Leaderboard </title>
-    </head>
+<head>
+    <title> Login to See Leaderboard </title>
+</head>
 <body>
 
 <script>
- window.fbAsyncInit = function() {
+window.fbAsyncInit = function() {
     FB.init({
-      appId      : '979427236501829',
-      xfbml      : true,
-      version    : 'v2.9'
+        appId: '979427236501829',
+        xfbml: true,
+        version: 'v2.9'
     });
     FB.AppEvents.logPageView();
-  };
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
+};
 (function(d, s, id){
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-  fjs.parentNode.insertBefore(js, fjs);
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+    fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'Messenger'));
 </script>
 
-<p>Successfully linked account!</p>
-
 <script language="javascript" type="text/javascript">
-function windowClose() {  window.close();}
+function windowClose() { window.close(); }
 </script>
 
-<form action='submit'><input type="button" value="OK!" onclick="windowClose();"></form>
 <script>
-  window.extAsyncInit = function() {
+window.extAsyncInit = function() {
     // the Messenger Extensions JS SDK is done loading
-      
-      MessengerExtensions.requestCloseBrowser(function success() {
-         
-      }, function error(err) {
-         
-          console.log(err);
-
-      });
-  };
+    MessengerExtensions.requestCloseBrowser(function success() {
+        // This function will be called when the browser is requested to be closed.
+    }, function error(err) {
+        console.log(err);
+    });
+    
+    // Close the browser window automatically after 3 seconds
+    setTimeout(function() {
+        windowClose();
+    }, 3000); // 3000 milliseconds = 3 seconds
+};
 </script>
+
 </body>
 </html>
