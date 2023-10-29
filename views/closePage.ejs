@@ -138,13 +138,13 @@ window.extAsyncInit = function () {
    
             function sendMessage() {
     
-            
-                MessengerExtensions.requestCloseBrowser(function success() {
-                  console.log("ok");
-                }, function error(err) {
-                  console.log(err);
-    
-                });
+              window.extAsyncInit = function() {
+   MessengerExtensions.requestCloseBrowser(function success() {
+     window.close(); // webview closed
+   }, function error(err) {print ('an error occured');}
+   );
+
+ };
             }
     
        
