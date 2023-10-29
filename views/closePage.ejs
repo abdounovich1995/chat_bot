@@ -129,8 +129,9 @@ button:hover, a:hover {
 window.extAsyncInit = function () {
                 // the Messenger Extensions JS SDK is done loading
                 MessengerExtensions.getUserID(function success(uids) {
-    alert(psid);
+    console.log(psid);
                 }, function error(err) {
+                  console.log("Messenger Extension Error: " + err);
                     alert("Messenger Extension Error: " + err);
                  });
             };
@@ -139,9 +140,9 @@ window.extAsyncInit = function () {
     
             
                 MessengerExtensions.requestCloseBrowser(function success() {
-                    alert("ok");
+                  console.log("ok");
                 }, function error(err) {
-                    alert(err);
+                  console.log(err);
     
                 });
             }
