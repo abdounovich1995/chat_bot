@@ -33,18 +33,18 @@
 <p>Successfully linked account!</p>
 
 <script language="javascript" type="text/javascript">
-function windowClose() { window.open('','_parent',''); window.close();}
+function windowClose() {  window.close();}
 </script>
 
 <form action='submit'><input type="button" value="OK!" onclick="windowClose();"></form>
 <script>
   window.extAsyncInit = function() {
     // the Messenger Extensions JS SDK is done loading
-      console.log("hello");
+      
       MessengerExtensions.requestCloseBrowser(function success() {
-          console.log("closing success");
+         
       }, function error(err) {
-          console.log("closing failure");
+         
           console.log(err);
 
       });
