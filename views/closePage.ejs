@@ -1,40 +1,54 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en-US">
-
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <!-- Stylesheets
-  ============================================= -->
-   
-
-
-    <!-- Document Title
-  ============================================= -->
-    <title>webview title </title>
-</head>
-
+<html>
+    <head>
+        <title> Login to See Leaderboard </title>
+    </head>
 <body>
-    <script>
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'Messenger'));
-    window.extAsyncInit = function() {
-        MessengerExtensions.getUserID(function success(uids) {
-            var psid = uids.psid;
-            var link = document.getElementById('samplelink');
-            link.href = '/sampledata?uid='+psid;
-        }, function error(err) {
-        });
-    };
-    </script>
-   
-        <a id="samplelink" href="#" class="btn btn-info" role="button">Link Button</a>
-  
+
+<script>
+ window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '979427236501829',
+      xfbml      : true,
+      version    : 'v2.9'
+    });
+    FB.AppEvents.logPageView();
+  };
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+(function(d, s, id){
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'Messenger'));
+</script>
+
+<p>Successfully linked account!</p>
+
+<script language="javascript" type="text/javascript">
+function windowClose() { window.open('','_parent',''); window.close();}
+</script>
+
+<form action='submit'><input type="button" value="OK!" onclick="windowClose();"></form>
+<script>
+  window.extAsyncInit = function() {
+    // the Messenger Extensions JS SDK is done loading
+      console.log("hello");
+      MessengerExtensions.requestCloseBrowser(function success() {
+          console.log("closing success");
+      }, function error(err) {
+          console.log("closing failure");
+          console.log(err);
+
+      });
+  };
+</script>
 </body>
+</html>
