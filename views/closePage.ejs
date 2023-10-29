@@ -128,8 +128,8 @@ button:hover, a:hover {
 }(document, 'script', 'Messenger'));
 window.extAsyncInit = function () {
                 // the Messenger Extensions JS SDK is done loading
-                MessengerExtensions.getUserID(function success(uids) {
-    console.log(psid);
+                MessengerExtensions.requestCloseBrowser(function success() {
+   
                 }, function error(err) {
                   console.log("Messenger Extension Error: " + err);
                     alert("Messenger Extension Error: " + err);
