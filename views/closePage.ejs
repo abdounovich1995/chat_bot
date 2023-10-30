@@ -1,154 +1,72 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Redirection</title>
+    <style>
+      body {
+          text-align: center;
+          font-family: 'Cairo', Arial, sans-serif;
+      }
 
-    <title>test</title>
+      #loading-icon {
+          display: none;
+      }
 
-    <!-- Fonts -->
+      #message {
+          font-size: 24px;
+          color: green;
+          display: none;
+          font-family: 'Cairo', Arial, sans-serif;
+      }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-  
-<style>body{
-background:url(https://res.cloudinary.com/ds9qfm1ok/image/upload/v1599670310/1_zvsdhh.jpg) ;
-background-repeat: no-repeat;
-background-attachment: fixed;
-background-size: cover;
-font-family: 'Cairo', sans-serif;
-
-}
-  .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 400px;
-  margin: auto;
-  text-align: center;
-}
-
-.title {
-  color: grey;
-  font-size: 18px;
-}
-
-button {
-  border: none;
-  outline: 0;
-  display: inline-block;
-  padding: 8px;
-  color: white;
-  background-color: #000;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  font-size: 18px;
-}
-
-a {
-  text-decoration: none;
-  font-size: 22px;
-  color: black;
-}
-
-button:hover, a:hover {
-  opacity: 0.7;
-}
-
-
-
-</style>
-
-<!-- Optionally add this to use a skin : -->
-    <!-- Styles -->
 </head>
-<body dir="rtl">
-<div class="m-4">
-    <div  class=" card bg-success text-white  justify-content-center align-self-center align-items-center" style="opacity: 0.9">
-      
-        <button onclick="sendMessage()" class="btn btn-danger  text-white col-4"> نعم </button>
-
-      
-    <div>
-        <div class="h4">        
-        <span class="badge badge-dark"> </span>
-        </div>
+<body>
+    <div id="loading-icon">
+        <!-- Add your loading icon here, e.g., an animated GIF -->
+        <img src="../ressources/images/loading.gif" alt="Loading..." width="50" height="50">
     </div>
-           
-
-          
-      </div>
-</div>
-      <div  class="card  mt-4 bg-success text-white " style="opacity: 0.9">
-  
-      
     
-           
+    <div id="message">
+        لقد تم حجز موعدك بنجاح
+    </div>
 
-
-
-                
-
-      <div class="col col-12 bg-dark text-white m-2  " style="opacity: 0.9"><h4 class="p-4 text-right">لا توجد مواعيد لنهار اليوم</h4></div>
-     
- 
-    
-
-
-
-
-
-
+    <script>
        
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'Messenger'));
+        
+        function windowClose() { window.close(); }
+        
+        window.extAsyncInit = function() {
+            MessengerExtensions.requestCloseBrowser(function success() {
+                // This function will be called when the browser is requested to be closed.
+            }, function error(err) {
+                console.log(err);
+            });
 
+            // Show the loading icon and message (customize timing as needed)
+            document.getElementById('loading-icon').style.display = 'block';
+            document.getElementById('message').style.display = 'block';
 
-<!-- Button trigger modal -->
-
-
-
-  
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-
-
-<script type="text/javascript">
-      
-
-
-      (function(d, s, id){
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'Messenger'));
-window.extAsyncInit = function () {
-                // the Messenger Extensions JS SDK is done loading
-                MessengerExtensions.getUserID(function success(uids) {
-    alert(psid);
-                }, function error(err) {
-                    alert("Messenger Extension Error: " + err);
-                 });
-            };
-   
-            function sendMessage() {
-    
-            
-                MessengerExtensions.requestCloseBrowser(function success() {
-                    alert("ok");
-                }, function error(err) {
-                    alert(err);
-    
-                });
-            }
-    
-       
-
-
-           
-        </script>
+            // Close the browser window automatically after 3 seconds
+            setTimeout(function() {
+                windowClose();
+            }, 3000); // 3000 milliseconds = 3 seconds
+        };
+    </script>
 </body>
 </html>
