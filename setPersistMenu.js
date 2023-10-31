@@ -38,6 +38,9 @@ function setPersistentMenu(psid) {
         console.error('Unable to set user-level persistent menu:', error);
       });
   }
+
+  module.exports = { setPersistentMenu };
+
   
   
   
