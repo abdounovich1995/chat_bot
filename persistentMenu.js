@@ -1,13 +1,22 @@
 // Define the persistent menu configuration
+
+const axios = require('axios'); // Import the axios library
+const firebaseService = require('../firebaseService'); // Import your Firebase service module here
+
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const SITE_URL = process.env.SITE_URL;
+
 const persistentMenu = [
     {
       locale: 'default',
       composer_input_disabled: false,
       call_to_actions: [
         {
-          type: 'postback',
-          title: 'Talk to an agent',
-          payload: 'CARE_HELP',
+          type: 'web_url',
+          title: ' حـجـز مـوعـد 📅',
+          url: `${SITE_URL}/clientChoiseDay?clientPSID=${ref} `,
+          webview_height_ratio: 'tall',
+          webview_share_button:'hide'
         },
         {
           type: 'postback',
@@ -18,7 +27,10 @@ const persistentMenu = [
           type: 'web_url',
           title: 'Shop now',
           url: 'https://www.originalcoastclothing.com/',
-          webview_height_ratio: 'full',
+          webview_height_ratio: 'tall',
+          webview_share_button:'hide'
+
+
         },
       ],
     },
