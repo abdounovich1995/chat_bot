@@ -13,7 +13,7 @@ const persistentMenu = [
         {
           type: 'web_url',
           title: ' حـجـز مـوعـد 📅',
-          url: `${SITE_URL}/clientChoiseDay?clientPSID=${ref} `,
+          url: `${SITE_URL}/clientChoiseDay `,
           webview_height_ratio: 'tall',
           webview_share_button:'hide'
         },

@@ -32,7 +32,7 @@ function setPersistentMenu() {
 }
 
 // Create a route to set the menu when /setMenu is accessed in the browser
-app.get('/setMenu', (req, res) => {
+app.get('/setMenu', (ref, res) => {
   // Set the persistent menu
   setPersistentMenu();
 
