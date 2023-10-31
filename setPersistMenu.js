@@ -1,3 +1,5 @@
+const axios = require('axios'); // Import the axios package for making HTTP requests
+
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN; // Replace with your actual Page Access Token
 
 function setPersistentMenu(psid) {
