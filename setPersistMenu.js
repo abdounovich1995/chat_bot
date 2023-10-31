@@ -30,7 +30,7 @@ function setPersistentMenu(psid) {
       },
     ];
   
-    axios.post(`https://graph.facebook.com/v18.0/${psid}/custom_user_settings?access_token=${PAGE_ACCESS_TOKEN}`, {
+    axios.post(`https://graph.facebook.com/v13.0/${psid}/custom_user_settings?access_token=${PAGE_ACCESS_TOKEN}`, {
       persistent_menu: userMenu,
     })
       .then(() => {
