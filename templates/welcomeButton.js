@@ -38,7 +38,6 @@ try {
                     url: `https://facebook-bot-demo-production.up.railway.app/close`,
                     messenger_extensions :'true',
                     webview_height_ratio:'tall',
-                    webview_share_button:'hide'
                   }
             ]
             
@@ -49,7 +48,7 @@ try {
   
   
     try {
-      const response = await axios.post(`https://graph.facebook.com/v18.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, requestBody);
+      const response = await axios.post(`https://graph.facebook.com/v12.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, requestBody);
       console.log('Button template sent:', response.data);
     } catch (error) {
       console.error('Error sending button template:', error.response.data);
