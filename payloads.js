@@ -1,7 +1,7 @@
 // postbackHandler.js
 const firebaseService = require('./firebaseService'); // Import your Firebase service module here
 const messageManager = require('./messageManager'); // Import your message manager module here
-const setMenu = require('./index'); // Import your message manager module here
+const setMenu = require('./setPersistMenu'); // Import your message manager module here
 
 function handlePostback(webhookEvent) {
   if (webhookEvent.postback) {
