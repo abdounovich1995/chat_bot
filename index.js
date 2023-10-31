@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios'); // Import the axios package for making HTTP requests
-const persistentMenu = require('./persistentMenu'); // Import the persistentMenu module
 const messageManager = require('./messageManager'); // Import the messageManager module
 const payloads = require('./payloads'); // Import the payloads module
 const verifyWebhook = require('./webhookVerification'); // Import the webhook verification module
@@ -18,17 +17,44 @@ const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 // Set the persistent menu using the imported configuration
 function setPersistentMenu(psid) {
-  axios.post(`https://graph.facebook.com/v18.0/me/custom_user_settings?access_token=${PAGE_ACCESS_TOKEN}`, {
-    psid: psid,
-    persistent_menu: [/* Your menu configuration here */],
+  const userMenu = [
+    // Define your user-specific menu here
+    // This should be an array of menu items for the specific user
+    {
+      locale: 'default',
+      composer_input_disabled: false,
+      call_to_actions: [
+        {
+          type: 'postback',
+          title: 'Talk to an agent',
+          payload: 'CARE_HELP',
+        },
+        {
+          type: 'postback',
+          title: 'Outfit suggestions',
+          payload: 'CURATION',
+        },
+        {
+          type: 'web_url',
+          title: 'Shop now',
+          url: 'https://www.originalcoastclothing.com/',
+          webview_height_ratio: 'full',
+        },
+      ],
+    },
+  ];
+
+  axios.post(`https://graph.facebook.com/v18.0/${psid}/custom_user_settings?access_token=${PAGE_ACCESS_TOKEN}`, {
+    persistent_menu: userMenu,
   })
-  .then(() => {
-    console.log('User-level persistent menu set successfully for PSID:', psid);
-  })
-  .catch((error) => {
-    console.error('Unable to set user-level persistent menu:', error);
-  });
+    .then(() => {
+      console.log('User-level persistent menu set successfully');
+    })
+    .catch((error) => {
+      console.error('Unable to set user-level persistent menu:', error);
+    });
 }
+
 
 // Create a route to set the menu when /setMenu is accessed in the browser
 app.get('/setUserMenu', (req, res) => {
@@ -134,7 +160,6 @@ async function getUserName(senderPsid) {
 
 module.exports = {
   getUserName,
-  setPersistentMenu
 };
 
 
