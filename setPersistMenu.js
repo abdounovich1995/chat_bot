@@ -15,22 +15,20 @@ async function setPersistentMenu(psid) {
           composer_input_disabled: false,
           call_to_actions: [
             {
-              type: 'postback',
-              title: 'Talk to an agent',
-              payload: 'CARE_HELP',
+                type: 'web_url', // Change the button type to 'web_url'
+                url: `${SITE_URL}/clientChoiseDay?clientPSID=${ref} `,
+                title: ' حـجـز مـوعـد 📅',
+                messenger_extensions :'true',
+                webview_height_ratio:'tall',
+                webview_share_button:'hide'
+
             },
             {
               type: 'postback',
               title: 'Outfit suggestions',
               payload: 'CURATION',
             },
-            {
-                type: 'web_url', // Change the button type to 'web_url'
-                url: `${SITE_URL}/clientChoiseDay?clientPSID=${ref} `,
-                title: ' حـجـز مـوعـد 📅',
-                messenger_extensions :'true',
-                webview_height_ratio:'tall',
-            },
+           
           ],
         },
       ],
