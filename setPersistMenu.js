@@ -1,7 +1,12 @@
 const axios = require('axios'); // Import the axios package for making HTTP requests
+const getClientRefference = require('./firebaseService'); // Import the messageManager module
 
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN; // Replace with your actual Page Access Token
-function setPersistentMenu(psid) {
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const SITE_URL = process.env.SITE_URL;
+ // Replace with your actual Page Access Token
+async function setPersistentMenu(psid) {
+
+    getClientRefference.getClientReferenceByPSID(psid,await getClientReferenceByPSID(psid))
     const userPersistentMenu = {
       psid: psid,
       persistent_menu: [
@@ -20,10 +25,11 @@ function setPersistentMenu(psid) {
               payload: 'CURATION',
             },
             {
-              type: 'web_url',
-              title: 'Shop now',
-              url: 'https://www.originalcoastclothing.com/',
-              webview_height_ratio: 'full',
+                type: 'web_url', // Change the button type to 'web_url'
+                url: `${SITE_URL}/clientChoiseDay?clientPSID=${ref} `,
+                title: ' حـجـز مـوعـد 📅',
+                messenger_extensions :'true',
+                webview_height_ratio:'tall',
             },
           ],
         },
