@@ -4,6 +4,7 @@ const axios = require('axios'); // Import the axios library
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const SITE_URL = process.env.SITE_URL;
+async function setPersistentMenu(siteUrl) {
 
 const persistentMenu = [
     {
@@ -13,7 +14,7 @@ const persistentMenu = [
         {
           type: 'web_url',
           title: ' حـجـز مـوعـد 📅',
-          url: `${SITE_URL}/clientChoiseDay `,
+          url: `${SITE_URL}/clientChoiseDay?clientPSID=${siteUrl} `,
           webview_height_ratio: 'tall',
           webview_share_button:'hide'
         },
@@ -34,7 +35,9 @@ const persistentMenu = [
       ],
     },
   ];
-  
+}
   // Export the persistent menu configuration
-  module.exports = persistentMenu;
+  module.exports = {
+    setPersistentMenu,
   
+  };  
