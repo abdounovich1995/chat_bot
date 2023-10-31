@@ -1,22 +1,15 @@
-// Define the persistent menu configuration
-
-const axios = require('axios'); // Import the axios library
-
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-const SITE_URL = process.env.SITE_URL;
-async function setPersistentMenu(siteUrl) {
-
-const persistentMenu = [
+function setPersistentMenu(psid) {
+  const userMenu = [
+    // Define your user-specific menu here
+    // This should be an array of menu items for the specific user
     {
       locale: 'default',
       composer_input_disabled: false,
       call_to_actions: [
         {
-          type: 'web_url',
-          title: ' حـجـز مـوعـد 📅',
-          url: `${SITE_URL}/clientChoiseDay?clientPSID=${siteUrl} `,
-          webview_height_ratio: 'tall',
-          webview_share_button:'hide'
+          type: 'postback',
+          title: 'Talk to an agent',
+          payload: 'CARE_HELP',
         },
         {
           type: 'postback',
@@ -27,17 +20,19 @@ const persistentMenu = [
           type: 'web_url',
           title: 'Shop now',
           url: 'https://www.originalcoastclothing.com/',
-          webview_height_ratio: 'tall',
-          webview_share_button:'hide'
-
-
+          webview_height_ratio: 'full',
         },
       ],
     },
   ];
+
+  axios.post(`https://graph.facebook.com/v13.0/${psid}/custom_user_settings?access_token=${PAGE_ACCESS_TOKEN}`, {
+    persistent_menu: userMenu,
+  })
+    .then(() => {
+      console.log('User-level persistent menu set successfully');
+    })
+    .catch((error) => {
+      console.error('Unable to set user-level persistent menu:', error);
+    });
 }
-  // Export the persistent menu configuration
-  module.exports = {
-    setPersistentMenu,
-  
-  };  

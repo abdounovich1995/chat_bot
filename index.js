@@ -32,12 +32,19 @@ function setPersistentMenu() {
 }
 
 // Create a route to set the menu when /setMenu is accessed in the browser
-app.get('/setMenu', (ref, res) => {
-  // Set the persistent menu
-  setPersistentMenu(senderPsid);
+app.get('/setUserMenu', (req, res) => {
+  // Get the PSID from the query parameter (e.g., /setUserMenu?psid=USER_PSID)
+  const psid = req.query.psid;
 
-  res.send('Persistent menu set successfully');
+  if (psid) {
+    // Set the user-level persistent menu for the specified user
+    setPersistentMenuForUser(psid);
+    res.send('User-level persistent menu set successfully');
+  } else {
+    res.status(400).send('Missing PSID parameter');
+  }
 });
+
 
 // Handle Facebook Webhook verification using the imported function
 app.get('/webhook', verifyWebhook);
