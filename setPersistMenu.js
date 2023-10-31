@@ -6,7 +6,7 @@ const SITE_URL = process.env.SITE_URL;
  // Replace with your actual Page Access Token
 async function setPersistentMenu(psid) {
 
-    getClientRefference.getClientReferenceByPSID(psid,await getClientReferenceByPSID(psid))
+    const ref = await getClientRefference.getClientReferenceByPSID(psid);
     const userPersistentMenu = {
       psid: psid,
       persistent_menu: [
