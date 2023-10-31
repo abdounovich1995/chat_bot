@@ -17,18 +17,17 @@ const PORT = process.env.PORT || 3000;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
 // Set the persistent menu using the imported configuration
-function setPersistentMenu() {
-  axios.post('https://graph.facebook.com/v13.0/me/messenger_profile', {
-    persistent_menu: persistentMenu, // Use the imported persistent menu configuration
-  }, {
-    params: { access_token: PAGE_ACCESS_TOKEN },
+function setPersistentMenu(psid) {
+  axios.post(`https://graph.facebook.com/v18.0/me/custom_user_settings?access_token=${PAGE_ACCESS_TOKEN}`, {
+    psid: psid,
+    persistent_menu: [/* Your menu configuration here */],
   })
-    .then(() => {
-      console.log('Persistent menu set successfully');
-    })
-    .catch((error) => {
-      console.error('Unable to set persistent menu:', error);
-    });
+  .then(() => {
+    console.log('User-level persistent menu set successfully for PSID:', psid);
+  })
+  .catch((error) => {
+    console.error('Unable to set user-level persistent menu:', error);
+  });
 }
 
 // Create a route to set the menu when /setMenu is accessed in the browser
@@ -38,7 +37,7 @@ app.get('/setUserMenu', (req, res) => {
 
   if (psid) {
     // Set the user-level persistent menu for the specified user
-    setPersistentMenuForUser(psid);
+    setPersistentMenu(psid);
     res.send('User-level persistent menu set successfully');
   } else {
     res.status(400).send('Missing PSID parameter');
@@ -135,6 +134,7 @@ async function getUserName(senderPsid) {
 
 module.exports = {
   getUserName,
+  setPersistentMenu
 };
 
 
