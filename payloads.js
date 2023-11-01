@@ -7,8 +7,9 @@ function handlePostback(webhookEvent) {
   if (webhookEvent.postback) {
     if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
       const senderPsid = webhookEvent.sender.id;
+      firebaseService.addUserToClientCollection(senderPsid);      
       setMenu.setPersistentMenu(senderPsid);
-      firebaseService.addUserToClientCollection(senderPsid);
+
     } else if (webhookEvent.postback.payload === "TAKE_APPOINTEMENT") {
       const senderPsid = webhookEvent.sender.id;
       messageManager.sendQuickReply(senderPsid, ' ⬇ إخـتـر يومـا مـن القائمة:');
