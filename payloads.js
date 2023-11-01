@@ -3,11 +3,11 @@ const firebaseService = require('./firebaseService'); // Import your Firebase se
 const messageManager = require('./messageManager'); // Import your message manager module here
 const setMenu = require('./setPersistMenu'); // Import your message manager module here
 
-function handlePostback(webhookEvent) {
+async function handlePostback(webhookEvent) {
   if (webhookEvent.postback) {
     if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
       const senderPsid = webhookEvent.sender.id;
-      await (firebaseService.addUserToClientCollection(senderPsid));      
+      await firebaseService.addUserToClientCollection(senderPsid);      
       setMenu.setPersistentMenu(senderPsid);
 
     } else if (webhookEvent.postback.payload === "TAKE_APPOINTEMENT") {
