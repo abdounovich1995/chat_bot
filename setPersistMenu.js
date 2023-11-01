@@ -16,7 +16,7 @@ async function setPersistentMenu(psid) {
           call_to_actions: [
             {
                 type: 'web_url', // Change the button type to 'web_url'
-                url: `${SITE_URL}/clientChoiseDay?clientPSID=${ref} `,
+                url: `${SITE_URL}/redirectPage?clientPSID=${ref} `,
                 title: ' حـجـز مـوعـد 📅',
                 messenger_extensions :'true',
                 webview_height_ratio:'tall',
