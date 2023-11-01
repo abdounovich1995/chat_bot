@@ -68,7 +68,11 @@ async function addUserToClientCollection(userId) {
 
     const clientCollection = db.collection('clients');
 
-    return clientCollection.add(userInformation);
+    clientCollection.add(userInformation);
+
+    return   welcomeButton.sendButtonTemplate(userId,await getClientReferenceByPSID(userId));
+ 
+
   } else {
     console.error('Failed to fetch user information.');
     return null;
