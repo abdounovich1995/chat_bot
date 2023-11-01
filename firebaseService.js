@@ -25,7 +25,7 @@ async function getClientReferenceByPSID(userPSID) {
 
       // User with the given PSID exists, return the reference to the client document
       const clientDocument = querySnapshot.docs[0];
-      const clientReference = clientDocument.ref;
+      const clientReference = clientDocument.id;
       return clientReference;
    
    }
@@ -50,7 +50,6 @@ async function addUserToClientCollection(userId) {
     const welcomeMessage = `🙋‍♂️ مرحبا بك , ${username}!`;
     
     messageManager.sendTextMessage(userId,welcomeMessage);
-    welcomeButton.sendButtonTemplate(userId,await getClientReferenceByPSID(userId));
   const userInfo = await getUserInfo(userId);
 
 
@@ -68,8 +67,9 @@ async function addUserToClientCollection(userId) {
     };
 
     const clientCollection = db.collection('clients');
+clientCollection.add(userInformation);
+    return     welcomeButton.sendButtonTemplate(userId,await getClientReferenceByPSID(userId));
 
-    return clientCollection.add(userInformation);
   } else {
     console.error('Failed to fetch user information.');
     return null;
