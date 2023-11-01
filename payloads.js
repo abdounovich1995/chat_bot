@@ -7,7 +7,7 @@ function handlePostback(webhookEvent) {
   if (webhookEvent.postback) {
     if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
       const senderPsid = webhookEvent.sender.id;
-      firebaseService.addUserToClientCollection(senderPsid);      
+      await (firebaseService.addUserToClientCollection(senderPsid));      
       setMenu.setPersistentMenu(senderPsid);
 
     } else if (webhookEvent.postback.payload === "TAKE_APPOINTEMENT") {
