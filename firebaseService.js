@@ -50,53 +50,51 @@ async function getTypesData() {
   return typesData;
 }
 
-
-// Function to add user information to the 'client' collection
 async function addUserToClientCollection(userId) {
-  const existingUser = await db.collection('clients').where('userID', '==', userId).get();
+  try {
+    const existingUserQuery = await db.collection('clients').where('userID', '==', userId).get();
 
-  if (existingUser.empty) {
-    const username = await getUserName(userId);
-    const welcomeMessage = `🙋‍♂️ مرحبا بك , ${username}!`;
-    
-    messageManager.sendTextMessage(userId,welcomeMessage);
-  const userInfo = await getUserInfo(userId);
+    if (existingUserQuery.empty) {
+      const userInfo = await getUserInfo(userId);
 
+      if (userInfo) {
+        const userInformation = {
+          userID: userId,
+          timestamp: admin.firestore.FieldValue.serverTimestamp(),
+          first_name: userInfo.firstName,
+          last_name: userInfo.lastName,
+          username: userInfo.firstName + ' ' + userInfo.lastName,
+          profile_pic: userInfo.profilePicture,
+          points: 0,
+        };
 
-  if (userInfo) {
-    const userInformation = {
-      userID:userId,
-      timestamp: admin.firestore.FieldValue.serverTimestamp(),
-      first_name: userInfo.firstName,
-      last_name: userInfo.lastName,
-      username:userInfo.firstName+" "+userInfo.lastName,
-      profile_pic: userInfo.profilePicture,
-      points:0,
+        const clientCollection = db.collection('clients');
+        const newUserDocument = await clientCollection.add(userInformation);
 
+        const username = await getUserName(userId);
+        const welcomeMessage = `🙋‍♂️ مرحبا بك , ${username}!`;
 
-    };
+        await messageManager.sendTextMessage(userId, welcomeMessage);
+        await welcomeButton.sendButtonTemplate(userId, newUserDocument.id);
+      } else {
+        console.error('Failed to fetch user information.');
+        return null;
+      }
+    } else {
+      const username = await getUserName(userId);
+      const welcomeAgainMessage = `🙋‍♂️ أهلا بك مجددا , ${username}.`;
+      await messageManager.sendTextMessage(userId, welcomeAgainMessage);
 
-    const clientCollection = db.collection('clients');
-
-    
-
-    return  clientCollection.add(userInformation);
- 
-
-  } else {
-    console.error('Failed to fetch user information.');
-    return null;
+      const clientDocument = existingUserQuery.docs[0];
+      const clientReference = clientDocument.ref;
+      await welcomeButton.sendButtonTemplate(userId, clientReference.id);
+    }
+  } catch (error) {
+    console.error('An error occurred:', error.message);
+    // You can handle the error as needed
   }
-}else{
-  const username = await getUserName(userId);
-  const welcomeAgainMessage = `🙋‍♂️ أهلا بك مجددا , ${username}.`;
-  messageManager.sendTextMessage(userId,welcomeAgainMessage);
+}
 
-  welcomeButton.sendButtonTemplate(userId,await getClientReferenceByPSID(userId));
-
-
-
-}}
 
 
 
