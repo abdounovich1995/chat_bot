@@ -21,8 +21,7 @@ day="اليوم";
     try {
     const typesData = await firebaseService.getTypesData();
     const clientRef = await firebaseService.getClientReferenceByPSID(userId);
-console.log(userId);
-console.log(clientRef);
+
 
     for (const type of typesData) {
 
