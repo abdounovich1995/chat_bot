@@ -14,7 +14,7 @@ async function handlePostback(webhookEvent) {
 
     } else if (webhookEvent.postback.payload === "TAKE_APPOINTEMENT") {
       const senderPsid = webhookEvent.sender.id;
-      messageManager.sendQuickReply(senderPsid, ' ⬇ إخـتـر يومـا مـن القائمة:');
+      messageManager.sendQuickReply(senderPsid, '    ⬇ إخـتـر يومـا مـن القائمة:');
     }
   }
 }
