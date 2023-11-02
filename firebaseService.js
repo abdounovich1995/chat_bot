@@ -65,7 +65,7 @@ async function addUserToClientCollection(userId) {
 
   if (userInfo) {
     const userInformation = {
-      userId,
+      userID:userId,
       timestamp: admin.firestore.FieldValue.serverTimestamp(),
       first_name: userInfo.firstName,
       last_name: userInfo.lastName,
