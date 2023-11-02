@@ -79,6 +79,7 @@ async function addUserToClientCollection(userId) {
     const clientCollection = db.collection('clients');
 
     clientCollection.add(userInformation);
+    console.log("added................................");
 
     return   welcomeButton.sendButtonTemplate(userId,await getClientReferenceByPSID(userId));
  
