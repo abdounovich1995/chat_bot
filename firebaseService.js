@@ -18,17 +18,27 @@ const typesCollection = db.collection('types');
 const clientsCollection = db.collection('clients');
 
 
-
 async function getClientReferenceByPSID(userPSID) {
- 
+  try {
     const querySnapshot = await clientsCollection.where('userID', '==', userPSID).get();
 
-      // User with the given PSID exists, return the reference to the client document
-      const clientDocument = querySnapshot.docs[0];
-      const clientReference = clientDocument.id;
-      return clientReference;
-   
-   }
+    if (querySnapshot.empty) {
+      // If there are no matching documents, throw an exception
+      throw new Error("No client document found with the specified PSID.");
+    }
+
+    // User with the given PSID exists, return the reference to the client document
+    const clientDocument = querySnapshot.docs[0];
+    const clientReference = clientDocument.id;
+    return clientReference;
+  } catch (error) {
+    // Handle the exception
+    console.error("An error occurred:", error.message);
+    // You can rethrow the exception if needed
+    throw error;
+  }
+}
+
 
 // Fetch data from the "types" collection
 async function getTypesData() {
