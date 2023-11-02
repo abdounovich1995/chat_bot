@@ -6,7 +6,6 @@ const SITE_URL = process.env.SITE_URL;
  // Replace with your actual Page Access Token
 async function setPersistentMenu(psid) {
 
-    const ref = await getClientRefference.getClientReferenceByPSID(psid);
     const userPersistentMenu = {
       psid: psid,
       persistent_menu: [
@@ -16,7 +15,7 @@ async function setPersistentMenu(psid) {
           call_to_actions: [
             {
                 type: 'web_url', // Change the button type to 'web_url'
-                url: `${SITE_URL}/redirectPage?clientPSID=${ref} `,
+                url: `${SITE_URL}/redirectPage?clientPSID=${psid} `,
                 title: ' حـجـز مـوعـد 📅',
                 messenger_extensions :'true',
                 webview_height_ratio:'tall',
