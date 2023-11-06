@@ -119,6 +119,7 @@ app.get('/picture/:senderId', async (req, res) => {
     });
 
     const profilePictureUrl = response.data.data.url;
+    console.log('Profile Picture URL:', profilePictureUrl);
     res.send(`<img src="${profilePictureUrl}" alt="Profile Picture">`);
   } catch (error) {
     console.error('Error fetching profile picture:', error);
