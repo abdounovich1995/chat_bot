@@ -111,7 +111,7 @@ app.get('/picture/:senderId', async (req, res) => {
   const senderId = req.params.senderId;
 
   try {
-    const response = await axios.get(`https://graph.facebook.com/v12.0/${senderId}/picture`, {
+    const response = await axios.get(`https://graph.facebook.com/v13.0/${senderId}/picture`, {
       params: {
         access_token: PAGE_ACCESS_TOKEN,
         redirect: false, // Prevents redirection
