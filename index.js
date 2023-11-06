@@ -104,6 +104,29 @@ async function getUserName(senderPsid) {
 }
 
 
+
+
+
+app.get('/picture/:senderId', async (req, res) => {
+  const senderId = req.params.senderId;
+
+  try {
+    const response = await axios.get(`https://graph.facebook.com/v12.0/${senderId}/picture`, {
+      params: {
+        access_token: PAGE_ACCESS_TOKEN,
+        redirect: false, // Prevents redirection
+      },
+    });
+
+    const profilePictureUrl = response.data.data.url;
+    res.send(`<img src="${profilePictureUrl}" alt="Profile Picture">`);
+  } catch (error) {
+    console.error('Error fetching profile picture:', error);
+    res.status(500).send('Error fetching profile picture');
+  }
+});
+
+
 module.exports = {
   getUserName,
 };

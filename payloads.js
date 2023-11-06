@@ -6,7 +6,6 @@ async function handlePostback(webhookEvent) {
   if (webhookEvent.postback) {
     if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
       const senderPsid = webhookEvent.sender.id; 
-           console.log(senderPsid);      
 
       await firebaseService.addUserToClientCollection(senderPsid);
 
