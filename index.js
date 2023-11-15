@@ -138,7 +138,7 @@ app.get('/picture/:senderId', async (req, res) => {
     } else {
       // If the response does not contain the expected data, handle it accordingly
       console.error('Invalid or missing data in the profile picture response:', response.data);
-      res.status(500).send('Error fetching profile picture');
+      res.status(500).send('Error fetching profile picture111');
     }
   } catch (error) {
     // Handle errors during the API request
