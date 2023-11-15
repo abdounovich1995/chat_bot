@@ -132,7 +132,9 @@ app.get('/picture/:senderId', async (req, res) => {
       console.log('Profile Picture URL:', profilePictureUrl);
 
       // Send the image tag with the profile picture URL in the response
-      res.send(`<img src="${profilePictureUrl}" alt="Profile Picture">`);
+  
+      res.send(`<img src="${decodeURIComponent(profilePictureUrl)}" alt="Profile Picture">`);
+
     } else {
       // If the response does not contain the expected data, handle it accordingly
       console.error('Invalid or missing data in the profile picture response:', response.data);
