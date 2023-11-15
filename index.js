@@ -118,17 +118,17 @@ app.get('/picture/:senderId', async (req, res) => {
         redirect: false, // Prevents redirection
         type: 'large', // Specify the picture type (you can adjust this based on your needs)
       },
+      responseType: 'arraybuffer', // Set the response type to arraybuffer to handle binary data
     });
 
-    // Check if the response contains the profile picture URL
-    if (response.data && response.data.data && response.data.data.url) {
-      const profilePictureUrl = response.data.data.url;
-      
-      // Log the profile picture URL for debugging
-      console.log('Profile Picture URL:', profilePictureUrl);
+    // Check if the response contains the profile picture data
+    if (response.data) {
+      // Get the content type from the response headers
+      const contentType = response.headers['content-type'];
 
-      // Send the image tag with the profile picture URL in the response
-      res.send(`<img src="${profilePictureUrl}" alt="Profile Picture">`);
+      // Send the image with the appropriate content type
+      res.set('Content-Type', contentType);
+      res.send(response.data);
     } else {
       // If the response does not contain the expected data, handle it accordingly
       console.error('Invalid or missing data in the profile picture response:', response.data);
@@ -140,7 +140,6 @@ app.get('/picture/:senderId', async (req, res) => {
     res.status(500).send('Error fetching profile picture');
   }
 });
-
 
 module.exports = {
   getUserName,
