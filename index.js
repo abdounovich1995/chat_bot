@@ -98,7 +98,7 @@ async function getUserName(senderPsid) {
       return 'User';
     }
   } catch (error) {
-    console.error('Error getting user name :', error);
+    console.error('Error getting user name:', error);
     return 'User';
   }
 }
@@ -111,17 +111,31 @@ app.get('/picture/:senderId', async (req, res) => {
   const senderId = req.params.senderId;
 
   try {
+    // Make a request to the Facebook Graph API to get the user's profile picture
     const response = await axios.get(`https://graph.facebook.com/v13.0/${senderId}/picture`, {
       params: {
         access_token: PAGE_ACCESS_TOKEN,
         redirect: false, // Prevents redirection
+        type: 'large', // Specify the picture type (you can adjust this based on your needs)
       },
     });
 
-    const profilePictureUrl = response.data.data.url;
-    console.log('Profile Picture URL:', profilePictureUrl);
-    res.send(`<img src="${profilePictureUrl}" alt="Profile Picture">`);
+    // Check if the response contains the profile picture URL
+    if (response.data && response.data.data && response.data.data.url) {
+      const profilePictureUrl = response.data.data.url;
+      
+      // Log the profile picture URL for debugging
+      console.log('Profile Picture URL:', profilePictureUrl);
+
+      // Send the image tag with the profile picture URL in the response
+      res.send(`<img src="${profilePictureUrl}" alt="Profile Picture">`);
+    } else {
+      // If the response does not contain the expected data, handle it accordingly
+      console.error('Invalid or missing data in the profile picture response:', response.data);
+      res.status(500).send('Error fetching profile picture');
+    }
   } catch (error) {
+    // Handle errors during the API request
     console.error('Error fetching profile picture:', error);
     res.status(500).send('Error fetching profile picture');
   }
