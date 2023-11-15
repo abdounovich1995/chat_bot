@@ -1,34 +1,36 @@
+const cloudinary = require('cloudinary').v2;
 const express = require('express');
 const bodyParser = require('body-parser');
-const axios = require('axios'); // Import the axios package for making HTTP requests
-const messageManager = require('./messageManager'); // Import the messageManager module
-const payloads = require('./payloads'); // Import the payloads module
-const verifyWebhook = require('./webhookVerification'); // Import the webhook verification module
-const genericTemplate = require('./templates/genericTemplate'); // Import the messageManager module
-
-
+const axios = require('axios');
+const messageManager = require('./messageManager');
+const payloads = require('./payloads');
+const verifyWebhook = require('./webhookVerification');
+const genericTemplate = require('./templates/genericTemplate');
 
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+
 const PORT = process.env.PORT || 3000;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 
-// Set the persistent menu using the imported configuration
+// Set up Cloudinary configuration
+cloudinary.config({
+  cloud_name: 'dx3s5gixo',
+  api_key: '366137172543913',
+  api_secret: 'ssxTXvA5jRAm1Y5lyH5xbacnjao',
+  secure: true,
+});
 
 // Handle Facebook Webhook verification using the imported function
 app.get('/webhook', verifyWebhook);
 app.set('view engine', 'ejs');
 
- // Define a route handler for '/close'
+// Define a route handler for '/close'
 app.get('/close', (req, res) => {
-  // Render an HTML page to display to the user
-  
   res.render('closePage'); // Create a 'closePage.ejs' template
-
 });
-
 
 // Handle Facebook Webhook events
 app.post('/webhook', async (req, res) => {
@@ -39,43 +41,24 @@ app.post('/webhook', async (req, res) => {
       const webhookEvent = entry.messaging[0];
 
       if (webhookEvent.postback) {
-       
-
-          payloads.handlePostback(webhookEvent);
-
-  
+        payloads.handlePostback(webhookEvent);
       } else if (webhookEvent.message) {
         const senderPsid = webhookEvent.sender.id;
         const messageText = webhookEvent.message.text;
 
         if (messageText.toLowerCase() === 'TAKE_APPOINTEMENT') {
-   
           // messageManager.sendQuickReply(senderPsid, ' ⬇ إخـتـر يومـا مـن القائمة:');
-
-
-          
         } else if (messageText.toLowerCase() === 'الـيــوم') {
-            genericTemplate.sendGenericTemplate(senderPsid,"today");
-
-          } else if (messageText.toLowerCase() === 'tomorrow') {
-            
-         
+          genericTemplate.sendGenericTemplate(senderPsid, 'today');
+        } else if (messageText.toLowerCase() === 'tomorrow') {
           messageManager.sendTextMessage(senderPsid, 'b selected');
-          } 
-          else if (messageText.toLowerCase() === 'after tomorrow') {
-            
-         
-            messageManager.sendTextMessage(senderPsid, 'after tomorrow');
-            }
-            else if (messageText.toLowerCase() === 'vip') {
-            
-         
-              messageManager.sendTextMessage(senderPsid, 'vip');
-              }
-          else {
-            messageManager.sendTextMessage(senderPsid, "I don't understand");
-          }
-        
+        } else if (messageText.toLowerCase() === 'after tomorrow') {
+          messageManager.sendTextMessage(senderPsid, 'after tomorrow');
+        } else if (messageText.toLowerCase() === 'vip') {
+          messageManager.sendTextMessage(senderPsid, 'vip');
+        } else {
+          messageManager.sendTextMessage(senderPsid, "I don't understand");
+        }
       }
     });
 
@@ -103,62 +86,36 @@ async function getUserName(senderPsid) {
   }
 }
 
-
-
-
+// Route to get and upload the user's profile picture to Cloudinary
 app.get('/picture/:senderId', async (req, res) => {
   const senderId = req.params.senderId;
 
   try {
-    // Make a request to the Facebook Graph API to get the user's profile picture
+    // Fetch user's profile picture from Facebook
     const response = await axios.get(`https://graph.facebook.com/v13.0/${senderId}/picture`, {
       params: {
         access_token: PAGE_ACCESS_TOKEN,
-        redirect: true, // Prevents redirection
-        type: 'large', // Specify the picture type (you can adjust this based on your needs)
+        redirect: false,
       },
     });
 
-    // Check if the response contains the profile picture URL
-    if (response.data && response.data.data && response.data.data.url) {
-      let profilePictureUrl = response.data.data.url;
+    const profilePictureUrl = response.data.data.url;
 
-      // Append a default image extension (e.g., '.jpg') if the URL doesn't have one
-      if (!profilePictureUrl.includes('.')) {
-        profilePictureUrl += '.jpg'; // You can use a different extension if needed
-      }
+    // Upload profile picture to Cloudinary
+    const cloudinaryResponse = await cloudinary.uploader.upload(profilePictureUrl, {
+      folder: 'profile_pictures', // Optional: specify a folder in Cloudinary
+    });
 
-      // Log the profile picture URL for debugging
-      console.log('Profile Picture URL:', profilePictureUrl);
+    // Log the Cloudinary response
+    console.log('Cloudinary Response:', cloudinaryResponse);
 
-      // Send the image tag with the profile picture URL in the response
-  
-      res.send(`<img src="${decodeURIComponent(profilePictureUrl)}" alt="Profile Picture">`);
-
-    } else {
-      // If the response does not contain the expected data, handle it accordingly
-      console.error('Invalid or missing data in the profile picture response:', response.data);
-      res.status(500).send('Error fetching profile picture111');
-    }
+    // Send a response to the client
+    res.status(200).send('Profile picture uploaded to Cloudinary');
   } catch (error) {
-    // Handle errors during the API request
-    console.error('Error fetching profile picture:', error);
-    res.status(500).send('Error fetching profile picture');
+    console.error('Error:', error);
+    res.status(500).send('Error uploading profile picture to Cloudinary');
   }
 });
-
-
-module.exports = {
-  getUserName,
-};
-
-
-
-
-
- 
-
-
 
 // Start the Express server
 app.listen(PORT, () => {
