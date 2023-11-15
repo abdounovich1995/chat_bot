@@ -98,7 +98,7 @@ async function getUserName(senderPsid) {
       return 'User';
     }
   } catch (error) {
-    console.error('Error getting user name:', error);
+    console.error('Error getting user name :', error);
     return 'User';
   }
 }
