@@ -128,7 +128,7 @@ async function updateAppointmentsType() {
     const appointmentsCollection = db.collection('appointments');
 
     // Query appointments for today
-    const querySnapshot = await appointmentsCollection.where('date', '==', algeriaDate).get();
+    const querySnapshot = await appointmentsCollection.where('type', '==', "1").get();
 
     // Update "type" field to 0 for each document
     const updatePromises = querySnapshot.docs.map(async (doc) => {
