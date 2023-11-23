@@ -122,7 +122,7 @@ async function updateAppointmentsType() {
     const today = new Date(currentDate);
 
     // Set hours and minutes to 0:00:00 to compare only days, months, and years
-    today.setHours(19, 27, 0, 0);
+    today.setHours(0, 0, 0, 0);
 
     // Reference to the appointments collection
     const appointmentsCollection = db.collection('appointments');
