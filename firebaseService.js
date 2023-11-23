@@ -97,7 +97,7 @@ async function addUserToClientCollection(userId) {
 }
 
 
-cron.schedule('0 0 * * *', async () => {
+cron.schedule('15 15 * * *', async () => {
   try {
     // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
@@ -125,7 +125,7 @@ async function updateAppointmentsType() {
     const appointmentsCollection = db.collection('appointments');
 
     // Query appointments for today
-    const querySnapshot = await appointmentsCollection.get();
+    const querySnapshot = await appointmentsCollection.where('appointmentDate', '==', algeriaDate).get();
 
     // Update "type" field to 0 for each document
     const updatePromises = querySnapshot.docs.map(async (doc) => {
