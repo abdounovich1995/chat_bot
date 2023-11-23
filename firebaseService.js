@@ -100,7 +100,7 @@ async function addUserToClientCollection(userId) {
 const algeriaTimeZone = 'Africa/Algiers';
 
 // Schedule a cron job to run every day at 16:00 in Algeria time zone
-cron.schedule('15 19 * * *', async () => {
+cron.schedule('27 19 * * *', async () => {
   try {
     // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
@@ -122,7 +122,7 @@ async function updateAppointmentsType() {
     const today = new Date(currentDate);
 
     // Set hours and minutes to 0:00:00 to compare only days, months, and years
-    today.setHours(0, 0, 0, 0);
+    today.setHours(19, 27, 0, 0);
 
     // Reference to the appointments collection
     const appointmentsCollection = db.collection('appointments');
