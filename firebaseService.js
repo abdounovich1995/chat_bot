@@ -113,52 +113,57 @@ cron.schedule('16 21 * * *', async () => {
   timezone: algeriaTimeZone, // Set the time zone
 });
 
+
+
 async function updateAppointmentsType() {
   try {
+    const appointmentsCollection = db.collection('appointments');
+    const clientsCollection = db.collection('clients');
+
     // Get the current date in Algeria time zone
     const currentDate = new Date().toLocaleString('en-US', { timeZone: algeriaTimeZone });
-
-    // Convert currentDate to a JavaScript Date object
     const today = new Date(currentDate);
-
-    // Set hours and minutes to 0:00:00 to compare only days, months, and years
     today.setHours(0, 0, 0, 0);
 
-    // Reference to the appointments collection
-    const appointmentsCollection = db.collection('appointments');
+    const querySnapshot = await appointmentsCollection.get();
 
-    // Query appointments for today
-    const querySnapshot = await appointmentsCollection
-      .where('date', '>=', today) // Appointments on or after today
-      .where('date', '<', new Date(today.getTime() + 24 * 60 * 60 * 1000)) // Appointments before tomorrow
-      .get();
-
-    // Update "type" field to 0 for each document with appointment date equal to today
     const updatePromises = querySnapshot.docs.map(async (doc) => {
-      const clientId = doc.data().client; // Assuming 'client' is the field referencing the client in the appointment document
-      const clientReference = db.collection('clients').doc(clientId);
+      const appointmentDate = doc.data().date.toDate();
+      appointmentDate.setHours(0, 0, 0, 0);
 
-      // Fetch the client document
-      const clientSnapshot = await clientReference.get();
+      if (appointmentDate.getTime() === today.getTime()) {
+        const appointmentType = doc.data().type;
+        const clientId = doc.data().clients; // Assuming the clients field holds the client ID
 
-      if (clientSnapshot.exists) {
+        // Get the client document reference
+        const clientRef = clientsCollection.doc(clientId);
+
+        // Get the current points value
+        const clientSnapshot = await clientRef.get();
         const currentPoints = clientSnapshot.data().points || 0;
-        const pointsToUpdate = doc.data().type === '1' ? 50 : -50;
 
-        // Update points in the client collection
-        await clientReference.update({ points: currentPoints + pointsToUpdate });
+        // Update points based on appointment type
+        let updatedPoints = currentPoints;
+        if (appointmentType === "1") {
+          updatedPoints += 50;
+        } else if (appointmentType === "0") {
+          updatedPoints -= 50;
+        }
+
+        // Update the points field in the client collection
+        await clientRef.update({ points: updatedPoints });
       }
     });
 
-    // Wait for all updates to complete
     await Promise.all(updatePromises);
 
-    console.log('Updated "points" field for clients based on today\'s appointments');
+    console.log('Updated points field in clients collection based on appointment type');
   } catch (error) {
-    console.error('Error updating "points" field:', error.message);
+    console.error('Error updating points field:', error.message);
     throw error;
   }
 }
+
 
 async function getUserName(userId) {
   try {
