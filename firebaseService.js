@@ -142,20 +142,17 @@ async function updateAppointmentsType() {
         const clientId = doc.data().client; // Assuming there is a 'client' field in the appointment document that references the client document
 
         // Update appointment type to 0
-        await doc.ref.update({ type: "0" });
+        await appointmentsCollection.doc(doc.id).update({ type: "0" });
 
         // Reference to the clients collection
         const clientsCollection = db.collection('clients');
-        console.log(clientId);
         const clientDoc = await clientsCollection.doc(clientId).get();
-console.log("here");
+
         if (appointmentType === "0") {
           // If appointment type is 0, subtract 50 points
           const currentPoints = clientDoc.data().points || 0;
           const updatedPoints = currentPoints - 50;
           await clientsCollection.doc(clientId).update({ points: updatedPoints });
-          console.log("here2");
-
         } else if (appointmentType === "1") {
           // If appointment type is 1, add 50 points
           const currentPoints = clientDoc.data().points || 0;
@@ -174,6 +171,7 @@ console.log("here");
     throw error;
   }
 }
+
 
 async function getUserName(userId) {
   try {
