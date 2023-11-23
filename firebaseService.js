@@ -100,7 +100,7 @@ async function addUserToClientCollection(userId) {
 const algeriaTimeZone = 'Africa/Algiers';
 
 // Schedule a cron job to run every day at 16:00 in Algeria time zone
-cron.schedule('49 21 * * *', async () => {
+cron.schedule('58 21 * * *', async () => {
   try {
     // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
@@ -120,6 +120,7 @@ async function updateAppointmentsType() {
   try {
     const appointmentsCollection = db.collection('appointments');
     const clientsCollection = db.collection('clients');
+    const servicesCollection = db.collection('types'); // Assuming there is a 'services' collection
 
     const currentDate = new Date().toLocaleString('en-US', { timeZone: algeriaTimeZone });
     const today = new Date(currentDate);
@@ -133,43 +134,48 @@ async function updateAppointmentsType() {
 
       if (appointmentDate.getTime() === today.getTime()) {
         const appointmentType = doc.data().type;
-        const client = doc.data().client; // Assuming clients is a documentReference
+        const coiffureTypeRef = doc.data().coiffure_type; // Assuming coiffure_type is a DocumentReference
 
-        // Verify that clientRef is a DocumentReference
-        if (client && client instanceof admin.firestore.DocumentReference) {
-          // Fetch the client document
-          const clientSnapshot = await client.get();
-          const currentPoints = clientSnapshot.data().points || 0;
+        if (coiffureTypeRef && coiffureTypeRef instanceof admin.firestore.DocumentReference) {
+          const coiffureTypeSnapshot = await coiffureTypeRef.get();
+          const servicePoints = coiffureTypeSnapshot.data().points || 0;
 
-          // Update points based on appointment type
-          let updatedPoints = currentPoints;
-          if (appointmentType === "1") {
-            updatedPoints += 50;
+          const client = doc.data().client; // Assuming clients is a DocumentReference
+
+          if (client && client instanceof admin.firestore.DocumentReference) {
+            const clientSnapshot = await client.get();
+            const currentPoints = clientSnapshot.data().points || 0;
+
+            let updatedPoints = currentPoints;
+
+            // Update points based on appointment type and service points
+            if (appointmentType === "1") {
+              updatedPoints += servicePoints;
+              await client.update({ points: updatedPoints });
+              await appointmentsCollection.doc(doc.id).update({ type: "0" });
+            } else if (appointmentType === "0") {
+              updatedPoints -= servicePoints;
+            }
+
+            // Update the points field in the client collection
             await client.update({ points: updatedPoints });
-            await appointmentsCollection.doc(doc.id).update({ type: "0" });
-
-          } else if (appointmentType === "0") {
-            updatedPoints -= 50;
+          } else {
+            console.error('Invalid clientRef:', client);
           }
-
-          // Update the points field in the client collection
-          await client.update({ points: updatedPoints });
         } else {
-          console.error('Invalid clientRef:', client);
+          console.error('Invalid coiffureTypeRef:', coiffureTypeRef);
         }
       }
     });
 
     await Promise.all(updatePromises);
 
-    console.log('Updated points field in clients collection based on appointment type');
+    console.log('Updated points field in clients collection based on appointment type and service points');
   } catch (error) {
     console.error('Error updating points field:', error.message);
     throw error;
   }
 }
-
-
 
 async function getUserName(userId) {
   try {
