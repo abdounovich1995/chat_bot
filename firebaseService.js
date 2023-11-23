@@ -142,7 +142,7 @@ async function updateAppointmentsType() {
         const clientId = doc.data().client; // Assuming there is a 'client' field in the appointment document that references the client document
 
         // Update appointment type to 0
-        await appointmentsCollection.doc(doc.id).update({ type: "0" });
+        await appointmentsCollection.doc(doc.ref).update({ type: "0" });
 
         // Reference to the clients collection
         const clientsCollection = db.collection('clients');
