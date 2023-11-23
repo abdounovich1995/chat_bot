@@ -130,7 +130,6 @@ async function updateAppointmentsType() {
     // Query appointments for today with type = 1
     const querySnapshot = await appointmentsCollection
       .where('type', '==', "1")
-      .where('date', '==', algeriaDate.toISOString()) // Assuming there's a field 'appointmentDate' in your documents
       .get();
 
     // Update "type" field to 0 for each document
