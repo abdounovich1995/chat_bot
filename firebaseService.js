@@ -100,7 +100,7 @@ async function addUserToClientCollection(userId) {
 const algeriaTimeZone = 'Africa/Algiers';
 
 // Schedule a cron job to run every day at 16:00 in Algeria time zone
-cron.schedule('25 20 * * *', async () => {
+cron.schedule('31 20 * * *', async () => {
   try {
     // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
@@ -146,13 +146,16 @@ async function updateAppointmentsType() {
 
         // Reference to the clients collection
         const clientsCollection = db.collection('clients');
+        console.log(clientId);
         const clientDoc = await clientsCollection.doc(clientId).get();
-
+console.log("here");
         if (appointmentType === "0") {
           // If appointment type is 0, subtract 50 points
           const currentPoints = clientDoc.data().points || 0;
           const updatedPoints = currentPoints - 50;
           await clientsCollection.doc(clientId).update({ points: updatedPoints });
+          console.log("here2");
+
         } else if (appointmentType === "1") {
           // If appointment type is 1, add 50 points
           const currentPoints = clientDoc.data().points || 0;
