@@ -88,46 +88,42 @@ async function addUserToClientCollection(userId) {
 
 const algeriaTimeZone = 'Africa/Algiers';
 
-cron.schedule('0 0 * * *', async () => {
+// Schedule a cron job to run every day at 16:00 in Algeria time zone
+cron.schedule('32 16 * * *', async () => {
   try {
+    // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
     console.log('Cron job executed successfully');
   } catch (error) {
     console.error('Error executing cron job:', error.message);
   }
 }, {
-  timezone: algeriaTimeZone,
+  timezone: algeriaTimeZone, // Set the time zone
 });
-
-
-cron.schedule('*/1 * * * *', async () => {
-  try {
-    await updateAppointmentsType();
-    console.log('Cron job executed successfully');
-  } catch (error) {
-    console.error('Error executing cron job:', error.message);
-  }
-}, {
-  timezone: algeriaTimeZone,
-});
-
-
-
 
 async function updateAppointmentsType() {
   try {
+    // Get the current date in Algeria time zone
     const currentDate = new Date().toLocaleString('en-US', { timeZone: algeriaTimeZone });
+    
+    // Convert currentDate to a JavaScript Date object
     const algeriaDate = new Date(currentDate);
 
-    const appointmentsCollection = db.collection('appointments');
-    const PresentQuerySnapshot = await appointmentsCollection
-      .where('date', '==', algeriaDate)
-      .get();
+    // Set hours and minutes to 16:00
+    algeriaDate.setHours(16, 32, 0, 0);
 
-    const updatePromises = PresentQuerySnapshot.docs.map(async (doc) => {
+    // Reference to the appointments collection
+    const appointmentsCollection = db.collection('appointments');
+
+    // Query appointments for today
+    const querySnapshot = await appointmentsCollection.where('appointmentDate', '==', algeriaDate).get();
+
+    // Update "type" field to 0 for each document
+    const updatePromises = querySnapshot.docs.map(async (doc) => {
       await appointmentsCollection.doc(doc.id).update({ type: 0 });
     });
 
+    // Wait for all updates to complete
     await Promise.all(updatePromises);
 
     console.log('Updated "type" field to 0 for today\'s appointments');
@@ -137,19 +133,6 @@ async function updateAppointmentsType() {
   }
 }
 
-async function updateClientsPoints(clientRef) {
-  try {
-    const ClientCollection = db.collection('clients');
-    const PresentQuerySnapshot = await ClientCollection
-      .where("clientRef", "==", clientRef)
-      .get();
-
-    await PresentQuerySnapshot.docs[0].ref.update({ points: 1000 });
-  } catch (error) {
-    console.error('Error updating client points:', error.message);
-    throw error;
-  }
-}
 
 async function getUserName(userId) {
   try {
