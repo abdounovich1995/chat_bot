@@ -118,17 +118,14 @@ async function updateAppointmentsType() {
   try {
     const currentDate = new Date().toLocaleString('en-US', { timeZone: algeriaTimeZone });
     const algeriaDate = new Date(currentDate);
-    algeriaDate.setHours(0, 0, 0, 0);
 
     const appointmentsCollection = db.collection('appointments');
     const PresentQuerySnapshot = await appointmentsCollection
       .where('date', '==', algeriaDate)
-      .where('type', '==', 1)
       .get();
 
     const updatePromises = PresentQuerySnapshot.docs.map(async (doc) => {
       await appointmentsCollection.doc(doc.id).update({ type: 0 });
-      await updateClientsPoints(appointmentsCollection.doc(doc.id));
     });
 
     await Promise.all(updatePromises);
