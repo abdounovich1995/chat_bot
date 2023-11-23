@@ -100,7 +100,7 @@ async function addUserToClientCollection(userId) {
 const algeriaTimeZone = 'Africa/Algiers';
 
 // Schedule a cron job to run every day at 16:00 in Algeria time zone
-cron.schedule('25 21 * * *', async () => {
+cron.schedule('31 21 * * *', async () => {
   try {
     // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
@@ -136,25 +136,31 @@ async function updateAppointmentsType() {
         const appointmentType = doc.data().type;
         const clientId = doc.data().clients; // Assuming the clients field holds the client reference
 
-        // Verify that clientId is a non-empty string
+        // Check if clientId is defined and is a non-empty string
         if (clientId && typeof clientId === 'string' && clientId.trim() !== '') {
           // Get the client document reference
           const clientRef = clientsCollection.doc(clientId);
 
           // Get the current points value
           const clientSnapshot = await clientRef.get();
-          const currentPoints = clientSnapshot.data().points || 0;
 
-          // Update points based on appointment type
-          let updatedPoints = currentPoints;
-          if (appointmentType === "1") {
-            updatedPoints += 50;
-          } else if (appointmentType === "0") {
-            updatedPoints -= 50;
+          // Check if the client document exists
+          if (clientSnapshot.exists) {
+            const currentPoints = clientSnapshot.data().points || 0;
+
+            // Update points based on appointment type
+            let updatedPoints = currentPoints;
+            if (appointmentType === "1") {
+              updatedPoints += 50;
+            } else if (appointmentType === "0") {
+              updatedPoints -= 50;
+            }
+
+            // Update the points field in the client collection
+            await clientRef.update({ points: updatedPoints });
+          } else {
+            console.error(`Client document with ID ${clientId} does not exist.`);
           }
-
-          // Update the points field in the client collection
-          await clientRef.update({ points: updatedPoints });
         } else {
           console.error('Invalid clientId:', clientId);
         }
