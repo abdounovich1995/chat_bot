@@ -119,10 +119,10 @@ async function updateAppointmentsType() {
     const currentDate = new Date().toLocaleString('en-US', { timeZone: algeriaTimeZone });
 
     // Convert currentDate to a JavaScript Date object
-    const algeriaDate = new Date(currentDate);
+    const today = new Date(currentDate);
 
-    // Set hours and minutes to 16:00
-    algeriaDate.setHours(19, 15, 0, 0);
+    // Set hours and minutes to 0:00:00 to compare only days, months, and years
+    today.setHours(0, 0, 0, 0);
 
     // Reference to the appointments collection
     const appointmentsCollection = db.collection('appointments');
@@ -132,9 +132,14 @@ async function updateAppointmentsType() {
       .where('type', '==', "1")
       .get();
 
-    // Update "type" field to 0 for each document
+    // Update "type" field to 0 for each document with appointment date equal to today
     const updatePromises = querySnapshot.docs.map(async (doc) => {
-      await appointmentsCollection.doc(doc.id).update({ type: "0" });
+      const appointmentDate = doc.data().date.toDate(); // Convert Firestore Timestamp to JavaScript Date
+      appointmentDate.setHours(0, 0, 0, 0); // Set hours and minutes to 0:00:00
+
+      if (appointmentDate.getTime() === today.getTime()) {
+        await appointmentsCollection.doc(doc.id).update({ type: "0" });
+      }
     });
 
     // Wait for all updates to complete
@@ -146,7 +151,6 @@ async function updateAppointmentsType() {
     throw error;
   }
 }
-
 async function getUserName(userId) {
   try {
     const response = await axios.get(
