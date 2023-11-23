@@ -123,7 +123,6 @@ async function updateAppointmentsType() {
     const clientsCollection = db.collection('clients');
 
     const querySnapshot = await appointmentsCollection
-      .where('type', '==', "1") // Assuming type 1 corresponds to positive points
       .get();
 
     const updatePromises = querySnapshot.docs.map(async (doc) => {
