@@ -100,7 +100,7 @@ async function addUserToClientCollection(userId) {
 const algeriaTimeZone = 'Africa/Algiers';
 
 // Schedule a cron job to run every day at 16:00 in Algeria time zone
-cron.schedule('45 18 * * *', async () => {
+cron.schedule('53 18 * * *', async () => {
   try {
     // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
@@ -117,18 +117,21 @@ async function updateAppointmentsType() {
   try {
     // Get the current date in Algeria time zone
     const currentDate = new Date().toLocaleString('en-US', { timeZone: algeriaTimeZone });
-    
+
     // Convert currentDate to a JavaScript Date object
     const algeriaDate = new Date(currentDate);
 
     // Set hours and minutes to 16:00
-    algeriaDate.setHours(18, 45, 0, 0);
+    algeriaDate.setHours(18, 53, 0, 0);
 
     // Reference to the appointments collection
     const appointmentsCollection = db.collection('appointments');
 
-    // Query appointments for today
-    const querySnapshot = await appointmentsCollection.get();
+    // Query appointments for today with type = 1
+    const querySnapshot = await appointmentsCollection
+      .where('type', '==', 1)
+      .where('appointmentDate', '==', algeriaDate.toISOString()) // Assuming there's a field 'appointmentDate' in your documents
+      .get();
 
     // Update "type" field to 0 for each document
     const updatePromises = querySnapshot.docs.map(async (doc) => {
@@ -138,16 +141,12 @@ async function updateAppointmentsType() {
     // Wait for all updates to complete
     await Promise.all(updatePromises);
 
-    console.log('Updated "type" field to 0 for today\'s appointments');
+    console.log('Updated "type" field to 0 for today\'s appointments where type = 1');
   } catch (error) {
     console.error('Error updating "type" field:', error.message);
     throw error;
   }
 }
-
-
-
-
 
 async function getUserName(userId) {
   try {
