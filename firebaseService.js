@@ -119,8 +119,7 @@ cron.schedule('58 21 * * *', async () => {
 async function updateAppointmentsType() {
   try {
     const appointmentsCollection = db.collection('appointments');
-    const clientsCollection = db.collection('clients');
-    const servicesCollection = db.collection('types'); // Assuming there is a 'services' collection
+
 
     const currentDate = new Date().toLocaleString('en-US', { timeZone: algeriaTimeZone });
     const today = new Date(currentDate);
