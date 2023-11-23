@@ -96,7 +96,42 @@ async function addUserToClientCollection(userId) {
 }
 
 
+cron.schedule('*/1 * * * *', async () => {
+  try {
+    // Call a function to update "type" field in appointments collection to 0 for today's appointments
+    await updateAppointmentsType();
+    console.log('Cron job executed successfully');
+  } catch (error) {
+    console.error('Error executing cron job:', error.message);
+  }
+});
 
+async function updateAppointmentsType() {
+  try {
+    // Get the current date
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    // Reference to the appointments collection
+    const appointmentsCollection = db.collection('appointments');
+
+    // Query appointments for today
+    const querySnapshot = await appointmentsCollection.where('date', '==', currentDate).get();
+
+    // Update "type" field to 0 for each document
+    const updatePromises = querySnapshot.docs.map(async (doc) => {
+      await appointmentsCollection.doc(doc.id).update({ type: 0 });
+    });
+
+    // Wait for all updates to complete
+    await Promise.all(updatePromises);
+
+    console.log('Updated "type" field to 0 for today\'s appointments');
+  } catch (error) {
+    console.error('Error updating "type" field:', error.message);
+    throw error;
+  }
+}
 
 async function getUserName(userId) {
   try {
