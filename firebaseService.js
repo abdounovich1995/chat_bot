@@ -97,45 +97,32 @@ async function addUserToClientCollection(userId) {
 }
 
 
-cron.schedule('50 15 * * *', async () => {
+const algeriaTimeZone = 'Africa/Algiers';
+
+// Schedule a cron job to run every day at 16:00 in Algeria time zone
+cron.schedule('0 16 * * *', async () => {
   try {
     // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
     console.log('Cron job executed successfully');
   } catch (error) {
     console.error('Error executing cron job:', error.message);
-    
   }
-  
+}, {
+  timezone: algeriaTimeZone, // Set the time zone
 });
-cron.schedule('*/1 * * * *', async () => {
-  try {
-    const algeriaTimeZone = 'Africa/Algiers';
-    const currentDate = new Date().toLocaleString('en-US', { timeZone: algeriaTimeZone });
-    
-    // Convert currentDate to a JavaScript Date object
-    const algeriaDate = new Date(currentDate);
-
-    console.log(algeriaDate);
-  } catch (error) {
-    console.error('Error executing cron job every 1 minute:', error.message);
-    
-  }
-  
-});
-
-
 
 async function updateAppointmentsType() {
   try {
-    // Get the current date
-    const algeriaTimeZone = 'Africa/Algiers';
+    // Get the current date in Algeria time zone
     const currentDate = new Date().toLocaleString('en-US', { timeZone: algeriaTimeZone });
     
     // Convert currentDate to a JavaScript Date object
     const algeriaDate = new Date(currentDate);
 
-    // Set hours, minutes, seconds, and milliseconds to 0
+    // Set hours and minutes to 16:00
+    algeriaDate.setHours(16, 0, 0, 0);
+
     // Reference to the appointments collection
     const appointmentsCollection = db.collection('appointments');
 
