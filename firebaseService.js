@@ -133,12 +133,12 @@ async function updateAppointmentsType() {
 
       if (appointmentDate.getTime() === today.getTime()) {
         const appointmentType = doc.data().type;
-        const clientRef = doc.data().clients; // Assuming clients is a documentReference
+        const client = doc.data().client; // Assuming clients is a documentReference
 
         // Verify that clientRef is a DocumentReference
-        if (clientRef && clientRef instanceof admin.firestore.DocumentReference) {
+        if (client && client instanceof admin.firestore.DocumentReference) {
           // Fetch the client document
-          const clientSnapshot = await clientRef.get();
+          const clientSnapshot = await client.get();
           const currentPoints = clientSnapshot.data().points || 0;
 
           // Update points based on appointment type
@@ -150,9 +150,9 @@ async function updateAppointmentsType() {
           }
 
           // Update the points field in the client collection
-          await clientRef.update({ points: updatedPoints });
+          await client.update({ points: updatedPoints });
         } else {
-          console.error('Invalid clientRef:', clientRef);
+          console.error('Invalid clientRef:', client);
         }
       }
     });
