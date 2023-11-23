@@ -72,7 +72,7 @@ app.post('/webhook', async (req, res) => {
 async function getUserName(senderPsid) {
   try {
     const response = await axios.get(
-      `https://graph.facebook.com/v13.0/${senderPsid}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`
+      `https://graph.facebook.com/v18.0/${senderPsid}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`
     );
 
     if (response.data.name) {
