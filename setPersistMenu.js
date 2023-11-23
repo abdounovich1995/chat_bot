@@ -4,7 +4,7 @@ const getClientRefference = require('./firebaseService'); // Import the messageM
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const SITE_URL = process.env.SITE_URL;
  // Replace with your actual Page Access Token
-async function setPersistentMenu(psid) {
+async function setPersistentMenu(psid,userRef) {
 
     const userPersistentMenu = {
       psid: psid,
@@ -23,10 +23,14 @@ async function setPersistentMenu(psid) {
 
             },
             {
-              type: 'postback',
-              title: 'Outfit suggestions',
-              payload: 'CURATION',
-            },
+              type: 'web_url', // Change the button type to 'web_url'
+              url: `${SITE_URL}/client-profile-show?clientRef=${userRef} `,
+              title: ' حسابي 👔',
+              messenger_extensions :'true',
+              webview_height_ratio:'tall',
+              webview_share_button:'hide'
+
+          },
            
           ],
         },

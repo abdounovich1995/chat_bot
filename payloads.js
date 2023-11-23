@@ -8,8 +8,8 @@ async function handlePostback(webhookEvent) {
       const senderPsid = webhookEvent.sender.id; 
 
       await firebaseService.addUserToClientCollection(senderPsid);
-
-      setMenu.setPersistentMenu(senderPsid);
+const userRef= await  firebaseService.getClientReferenceByPSID(senderPsid);
+      setMenu.setPersistentMenu(senderPsid,userRef);
 
     } else if (webhookEvent.postback.payload === "TAKE_APPOINTEMENT") {
       const senderPsid = webhookEvent.sender.id;
