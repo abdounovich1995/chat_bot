@@ -97,7 +97,7 @@ async function addUserToClientCollection(userId) {
 }
 
 
-cron.schedule('15 15 * * *', async () => {
+cron.schedule('14 18 * * *', async () => {
   try {
     // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
