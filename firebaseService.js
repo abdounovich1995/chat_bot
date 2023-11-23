@@ -97,7 +97,7 @@ async function addUserToClientCollection(userId) {
 }
 
 
-cron.schedule('48 14 * * *', async () => {
+cron.schedule('50 15 * * *', async () => {
   try {
     // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
@@ -108,6 +108,22 @@ cron.schedule('48 14 * * *', async () => {
   }
   
 });
+cron.schedule('*/1 * * * *', async () => {
+  try {
+    const algeriaTimeZone = 'Africa/Algiers';
+    const currentDate = new Date().toLocaleString('en-US', { timeZone: algeriaTimeZone });
+    
+    // Convert currentDate to a JavaScript Date object
+    const algeriaDate = new Date(currentDate);
+
+    console.log(algeriaDate);
+  } catch (error) {
+    console.error('Error executing cron job every 1 minute:', error.message);
+    
+  }
+  
+});
+
 
 
 async function updateAppointmentsType() {
@@ -120,7 +136,6 @@ async function updateAppointmentsType() {
     const algeriaDate = new Date(currentDate);
 
     // Set hours, minutes, seconds, and milliseconds to 0
-    algeriaDate.setHours(0, 0, 0, 0);
     // Reference to the appointments collection
     const appointmentsCollection = db.collection('appointments');
 
