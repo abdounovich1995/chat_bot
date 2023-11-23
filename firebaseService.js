@@ -100,7 +100,7 @@ async function addUserToClientCollection(userId) {
 const algeriaTimeZone = 'Africa/Algiers';
 
 // Schedule a cron job to run every day at 16:00 in Algeria time zone
-cron.schedule('38 20 * * *', async () => {
+cron.schedule('42 20 * * *', async () => {
   try {
     // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
@@ -129,7 +129,7 @@ async function updateAppointmentsType() {
 
     // Query appointments for today with type = 1
     const querySnapshot = await appointmentsCollection
-      .where('type', '==', "1")
+      .where('type', '==', '1')
       .get();
 
     // Update "type" field to 0 for each document with appointment date equal to today
@@ -138,39 +138,35 @@ async function updateAppointmentsType() {
       appointmentDate.setHours(0, 0, 0, 0); // Set hours and minutes to 0:00:00
 
       if (appointmentDate.getTime() === today.getTime()) {
+        const clientId = doc.data().client; // Assuming there is a field called 'client' in the appointments collection
+        const clientRef = db.collection('clients').doc(clientId);
+
+        // Update points based on appointment type
         const appointmentType = doc.data().type;
-        const clientId = doc.data().client; // Assuming there is a 'client' field in the appointment document that references the client document
+        const pointsToUpdate = appointmentType === '0' ? -50 : 50;
 
-        // Update appointment type to 0
-        await appointmentsCollection.doc(doc.id).update({ type: "0" });
+        // Update points in the clients collection
+        await clientRef.update({
+          points: admin.firestore.FieldValue.increment(pointsToUpdate),
+        });
 
-        // Reference to the clients collection
-        const clientsCollection = db.collection('clients');
-        const clientDoc = await clientsCollection.doc(clientId).get();
-
-        if (appointmentType === "0") {
-          // If appointment type is 0, subtract 50 points
-          const currentPoints = clientDoc.data().points || 0;
-          const updatedPoints = currentPoints - 50;
-          await clientsCollection.doc(clientId).update({ points: updatedPoints });
-        } else if (appointmentType === "1") {
-          // If appointment type is 1, add 50 points
-          const currentPoints = clientDoc.data().points || 0;
-          const updatedPoints = currentPoints + 50;
-          await clientsCollection.doc(clientId).update({ points: updatedPoints });
-        }
+        // Update "type" field in the appointments collection to 0
+        await appointmentsCollection.doc(doc.id).update({ type: '0' });
       }
     });
 
     // Wait for all updates to complete
     await Promise.all(updatePromises);
 
-    console.log('Updated "type" field to 0 for today\'s appointments where type = 1 and updated points in clients collection');
+    console.log('Updated "type" field to 0 and points in clients collection based on appointment type');
   } catch (error) {
     console.error('Error updating "type" field and points:', error.message);
     throw error;
   }
 }
+
+
+
 
 
 async function getUserName(userId) {
