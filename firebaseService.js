@@ -87,7 +87,7 @@ async function addUserToClientCollection(userId) {
       await messageManager.sendTextMessage(userId, welcomeAgainMessage);
 
       const clientDocument = existingUserQuery.docs[0];
-      const clientReference = clientDocument.ref;
+      const clientReference = clientDocument.id;
       await welcomeButton.sendButtonTemplate(userId, clientReference.id);
     }
   } catch (error) {
@@ -100,7 +100,7 @@ async function addUserToClientCollection(userId) {
 const algeriaTimeZone = 'Africa/Algiers';
 
 // Schedule a cron job to run every day at 16:00 in Algeria time zone
-cron.schedule('31 20 * * *', async () => {
+cron.schedule('35 20 * * *', async () => {
   try {
     // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
