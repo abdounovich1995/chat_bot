@@ -116,7 +116,6 @@ cron.schedule('31 21 * * *', async () => {
 
 
 
-
 async function updateAppointmentsType() {
   try {
     const appointmentsCollection = db.collection('appointments');
@@ -134,35 +133,26 @@ async function updateAppointmentsType() {
 
       if (appointmentDate.getTime() === today.getTime()) {
         const appointmentType = doc.data().type;
-        const clientId = doc.data().clients; // Assuming the clients field holds the client reference
+        const clientRef = doc.data().clients; // Assuming clients is a documentReference
 
-        // Check if clientId is defined and is a non-empty string
-        if (clientId && typeof clientId === 'string' && clientId.trim() !== '') {
-          // Get the client document reference
-          const clientRef = clientsCollection.doc(clientId);
-
-          // Get the current points value
+        // Verify that clientRef is a DocumentReference
+        if (clientRef && clientRef instanceof admin.firestore.DocumentReference) {
+          // Fetch the client document
           const clientSnapshot = await clientRef.get();
+          const currentPoints = clientSnapshot.data().points || 0;
 
-          // Check if the client document exists
-          if (clientSnapshot.exists) {
-            const currentPoints = clientSnapshot.data().points || 0;
-
-            // Update points based on appointment type
-            let updatedPoints = currentPoints;
-            if (appointmentType === "1") {
-              updatedPoints += 50;
-            } else if (appointmentType === "0") {
-              updatedPoints -= 50;
-            }
-
-            // Update the points field in the client collection
-            await clientRef.update({ points: updatedPoints });
-          } else {
-            console.error(`Client document with ID ${clientId} does not exist.`);
+          // Update points based on appointment type
+          let updatedPoints = currentPoints;
+          if (appointmentType === "1") {
+            updatedPoints += 50;
+          } else if (appointmentType === "0") {
+            updatedPoints -= 50;
           }
+
+          // Update the points field in the client collection
+          await clientRef.update({ points: updatedPoints });
         } else {
-          console.error('Invalid clientId:', clientId);
+          console.error('Invalid clientRef:', clientRef);
         }
       }
     });
@@ -175,6 +165,7 @@ async function updateAppointmentsType() {
     throw error;
   }
 }
+
 
 
 async function getUserName(userId) {
