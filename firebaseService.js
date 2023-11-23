@@ -100,7 +100,7 @@ async function addUserToClientCollection(userId) {
 const algeriaTimeZone = 'Africa/Algiers';
 
 // Schedule a cron job to run every day at 16:00 in Algeria time zone
-cron.schedule('46 19 * * *', async () => {
+cron.schedule('59 19 * * *', async () => {
   try {
     // Call a function to update "type" field in appointments collection to 0 for today's appointments
     await updateAppointmentsType();
@@ -138,19 +138,40 @@ async function updateAppointmentsType() {
       appointmentDate.setHours(0, 0, 0, 0); // Set hours and minutes to 0:00:00
 
       if (appointmentDate.getTime() === today.getTime()) {
+        const appointmentType = doc.data().type;
+        const clientId = doc.data().client; // Assuming there is a 'client' field in the appointment document that references the client document
+
+        // Update appointment type to 0
         await appointmentsCollection.doc(doc.id).update({ type: "0" });
+
+        // Reference to the clients collection
+        const clientsCollection = db.collection('clients');
+        const clientDoc = await clientsCollection.doc(clientId).get();
+
+        if (appointmentType === "0") {
+          // If appointment type is 0, subtract 50 points
+          const currentPoints = clientDoc.data().points || 0;
+          const updatedPoints = currentPoints - 50;
+          await clientsCollection.doc(clientId).update({ points: updatedPoints });
+        } else if (appointmentType === "1") {
+          // If appointment type is 1, add 50 points
+          const currentPoints = clientDoc.data().points || 0;
+          const updatedPoints = currentPoints + 50;
+          await clientsCollection.doc(clientId).update({ points: updatedPoints });
+        }
       }
     });
 
     // Wait for all updates to complete
     await Promise.all(updatePromises);
 
-    console.log('Updated "type" field to 0 for today\'s appointments where type = 1');
+    console.log('Updated "type" field to 0 for today\'s appointments where type = 1 and updated points in clients collection');
   } catch (error) {
-    console.error('Error updating "type" field:', error.message);
+    console.error('Error updating "type" field and points:', error.message);
     throw error;
   }
 }
+
 async function getUserName(userId) {
   try {
     const response = await axios.get(
