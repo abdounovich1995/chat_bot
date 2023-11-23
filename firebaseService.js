@@ -104,15 +104,23 @@ cron.schedule('*/1 * * * *', async () => {
     console.log('Cron job executed successfully');
   } catch (error) {
     console.error('Error executing cron job:', error.message);
+    
   }
+  
 });
+
 
 async function updateAppointmentsType() {
   try {
     // Get the current date
-    const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
+    const algeriaTimeZone = 'Africa/Algiers';
+    const currentDate = new Date().toLocaleString('en-US', { timeZone: algeriaTimeZone });
+    
+    // Convert currentDate to a JavaScript Date object
+    const algeriaDate = new Date(currentDate);
 
+    // Set hours, minutes, seconds, and milliseconds to 0
+    algeriaDate.setHours(0, 0, 0, 0);
     // Reference to the appointments collection
     const appointmentsCollection = db.collection('appointments');
 
