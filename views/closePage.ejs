@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,12 +26,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <!-- Include the Messenger Extensions SDK -->
     <script>
+        const messageManager = require('./messageManager'); // Import the messageManager module
+
         window.extAsyncInit = function () {
             // the Messenger Extensions JS SDK is done loading
             logMessage('Messenger Extensions JS SDK is done loading.');
         };
 
-        function sendMessageAndClose() {
+        // Include messageManager.js
+        // Update the path accordingly
+
+        // Function to send a message using the messageManager.js file
+        async function sendTextMessage(senderPsid, text) {
+            try {
+                // Call the sendTextMessage function from messageManager.js
+                await messageManager.sendTextMessage(senderPsid, text);
+            } catch (error) {
+                // Handle errors
+                logError('Error sending text message: ' + error.message);
+            }
+        }
+
+        // Updated sendMessageAndClose function
+        async function sendMessageAndClose() {
             try {
                 // Use MessengerExtensions.getUserID to obtain the PSID
                 MessengerExtensions.getUserID(
@@ -39,27 +57,27 @@
                             var psid = uids.psid;
                             logMessage('User ID obtained: ' + psid);
 
-                            // Send a message to the user
-                            MessengerExtensions.sendMessageToUser(psid, {
-                                text: 'Hello, this is a message from your website!'
-                            }, function success() {
-                                // The message was sent successfully
-                                logMessage('Message sent successfully');
+                            // Send a message using the sendTextMessage function
+                            sendTextMessage(psid, 'Hello, this is a message from your website!')
+                                .then(() => {
+                                    // The message was sent successfully
+                                    logMessage('Message sent successfully');
 
-                                // Close the web browser
-                                MessengerExtensions.requestCloseBrowser(function success() {
-                                    // Browser closed successfully
-                                    logMessage('Web browser closed');
-                                }, function error(err) {
-                                    // Error closing the browser
-                                    logError('Error closing web browser: ' + err);
+                                    // Close the web browser
+                                    MessengerExtensions.requestCloseBrowser(function success() {
+                                        // Browser closed successfully
+                                        logMessage('Web browser closed');
+                                    }, function error(err) {
+                                        // Error closing the browser
+                                        logError('Error closing web browser: ' + err);
+                                    });
+                                })
+                                .catch((error) => {
+                                    // Handle errors from sendTextMessage
+                                    logError('Error sending message: ' + error.message);
                                 });
-                            }, function error(err) {
-                                // Error sending the message
-                                logError('Error sending message: ' + err);
-                            });
                         } catch (err) {
-                            logError('An error occurred during user ID obtaining and message sending: ' + err);
+                            logError('An error occurred during user ID obtaining: ' + err.message);
                         }
                     },
                     function error(err, errorMessage) {
@@ -68,7 +86,7 @@
                     }
                 );
             } catch (err) {
-                logError('An error occurred during the execution: ' + err);
+                logError('An error occurred during the execution: ' + err.message);
             }
         }
 
