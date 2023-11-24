@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirection</title>
+    <title>My Awesome Webview</title>
     <style>
         body {
             text-align: center;
@@ -44,37 +44,41 @@
     </div>
     <p>ستغلق الصفحة عندما تضغط على الزر</p>
 
-    <!-- Add a button for the user to click -->
-    <button id="sendMessageBtn">Send Message</button>
+    <!-- Add a button for the user to open the webview -->
+    <button id="openWebviewBtn">Open Webview</button>
 
     <script>
         // Messenger Extensions SDK initialization
         window.extAsyncInit = function() {
-            // Function to send a message to the user
-            function sendMessage() {
-                MessengerExtensions.getUserID(function success(userId) {
-                    // Send a message to the user
-                    MessengerExtensions.sendMessageToUser(userId, {
-                        text: 'Hello, this is a message from your website!'
-                    }, function success() {
-                        // The message was sent successfully
-
-                        // Show the loading icon and message
-                        document.getElementById('loading-icon').style.display = 'block';
-                        document.getElementById('message').style.display = 'block';
-
-                        // Close the browser window (remove the following line if you want to keep the window open)
-                        windowClose();
-                    }, function error(err) {
-                        console.log(err);
-                    });
+            // Function to open the webview
+            function openWebview() {
+                // Use the Messenger Extensions to open the webview
+                MessengerExtensions.requestOpenBrowser(function success() {
+                    // webview opened successfully
                 }, function error(err) {
                     console.log(err);
                 });
             }
 
-            // Attach the sendMessage function to the button click event
-            document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
+            // Function to send a message to close the webview
+            function closeWebview() {
+                // Use the Messenger Extensions to close the webview
+                MessengerExtensions.requestCloseBrowser(function success() {
+                    // webview closed successfully
+
+                    // Show the loading icon and message
+                    document.getElementById('loading-icon').style.display = 'block';
+                    document.getElementById('message').style.display = 'block';
+
+                    // Close the browser window (remove the following line if you want to keep the window open)
+                    windowClose();
+                }, function error(err) {
+                    console.log(err);
+                });
+            }
+
+            // Attach the openWebview function to the button click event
+            document.getElementById('openWebviewBtn').addEventListener('click', openWebview);
         };
 
         // Function to close the window
