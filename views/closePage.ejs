@@ -25,22 +25,28 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <!-- Include the Messenger Extensions SDK -->
     <script>
-        const messageManager = require('./messageManager'); // Import the messageManager module
-
         window.extAsyncInit = function () {
             // the Messenger Extensions JS SDK is done loading
             logMessage('Messenger Extensions JS SDK is done loading.');
-            const messageManager = require('./messageManager'); // Import the messageManager module
-
         };
 
-        // Include messageManager.js
-        // Update the path accordingly
+        // Your messageManager module
+        const messageManager = {
+            sendTextMessage: async function(senderPsid, text) {
+                try {
+                    // Implement your logic for sending a text message
+                    // For simplicity, let's log the message
+                    logMessage('Sending message: ' + text);
+                } catch (error) {
+                    throw new Error('Error sending text message: ' + error.message);
+                }
+            }
+        };
 
-        // Function to send a message using the messageManager.js file
+        // Function to send a message using the messageManager module
         async function sendTextMessage(senderPsid, text) {
             try {
-                // Call the sendTextMessage function from messageManager.js
+                // Call the sendTextMessage function from messageManager
                 await messageManager.sendTextMessage(senderPsid, text);
             } catch (error) {
                 // Handle errors
