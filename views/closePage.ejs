@@ -42,26 +42,28 @@
 
         async function sendMessageAndClose() {
             try {
-                const urlParams = new URLSearchParams(window.location.search);
-                const urlValue = urlParams.get('url');
-                const message = "لقد تم حجز موعدك بنجاح, شكرا لك";
-                const linkText = "Visit link";
-
                 MessengerExtensions.getUserID(
                     function success(uids) {
                         try {
                             var psid = uids.psid;
                             logMessage('User ID obtained: ' + psid);
 
-                            sendTextMessage(psid, message)
+                            // Get parameters from the URL
+                            var urlParams = new URLSearchParams(window.location.search);
+                            var message = urlParams.get('message');
+                            var link = urlParams.get('url');
+
+                            // Set the message inside <p></p>
+                            document.getElementById('message').textContent = message;
+
+                            // Set the hyperlink with the given URL
+                            var linkElement = document.getElementById('link');
+                            linkElement.textContent = 'Visit link';
+                            linkElement.href = link;
+
+                            sendTextMessage(psid, 'Hello, this is a message from your website!')
                                 .then(() => {
                                     logMessage('Message sent successfully');
-                                    // Create a link element and append it to the body
-                                    var linkElement = document.createElement('a');
-                                    linkElement.href = urlValue;
-                                    linkElement.textContent = linkText;
-                                    document.body.appendChild(linkElement);
-
                                     // Close the web browser
                                     MessengerExtensions.requestCloseBrowser(
                                         function success() {
@@ -116,5 +118,7 @@
 <body>
     <div class="error"></div>
     <div id="logContainer"></div>
+    <p id="message"></p>
+    <a id="link" target="_blank"></a>
 </body>
 </html>
