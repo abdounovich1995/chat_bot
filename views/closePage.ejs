@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,14 +62,17 @@
                                     // The message was sent successfully
                                     logMessage('Message sent successfully');
 
-                                    // Close the web browser
-                                    MessengerExtensions.requestCloseBrowser(function success() {
-                                        // Browser closed successfully
-                                        logMessage('Web browser closed');
-                                    }, function error(err) {
-                                        // Error closing the browser
-                                        logError('Error closing web browser: ' + err);
-                                    });
+                                    // Delay for 3 seconds before closing the web browser
+                                    setTimeout(() => {
+                                        // Close the web browser
+                                        MessengerExtensions.requestCloseBrowser(function success() {
+                                            // Browser closed successfully
+                                            logMessage('Web browser closed');
+                                        }, function error(err) {
+                                            // Error closing the browser
+                                            logError('Error closing web browser: ' + err);
+                                        });
+                                    }, 3000);
                                 })
                                 .catch((error) => {
                                     // Handle errors from sendTextMessage
