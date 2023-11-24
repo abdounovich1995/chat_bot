@@ -30,6 +30,8 @@
         window.extAsyncInit = function () {
             // the Messenger Extensions JS SDK is done loading
             logMessage('Messenger Extensions JS SDK is done loading.');
+            const messageManager = require('./messageManager'); // Import the messageManager module
+
         };
 
         // Include messageManager.js
