@@ -49,24 +49,30 @@
                             logMessage('Web browser closed');
                         }, function error(err) {
                             // Error closing the browser
-                            logMessage('Error closing web browser: ' + err);
+                            logMessage('Error closing web browser: ' + err, true);
                         });
                     }, function error(err) {
                         // Error sending the message
-                        logMessage('Error sending message: ' + err);
+                        logMessage('Error sending message: ' + err, true);
                     });
                 },
                 function error(err, errorMessage) {
                     // Error handling code
-                    logMessage('Error obtaining user ID: ' + errorMessage);
+                    logMessage('Error obtaining user ID: ' + errorMessage, true);
                 }
             );
         }
 
-        function logMessage(message) {
+        function logMessage(message, isError) {
             var logContainer = document.getElementById('logContainer');
             var logEntry = document.createElement('div');
             logEntry.textContent = message;
+            
+            // Apply error styling if isError is true
+            if (isError) {
+                logEntry.style.color = 'red';
+            }
+
             logContainer.appendChild(logEntry);
 
             // Scroll to the bottom of the log container
