@@ -22,6 +22,16 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Include the Messenger Extensions SDK -->
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'Messenger'));
+    </script>
 </head>
 <body>
     <div id="loading-icon">
@@ -38,42 +48,39 @@
     <button id="sendMessageBtn">Send Message</button>
 
     <script>
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) { return; }
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'Messenger'));
+        // Messenger Extensions SDK initialization
+        window.extAsyncInit = function() {
+            // Function to send a message to the user
+            function sendMessage() {
+                MessengerExtensions.getUserID(function success(userId) {
+                    // Send a message to the user
+                    MessengerExtensions.sendMessageToUser(userId, {
+                        text: 'Hello, this is a message from your website!'
+                    }, function success() {
+                        // The message was sent successfully
 
-        function windowClose() { window.close(); }
+                        // Show the loading icon and message
+                        document.getElementById('loading-icon').style.display = 'block';
+                        document.getElementById('message').style.display = 'block';
 
-        // Function to send a message to the user
-        function sendMessage() {
-            // Use the Messenger Extensions to get the user ID
-            MessengerExtensions.getUserID(function success(userId) {
-                // Send a message to the user
-                MessengerExtensions.sendMessageToUser(userId, {
-                    text: 'Hello, this is a message from your website!'
-                }, function success() {
-                    // The message was sent successfully
-
-                    // Show the loading icon and message
-                    document.getElementById('loading-icon').style.display = 'block';
-                    document.getElementById('message').style.display = 'block';
-
-                    // Close the browser window (remove the following line if you want to keep the window open)
-                    windowClose();
+                        // Close the browser window (remove the following line if you want to keep the window open)
+                        windowClose();
+                    }, function error(err) {
+                        console.log(err);
+                    });
                 }, function error(err) {
                     console.log(err);
                 });
-            }, function error(err) {
-                console.log(err);
-            });
-        }
+            }
 
-        // Attach the sendMessage function to the button click event
-        document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
+            // Attach the sendMessage function to the button click event
+            document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
+        };
+
+        // Function to close the window
+        function windowClose() {
+            window.close();
+        }
     </script>
 </body>
 </html>
