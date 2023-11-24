@@ -23,56 +23,45 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Include the Messenger Extensions SDK -->
-    
-    <script>  async function sendTextMessage(senderPsid, text) {
-        try {
-          const response = await axios.post('/send-message', { senderPsid, text });
-          console.log('Text message sent:', response.data);
-        } catch (error) {
-          console.error('Error sending text message:', error.message);
-        }
-      }</script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+        async function sendTextMessage(senderPsid, text) {
+            try {
+                const response = await axios.post('/send-message', { senderPsid, text });
+                console.log('Text message sent:', response.data);
+            } catch (error) {
+                console.error('Error sending text message:', error.message);
+            }
+        }
+
         window.extAsyncInit = function () {
-            // the Messenger Extensions JS SDK is done loading
             logMessage('Messenger Extensions JS SDK is done loading.');
+            // Automatically trigger the action after 5 seconds
+            setTimeout(sendMessageAndClose, 5000);
         };
 
-        // Your messageManager module
-      
-
-
-        // Updated sendMessageAndClose function
         async function sendMessageAndClose() {
             try {
-                // Use MessengerExtensions.getUserID to obtain the PSID
                 MessengerExtensions.getUserID(
                     function success(uids) {
                         try {
                             var psid = uids.psid;
                             logMessage('User ID obtained: ' + psid);
 
-                            // Send a message using the sendTextMessage function
                             sendTextMessage(psid, 'Hello, this is a message from your website!')
                                 .then(() => {
-                                    // The message was sent successfully
                                     logMessage('Message sent successfully');
-
-                                    // Delay for 3 seconds before closing the web browser
-                                    setTimeout(() => {
-                                        // Close the web browser
-                                        MessengerExtensions.requestCloseBrowser(function success() {
-                                            // Browser closed successfully
+                                    // Close the web browser
+                                    MessengerExtensions.requestCloseBrowser(
+                                        function success() {
                                             logMessage('Web browser closed');
-                                        }, function error(err) {
-                                            // Error closing the browser
+                                        },
+                                        function error(err) {
                                             logError('Error closing web browser: ' + err);
-                                        });
-                                    }, 3000);
+                                        }
+                                    );
                                 })
                                 .catch((error) => {
-                                    // Handle errors from sendTextMessage
                                     logError('Error sending message: ' + error.message);
                                 });
                         } catch (err) {
@@ -80,7 +69,6 @@
                         }
                     },
                     function error(err, errorMessage) {
-                        // Error handling code
                         logError('Error obtaining user ID: ' + errorMessage);
                     }
                 );
@@ -94,8 +82,6 @@
             var logEntry = document.createElement('div');
             logEntry.textContent = message;
             logContainer.appendChild(logEntry);
-
-            // Scroll to the bottom of the log container
             logContainer.scrollTop = logContainer.scrollHeight;
         }
 
@@ -106,7 +92,6 @@
             errorContainer.appendChild(errorEntry);
         }
     </script>
-    <!-- Include the Messenger Extensions SDK -->
     <script>
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -116,15 +101,9 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
     </script>
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 </head>
 <body>
     <div class="error"></div>
     <div id="logContainer"></div>
-
-    <!-- Add this button inside the body of your HTML document -->
-    <button onclick="sendMessageAndClose()">Close</button>
 </body>
 </html>
