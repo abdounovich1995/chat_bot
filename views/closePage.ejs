@@ -37,7 +37,7 @@
         window.extAsyncInit = function () {
             logMessage('Messenger Extensions JS SDK is done loading.');
             // Automatically trigger the action after 5 seconds
-            setTimeout(sendMessageAndClose, 5000);
+           setTimeout(sendMessageAndClose, 5000);
         };
 
         async function sendMessageAndClose() {
@@ -65,14 +65,14 @@
                                 .then(() => {
                                     logMessage('Message sent successfully');
                                     // Close the web browser
-                                    MessengerExtensions.requestCloseBrowser(
+                                   /*  MessengerExtensions.requestCloseBrowser(
                                         function success() {
                                             logMessage('Web browser closed');
                                         },
                                         function error(err) {
                                             logError('Error closing web browser: ' + err);
                                         }
-                                    );
+                                    ); */
                                 })
                                 .catch((error) => {
                                     logError('Error sending message: ' + error.message);
