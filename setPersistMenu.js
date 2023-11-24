@@ -34,7 +34,7 @@ async function setPersistentMenu(psid,userRef) {
 
           {
             type: 'web_url', // Change the button type to 'web_url'
-            url: `${SITE_URL}/close `,
+            url: `https://facebook-bot-demo-production.up.railway.app/close `,
             title: ' Close test ',
             messenger_extensions :'true',
             webview_height_ratio:'tall',
