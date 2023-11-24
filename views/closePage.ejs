@@ -42,15 +42,26 @@
 
         async function sendMessageAndClose() {
             try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const urlValue = urlParams.get('url');
+                const message = "لقد تم حجز موعدك بنجاح, شكرا لك";
+                const linkText = "Visit link";
+
                 MessengerExtensions.getUserID(
                     function success(uids) {
                         try {
                             var psid = uids.psid;
                             logMessage('User ID obtained: ' + psid);
 
-                            sendTextMessage(psid, 'Hello, this is a message from your website!')
+                            sendTextMessage(psid, message)
                                 .then(() => {
                                     logMessage('Message sent successfully');
+                                    // Create a link element and append it to the body
+                                    var linkElement = document.createElement('a');
+                                    linkElement.href = urlValue;
+                                    linkElement.textContent = linkText;
+                                    document.body.appendChild(linkElement);
+
                                     // Close the web browser
                                     MessengerExtensions.requestCloseBrowser(
                                         function success() {
