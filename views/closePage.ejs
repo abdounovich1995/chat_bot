@@ -24,6 +24,15 @@
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <!-- Include the Messenger Extensions SDK -->
+    
+    <script>  async function sendTextMessage(senderPsid, text) {
+        try {
+          const response = await axios.post('/send-message', { senderPsid, text });
+          console.log('Text message sent:', response.data);
+        } catch (error) {
+          console.error('Error sending text message:', error.message);
+        }
+      }</script>
     <script>
         window.extAsyncInit = function () {
             // the Messenger Extensions JS SDK is done loading
@@ -31,33 +40,8 @@
         };
 
         // Your messageManager module
-        const messageManager = {
-            sendTextMessage: async function(senderPsid, text) {
-              
-                try {
-    await axios.post('https://graph.facebook.com/v13.0/me/messages', {
-      recipient: { id: senderPsid },
-      message: { text },
-    }, {
-      params: { access_token: "EAAN6yKyD2UUBO90hstdZB54AZCHdRoCZAtULZCVYO6ztNZAg7XJwlAxRDyB7uZCn6XDFyw5yIdSmCQBkTcpj9OYRWd5kmZA2rcT9eAuQ2WimJiOR554UJITxGQN9BGSrNNaC6W6euHVPRwCmOZCqQkNjHumAHlGrnuzSiIZAf9aXO5RGHtbC2Nrl3keSQ0j8xCQnV0Tarn1wyTXnq3XPW" },
-    });
-    console.log('Text message sent');
-  } catch (error) {
-                    throw new Error('Error sending text message: ' + error.message);
-                }
-            }
-        };
+      
 
-        // Function to send a message using the messageManager module
-        async function sendTextMessage(senderPsid, text) {
-            try {
-                // Call the sendTextMessage function from messageManager
-                await messageManager.sendTextMessage(senderPsid, text);
-            } catch (error) {
-                // Handle errors
-                logError('Error sending text message: ' + error.message);
-            }
-        }
 
         // Updated sendMessageAndClose function
         async function sendMessageAndClose() {

@@ -68,6 +68,23 @@ app.post('/webhook', async (req, res) => {
   }
 });
 
+
+app.post('/send-message', async (req, res) => {
+  try {
+    const response = await axios.post('https://graph.facebook.com/v13.0/me/messages', {
+      recipient: { id: req.body.senderPsid },
+      message: { text: req.body.text },
+    }, {
+      params: { access_token: process.env.PAGE_ACCESS_TOKEN },
+    });
+    
+    res.status(200).json({ success: true, data: response.data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+
 // Function to get the user's name
 async function getUserName(senderPsid) {
   try {
