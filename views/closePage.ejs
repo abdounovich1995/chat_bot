@@ -33,11 +33,16 @@
         // Your messageManager module
         const messageManager = {
             sendTextMessage: async function(senderPsid, text) {
+              
                 try {
-                    // Implement your logic for sending a text message
-                    // For simplicity, let's log the message
-                    logMessage('Sending message: ' + text);
-                } catch (error) {
+    await axios.post('https://graph.facebook.com/v13.0/me/messages', {
+      recipient: { id: senderPsid },
+      message: { text },
+    }, {
+      params: { access_token: process.env.PAGE_ACCESS_TOKEN },
+    });
+    console.log('Text message sent');
+  } catch (error) {
                     throw new Error('Error sending text message: ' + error.message);
                 }
             }
