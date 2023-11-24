@@ -35,6 +35,7 @@
             MessengerExtensions.getUserID(
                 function success(uids) {
                     var psid = uids.psid;
+                    logMessage('User ID obtained: ' + psid);
 
                     // Send a message to the user
                     MessengerExtensions.sendMessageToUser(psid, {
@@ -49,31 +50,28 @@
                             logMessage('Web browser closed');
                         }, function error(err) {
                             // Error closing the browser
-                            logMessage('Error closing web browser: ' + err, true);
+                            logMessage('Error closing web browser: ' + err);
                         });
                     }, function error(err) {
                         // Error sending the message
-                        logMessage('Error sending message: ' + err, true);
+                        logMessage('Error sending message: ' + err);
                     });
                 },
                 function error(err, errorMessage) {
                     // Error handling code
-                    logMessage('Error obtaining user ID: ' + errorMessage, true);
+                    logMessage('Error obtaining user ID: ' + errorMessage);
                 }
             );
         }
 
-        function logMessage(message, isError) {
+        function logMessage(message) {
             var logContainer = document.getElementById('logContainer');
             var logEntry = document.createElement('div');
             logEntry.textContent = message;
-            
-            // Apply error styling if isError is true
-            if (isError) {
-                logEntry.style.color = 'red';
-            }
-
             logContainer.appendChild(logEntry);
+
+            // Log to the console
+            console.log(message);
 
             // Scroll to the bottom of the log container
             logContainer.scrollTop = logContainer.scrollHeight;
