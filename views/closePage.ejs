@@ -1,60 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirection</title>
     <style>
-      body {
-          text-align: center;
-          font-family: 'Cairo', Arial, sans-serif;
-      }
+        body {
+            text-align: center;
+            font-family: 'Cairo', Arial, sans-serif;
+        }
 
-      #loading-icon {
-          display: none;
-      }
+        #loading-icon {
+            display: none;
+        }
 
-      #message {
-          font-size: 24px;
-          color: green;
-          display: none;
-          font-family: 'Cairo', Arial, sans-serif;
-      }
-  </style>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
+        #message {
+            font-size: 24px;
+            color: green;
+            display: none;
+            font-family: 'Cairo', Arial, sans-serif;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="loading-icon">
         <!-- Add your loading icon here, e.g., an animated GIF -->
         <img src="../ressources/images/loading.gif" alt="Loading..." width="50" height="50">
     </div>
-    
+
     <div id="message">
-         لقد تم حجز موعدك بنجاح
+        لقد تم حجز موعدك بنجاح
     </div>
     <p>ستغلق الصفحة تلقائيا </p>
 
+    <!-- Add a button for the user to click -->
+    <button id="sendMessageBtn">Send Message</button>
+
     <script>
-       
-        (function(d, s, id){
+        (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
+            if (d.getElementById(id)) { return; }
             js = d.createElement(s); js.id = id;
             js.src = "//connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
-        (function(d, s, id){
+
+        (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
+            if (d.getElementById(id)) { return; }
             js = d.createElement(s); js.id = id;
             js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
-        
+
         function windowClose() { window.close(); }
-        
-        window.extAsyncInit = function() {
+
+        // Function to send a message to the user
+        function sendMessage() {
+            // Replace 'USER_ID' with the actual user ID
+            var userId = 'USER_ID';
+            
+            // Use the Messenger Extensions to send a message
             MessengerExtensions.requestCloseBrowser(function success() {
                 // This function will be called when the browser is requested to be closed.
+            }, function error(err) {
+                console.log(err);
+            });
+
+            // Send a message to the user
+            MessengerExtensions.sendMessageToUser(userId, {
+                text: 'Hello, this is a message from your website!'
+            }, function success() {
+                // The message was sent successfully
             }, function error(err) {
                 console.log(err);
             });
@@ -64,10 +82,13 @@
             document.getElementById('message').style.display = 'block';
 
             // Close the browser window automatically after 3 seconds
-            setTimeout(function() {
+            setTimeout(function () {
                 windowClose();
             }, 3000); // 3000 milliseconds = 3 seconds
-        };
+        }
+
+        // Attach the sendMessage function to the button click event
+        document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
     </script>
 </body>
 </html>

@@ -31,6 +31,16 @@ async function setPersistentMenu(psid,userRef) {
               webview_share_button:'hide'
 
           },
+
+          {
+            type: 'web_url', // Change the button type to 'web_url'
+            url: `${SITE_URL}/close `,
+            title: ' Close test ',
+            messenger_extensions :'true',
+            webview_height_ratio:'tall',
+            webview_share_button:'hide'
+
+        },
            
           ],
         },
