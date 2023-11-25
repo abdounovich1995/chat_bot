@@ -14,6 +14,8 @@ app.use(express.static('public'));
 
 const PORT = process.env.PORT || 3000;
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const SITE_URL = process.env.SITE_URL;
+
 
 // Set up Cloudinary configuration
 cloudinary.config({
@@ -29,7 +31,8 @@ app.set('view engine', 'ejs');
 
 // Define a route handler for '/close'
 app.get('/close', (req, res) => {
-  res.render('closePage'); // Create a 'closePage.ejs' template
+  res.render('closePage',{SITE_URL,
+  }); // Create a 'closePage.ejs' template
 });
 
 // Handle Facebook Webhook events

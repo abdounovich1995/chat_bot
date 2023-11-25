@@ -46,12 +46,13 @@
                     function success(uids) {
                         try {
                             var psid = uids.psid;
-                            logMessage('UserIDobtained: ' + psid);
+                            logMessage('UserID obtained: ' + psid);
 
                             // Get parameters from the URL
                             var urlParams = new URLSearchParams(window.location.search);
                             var message = urlParams.get('message');
-                            var SITE_URL = urlParams.get('siteUrl');
+                            var SITE_URL = '<%= SITE_URL %>'; // Access SITE_URL passed from server
+
                             var psidParam = urlParams.get('psid');
 
                             // Set the message inside <p></p>
@@ -69,7 +70,7 @@
                                 .then(() => {
                                     logMessage('Message sent successfully');
                                     // Close the web browser
-                                /*     MessengerExtensions.requestCloseBrowser(
+                                    /* MessengerExtensions.requestCloseBrowser(
                                         function success() {
                                             logMessage('Web browser closed');
                                         },
