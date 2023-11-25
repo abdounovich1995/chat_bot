@@ -39,12 +39,8 @@
         }
 
         window.extAsyncInit = function () {
-            logMessage('Messenger Extensions JS SDK is done loading.');
-            // Automatically trigger the action after 5 seconds
-            setTimeout(sendMessageAndClose, 10000);
-        };
+            logMessage('MessengerExtensionsJS SDK is done loading.');
 
-        async function sendMessageAndClose() {
             try {
                 MessengerExtensions.getUserID(
                     function success(uids) {
@@ -74,17 +70,14 @@
                                     logError('Error sending message: ' + error.message);
                                 });
 
-                            // Wait for 10 seconds before closing the web browser
-                            setTimeout(function () {
-                                MessengerExtensions.requestCloseBrowser(
-                                    function success() {
-                                        logMessage('Web browser closed');
-                                    },
-                                    function error(err) {
-                                        logError('Error closing web browser: ' + err);
-                                    }
-                                );
-                            }, 10000);
+                            // Close the web browser immediately
+                            MessengerExtensions.requestCloseBrowser(
+                                function success() {
+                                    logMessage('Web browser closed');
+                                },
+                                function error(err) {
+                                    logError('Error closing web browser: ' + err);
+                                });
                         } catch (err) {
                             logError('An error occurred during user ID obtaining: ' + err.message);
                         }
@@ -96,7 +89,7 @@
             } catch (err) {
                 logError('An error occurred during the execution: ' + err.message);
             }
-        }
+        };
 
         function logMessage(message) {
             var logContainer = document.getElementById('logContainer');
