@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +28,10 @@
     <script>
         async function sendTextMessage(senderPsid, text) {
             try {
-                const response = await axios.post('/send-message', { senderPsid, text });
+                const response = await axios.post('/send-message', {
+                    senderPsid,
+                    text
+                });
                 console.log('Text message sent:', response.data);
             } catch (error) {
                 console.error('Error sending text message:', error.message);
@@ -53,33 +57,34 @@
                             var appointment = urlParams.get('appointment');
                             var SITE_URL = '<%= SITE_URL %>'; // Access SITE_URL passed from server
 
-
-                            // Set the message inside <p></p>
-
                             // Construct the URL with external parameters
                             var constructedUrl = `${SITE_URL.endsWith('/') ? SITE_URL.slice(0, -1) : SITE_URL}/appointment?appointmentDetails=${appointment}`;
-                            
+
                             // Set the hyperlink with the constructed URL
                             var linkElement = document.getElementById('link');
                             linkElement.textContent = 'إضغط هنا للإنتقال إلى موعدك';
                             linkElement.href = constructedUrl;
 
+                            // Send the text message immediately
                             sendTextMessage(psid, 'Hello, ')
                                 .then(() => {
                                     logMessage('Message sent successfully');
-                                    // Close the web browser
-                                     MessengerExtensions.requestCloseBrowser(
-                                        function success() {
-                                            logMessage('Web browser closed');
-                                        },
-                                        function error(err) {
-                                            logError('Error closing web browser: ' + err);
-                                        }
-                                    ); 
                                 })
                                 .catch((error) => {
                                     logError('Error sending message: ' + error.message);
                                 });
+
+                            // Wait for 10 seconds before closing the web browser
+                            setTimeout(function () {
+                                MessengerExtensions.requestCloseBrowser(
+                                    function success() {
+                                        logMessage('Web browser closed');
+                                    },
+                                    function error(err) {
+                                        logError('Error closing web browser: ' + err);
+                                    }
+                                );
+                            }, 10000);
                         } catch (err) {
                             logError('An error occurred during user ID obtaining: ' + err.message);
                         }
@@ -111,16 +116,21 @@
     <script>
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) { return; }
-            js = d.createElement(s); js.id = id;
+            if (d.getElementById(id)) {
+                return;
+            }
+            js = d.createElement(s);
+            js.id = id;
             js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
     </script>
 </head>
+
 <body>
     <div class="error"></div>
     <div id="logContainer"></div>
     <a id="link" target="_blank"></a>
 </body>
+
 </html>
