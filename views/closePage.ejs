@@ -5,22 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirection</title>
     <style>
-        body {
-            text-align: center;
-            font-family: 'Cairo', Arial, sans-serif;
-        }
-
-        .error {
-            color: red;
-        }
-
-        #logContainer {
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
+        /* Styles */
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -36,13 +21,10 @@
 
         window.extAsyncInit = function () {
             logMessage('Messenger Extensions JS SDK is done loading.');
-            // Automatically trigger the action after 5 seconds
-           setTimeout(sendMessageAndClose, 1000);
+            // Automatically trigger the action after 1 second (changed from 5 seconds)
+            setTimeout(sendMessageAndClose, 1000);
         };
 
-
-
-       
         // Function to get the value of a query parameter by name
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
@@ -54,12 +36,6 @@
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
 
-        // Get the "param" query parameter value
-        var paramValue = getParameterByName('url');
-
-        // Display the parameter value in the HTML page
-        document.getElementById('output').innerText = paramValue;
-    
         async function sendMessageAndClose() {
             try {
                 MessengerExtensions.getUserID(
@@ -85,14 +61,14 @@
                                 .then(() => {
                                     logMessage('Message sent successfully');
                                     // Close the web browser
-                                   /*  MessengerExtensions.requestCloseBrowser(
+                                    MessengerExtensions.requestCloseBrowser(
                                         function success() {
                                             logMessage('Web browser closed');
                                         },
                                         function error(err) {
                                             logError('Error closing web browser: ' + err);
                                         }
-                                    ); */
+                                    );
                                 })
                                 .catch((error) => {
                                     logError('Error sending message: ' + error.message);
