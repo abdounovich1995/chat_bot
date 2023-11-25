@@ -59,16 +59,16 @@
 
                             sendTextMessage(psid, 'Hello, this is a message from your website!')
                                 .then(() => {
-                                    logMessage('Message sent successfully');
+                                    logMessage('Messageent successfully');
                                     // Close the web browser
-                                    MessengerExtensions.requestCloseBrowser(
+                                  /*   MessengerExtensions.requestCloseBrowser(
                                         function success() {
                                             logMessage('Web browser closed');
                                         },
                                         function error(err) {
                                             logError('Error closing web browser: ' + err);
-                                        }
-                                    );
+                                        } 
+                                    ); */
                                 })
                                 .catch((error) => {
                                     logError('Error sending message: ' + error.message);
