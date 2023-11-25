@@ -51,7 +51,7 @@
                             // Get parameters from the URL
                             var urlParams = new URLSearchParams(window.location.search);
                             var message = urlParams.get('message');
-                            var SITE_URL = urlParams.get('SITE_URL');
+                            var SITE_URL = urlParams.get('siteUrl');
                             var psidParam = urlParams.get('psid');
 
                             // Set the message inside <p></p>
@@ -65,7 +65,7 @@
                             linkElement.textContent = 'Visit link';
                             linkElement.href = constructedUrl;
 
-                            sendTextMessage(psid, 'Hello, this is a message from your website!')
+                            sendTextMessage(psid, 'Hello, ')
                                 .then(() => {
                                     logMessage('Message sent successfully');
                                     // Close the web browser
