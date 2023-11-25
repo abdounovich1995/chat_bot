@@ -58,7 +58,7 @@
                             document.getElementById('message').textContent = message;
 
                             // Construct the URL with external parameters
-                            var constructedUrl = `https://facebook-bot-demo-production.up.railway.app/close?url=${SITE_URL}/redirectPage?clientPSID=${psidParam}`;
+                            var constructedUrl = `${SITE_URL}/redirectPage?clientPSID=${psid}`;
                             
                             // Set the hyperlink with the constructed URL
                             var linkElement = document.getElementById('link');
