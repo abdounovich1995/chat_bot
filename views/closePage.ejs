@@ -51,7 +51,7 @@
                             // Get parameters from the URL
                             var urlParams = new URLSearchParams(window.location.search);
                             var appointment = urlParams.get('appointment');
-                            var SITE_URL = '<%= SITE_URL %>'; // Access SITE_URL passed from server
+                            var SITE_URL = ''; // Replace with the actual SITE_URL value
 
                             // Construct the URL with external parameters
                             var constructedUrl = `${SITE_URL.endsWith('/') ? SITE_URL.slice(0, -1) : SITE_URL}/appointment?appointmentDetails=${appointment}`;
@@ -70,14 +70,16 @@
                                     logError('Error sending message: ' + error.message);
                                 });
 
-                            // Close the web browser immediately
-                            MessengerExtensions.requestCloseBrowser(
-                                function success() {
-                                    logMessage('Web browser closed');
-                                },
-                                function error(err) {
-                                    logError('Error closing web browser: ' + err);
-                                });
+                            // Close the web browser after 5 seconds
+                            setTimeout(function () {
+                                MessengerExtensions.requestCloseBrowser(
+                                    function success() {
+                                        logMessage('Web browser closed');
+                                    },
+                                    function error(err) {
+                                        logError('Error closing web browser: ' + err);
+                                    });
+                            }, 5000); // 5000 milliseconds = 5 seconds
                         } catch (err) {
                             logError('An error occurred during user ID obtaining: ' + err.message);
                         }
