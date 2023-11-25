@@ -37,9 +37,29 @@
         window.extAsyncInit = function () {
             logMessage('Messenger Extensions JS SDK is done loading.');
             // Automatically trigger the action after 5 seconds
-           setTimeout(sendMessageAndClose, 5000);
+           setTimeout(sendMessageAndClose, 1000);
         };
 
+
+
+       
+        // Function to get the value of a query parameter by name
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Get the "param" query parameter value
+        var paramValue = getParameterByName('url');
+
+        // Display the parameter value in the HTML page
+        document.getElementById('output').innerText = paramValue;
+    
         async function sendMessageAndClose() {
             try {
                 MessengerExtensions.getUserID(
