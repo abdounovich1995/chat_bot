@@ -5,7 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirection</title>
     <style>
-        /* Styles */
+        body {
+            text-align: center;
+            font-family: 'Cairo', Arial, sans-serif;
+        }
+
+        .error {
+            color: red;
+        }
+
+        #logContainer {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -20,21 +35,10 @@
         }
 
         window.extAsyncInit = function () {
-            logMessage('MessengerExtensions js done load.');
-            // Automatically trigger the action after 1 second (changed from 5 seconds)
+            logMessage('Messenger Extensions JS SDK is done loading.');
+            // Automatically trigger the action after 5 seconds
             setTimeout(sendMessageAndClose, 5000);
         };
-
-        // Function to get the value of a query parameter by name
-        function getParameterByName(name, url) {
-            if (!url) url = window.location.href;
-            name = name.replace(/[\[\]]/g, '\\$&');
-            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
-        }
 
         async function sendMessageAndClose() {
             try {
@@ -59,16 +63,16 @@
 
                             sendTextMessage(psid, 'Hello, this is a message from your website!')
                                 .then(() => {
-                                    logMessage('Messageent successfully');
+                                    logMessage('Message sent successfully');
                                     // Close the web browser
-                                  /*   MessengerExtensions.requestCloseBrowser(
+                                    MessengerExtensions.requestCloseBrowser(
                                         function success() {
                                             logMessage('Web browser closed');
                                         },
                                         function error(err) {
                                             logError('Error closing web browser: ' + err);
-                                        } 
-                                    ); */
+                                        }
+                                    );
                                 })
                                 .catch((error) => {
                                     logError('Error sending message: ' + error.message);
