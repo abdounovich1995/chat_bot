@@ -50,11 +50,11 @@
 
                             // Get parameters from the URL
                             var urlParams = new URLSearchParams(window.location.search);
-                            var appointment = urlParams.get('appointment');
-                            var SITE_URL = '<%= SITE_URL %>'; // Access SITE_URL passed from server
-
+                            var message = urlParams.get('message');
+                            var link = urlParams.get('url');
 
                             // Set the message inside <p></p>
+                            document.getElementById('message').textContent = message;
 
                             // Set the hyperlink with the given URL
                             var linkElement = document.getElementById('link');
