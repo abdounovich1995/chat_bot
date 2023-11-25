@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,10 +27,7 @@
     <script>
         async function sendTextMessage(senderPsid, text) {
             try {
-                const response = await axios.post('/send-message', {
-                    senderPsid,
-                    text
-                });
+                const response = await axios.post('/send-message', { senderPsid, text });
                 console.log('Text message sent:', response.data);
             } catch (error) {
                 console.error('Error sending text message:', error.message);
@@ -39,47 +35,48 @@
         }
 
         window.extAsyncInit = function () {
-            logMessage('MessengerExtensionsJS SDK is done loading.');
+            logMessage('Messenger Extensions JS SDK is done loading.');
+            // Automatically trigger the action after 5 seconds
+           setTimeout(sendMessageAndClose, 5000);
+        };
 
+        async function sendMessageAndClose() {
             try {
                 MessengerExtensions.getUserID(
                     function success(uids) {
                         try {
                             var psid = uids.psid;
-                            logMessage('UserID obtained: ' + psid);
+                            logMessage('User ID obtained: ' + psid);
 
                             // Get parameters from the URL
                             var urlParams = new URLSearchParams(window.location.search);
                             var appointment = urlParams.get('appointment');
-                            var SITE_URL = ''; // Replace with the actual SITE_URL value
+                            var SITE_URL = '<%= SITE_URL %>'; // Access SITE_URL passed from server
 
-                            // Construct the URL with external parameters
-                            var constructedUrl = `${SITE_URL.endsWith('/') ? SITE_URL.slice(0, -1) : SITE_URL}/appointment?appointmentDetails=${appointment}`;
 
-                            // Set the hyperlink with the constructed URL
+                            // Set the message inside <p></p>
+
+                            // Set the hyperlink with the given URL
                             var linkElement = document.getElementById('link');
-                            linkElement.textContent = 'إضغط هنا للإنتقال إلى موعدك';
-                            linkElement.href = constructedUrl;
+                            linkElement.textContent = 'Visit link';
+                            linkElement.href = link;
 
-                            // Send the text message immediately
-                            sendTextMessage(psid, 'Hello, ')
+                            sendTextMessage(psid, 'Hello, this is a message from your website!')
                                 .then(() => {
                                     logMessage('Message sent successfully');
+                                    // Close the web browser
+                                   /*  MessengerExtensions.requestCloseBrowser(
+                                        function success() {
+                                            logMessage('Web browser closed');
+                                        },
+                                        function error(err) {
+                                            logError('Error closing web browser: ' + err);
+                                        }
+                                    ); */
                                 })
                                 .catch((error) => {
                                     logError('Error sending message: ' + error.message);
                                 });
-
-                            // Close the web browser after 5 seconds
-                            setTimeout(function () {
-                                MessengerExtensions.requestCloseBrowser(
-                                    function success() {
-                                        logMessage('Web browser closed');
-                                    },
-                                    function error(err) {
-                                        logError('Error closing web browser: ' + err);
-                                    });
-                            }, 5000); // 5000 milliseconds = 5 seconds
                         } catch (err) {
                             logError('An error occurred during user ID obtaining: ' + err.message);
                         }
@@ -91,7 +88,7 @@
             } catch (err) {
                 logError('An error occurred during the execution: ' + err.message);
             }
-        };
+        }
 
         function logMessage(message) {
             var logContainer = document.getElementById('logContainer');
@@ -111,21 +108,17 @@
     <script>
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
-            }
-            js = d.createElement(s);
-            js.id = id;
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
             js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
     </script>
 </head>
-
 <body>
     <div class="error"></div>
     <div id="logContainer"></div>
+    <p id="message"></p>
     <a id="link" target="_blank"></a>
 </body>
-
 </html>
