@@ -65,14 +65,14 @@
                                 .then(() => {
                                     logMessage('Message sent successfully');
                                     // Close the web browser
-                                   /*  MessengerExtensions.requestCloseBrowser(
+                                    MessengerExtensions.requestCloseBrowser(
                                         function success() {
                                             logMessage('Web browser closed');
                                         },
                                         function error(err) {
                                             logError('Error closing web browser: ' + err);
                                         }
-                                    ); */
+                                    ); 
                                 })
                                 .catch((error) => {
                                     logError('Error sending message: ' + error.message);
