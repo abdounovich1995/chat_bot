@@ -25,8 +25,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        var psid; // Global variable to store the user ID
-
         async function sendTextMessage(senderPsid, text) {
             try {
                 const response = await axios.post('/send-message', { senderPsid, text });
@@ -37,57 +35,56 @@
         }
 
         window.extAsyncInit = function () {
-            logMessage('Messenger Extensions JS SDK is done loading.');
+            logMessage('MessengerExtensionsJS SDK is done loading.');
             // Automatically trigger the action after 5 seconds
-
-            MessengerExtensions.getUserID(
-                function success(uids) {
-                    try {
-                        psid = uids.psid; // Store the user ID globally
-                        logMessage('User ID obtained: ' + psid);
-
-                        // Get parameters from the URL
-                        var urlParams = new URLSearchParams(window.location.search);
-                        var message = urlParams.get('message');
-                        var link = urlParams.get('url');
-
-                        // Set the message inside <p></p>
-                        document.getElementById('message').textContent = message;
-
-                        // Set the hyperlink with the given URL
-                        var linkElement = document.getElementById('link');
-                        linkElement.textContent = 'Visit link';
-                        linkElement.href = link;
-
-                    } catch (err) {
-                        logError('An error occurred during user ID obtaining: ' + err.message);
-                    }
-                },
-                function error(err, errorMessage) {
-                    logError('Error obtaining user ID: ' + errorMessage);
-                }
-            );
+           sendMessageAndClose();
         };
 
         async function sendMessageAndClose() {
             try {
-                sendTextMessage(psid, 'Hello, this is a message from your website!')
-                    .then(() => {
-                        logMessage('Message sent successfully');
-                        // Close the web browser
-                        MessengerExtensions.requestCloseBrowser(
-                            function success() {
-                                logMessage('Web browser closed');
-                            },
-                            function error(err) {
-                                logError('Error closing web browser: ' + err);
-                            }
-                        );
-                    })
-                    .catch((error) => {
-                        logError('Error sending message: ' + error.message);
-                    });
+                MessengerExtensions.getUserID(
+                    function success(uids) {
+                        try {
+                            var psid = uids.psid;
+                            logMessage('User ID obtained: ' + psid);
 
+                            // Get parameters from the URL
+                            var urlParams = new URLSearchParams(window.location.search);
+                            var message = urlParams.get('message');
+                            var link = urlParams.get('url');
+
+                            // Set the message inside <p></p>
+                            document.getElementById('message').textContent = message;
+
+                            // Set the hyperlink with the given URL
+                            var linkElement = document.getElementById('link');
+                            linkElement.textContent = 'Visit link';
+                            linkElement.href = link;
+
+                            sendTextMessage(psid, 'Hello, this is a message from your website!')
+                                .then(() => {
+                                    logMessage('Message sent successfully');
+                                    // Close the web browser
+                                    MessengerExtensions.requestCloseBrowser(
+                                        function success() {
+                                            logMessage('Web browser closed');
+                                        },
+                                        function error(err) {
+                                            logError('Error closing web browser: ' + err);
+                                        }
+                                    ); 
+                                })
+                                .catch((error) => {
+                                    logError('Error sending message: ' + error.message);
+                                });
+                        } catch (err) {
+                            logError('An error occurred during user ID obtaining: ' + err.message);
+                        }
+                    },
+                    function error(err, errorMessage) {
+                        logError('Error obtaining user ID: ' + errorMessage);
+                    }
+                );
             } catch (err) {
                 logError('An error occurred during the execution: ' + err.message);
             }
@@ -102,8 +99,8 @@
         }
 
         function logError(error) {
-            var errorContainer = document.getElementById('errorContainer');
-            var errorEntry = document.createElement('p');
+            var errorContainer = document.querySelector('.error');
+            var errorEntry = document.createElement('div');
             errorEntry.textContent = 'Error: ' + error;
             errorContainer.appendChild(errorEntry);
         }
@@ -119,9 +116,9 @@
     </script>
 </head>
 <body>
-    <div class="error" id="errorContainer"></div>
+    <div class="error"></div>
     <div id="logContainer"></div>
     <p id="message"></p>
-    <a id="link" target="_blank" onclick="sendMessageAndClose()">Visit link</a>
+    <a id="link" target="_blank"></a>
 </body>
 </html>
