@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,7 +37,9 @@
 
         window.extAsyncInit = function () {
             logMessage('Messenger Extensions JS SDK is done loading.');
-            MessengerExtensions.getUserID(
+            // Wrap the MessengerExtensions.getUserID call inside the setTimeout
+            setTimeout(function () {
+                MessengerExtensions.getUserID(
                     function success(uids) {
                         try {
                             var psid = uids.psid;
@@ -55,7 +58,8 @@
                             linkElement.textContent = 'Visit link';
                             linkElement.href = link;
 
-                       
+                            // Automatically trigger the action after 5 seconds
+                            sendMessageAndClose(psid);
                         } catch (err) {
                             logError('An error occurred during user ID obtaining: ' + err.message);
                         }
@@ -64,31 +68,28 @@
                         logError('Error obtaining user ID: ' + errorMessage);
                     }
                 );
-
-
-            // Automatically trigger the action after 5 seconds
-           setTimeout(sendMessageAndClose(psid), 5000);
+            }, 0); // Move getUserID call to the next event loop cycle
         };
 
         async function sendMessageAndClose(psid) {
             try {
                 sendTextMessage(psid, 'Hello, this is a message from your website!')
-                                .then(() => {
-                                    logMessage('Message sent successfully');
-                                    // Close the web browser
-                                    MessengerExtensions.requestCloseBrowser(
-                                        function success() {
-                                            logMessage('Web browser closed');
-                                        },
-                                        function error(err) {
-                                            logError('Error closing web browser: ' + err);
-                                        }
-                                    ); 
-                                })
-                                .catch((error) => {
-                                    logError('Error sending message: ' + error.message);
-                                });
-               
+                    .then(() => {
+                        logMessage('Message sent successfully');
+                        // Close the web browser
+                        MessengerExtensions.requestCloseBrowser(
+                            function success() {
+                                logMessage('Web browser closed');
+                            },
+                            function error(err) {
+                                logError('Error closing web browser: ' + err);
+                            }
+                        );
+                    })
+                    .catch((error) => {
+                        logError('Error sending message: ' + error.message);
+                    });
+
             } catch (err) {
                 logError('An error occurred during the execution: ' + err.message);
             }
@@ -119,10 +120,12 @@
         }(document, 'script', 'Messenger'));
     </script>
 </head>
+
 <body>
     <div class="error"></div>
     <div id="logContainer"></div>
     <p id="message"></p>
     <a id="link" target="_blank"></a>
 </body>
+
 </html>
