@@ -36,13 +36,7 @@
 
         window.extAsyncInit = function () {
             logMessage('Messenger Extensions JS SDK is done loading.');
-            // Automatically trigger the action after 5 seconds
-           setTimeout(sendMessageAndClose, 5000);
-        };
-
-        async function sendMessageAndClose() {
-            try {
-                MessengerExtensions.getUserID(
+            MessengerExtensions.getUserID(
                     function success(uids) {
                         try {
                             var psid = uids.psid;
@@ -61,7 +55,24 @@
                             linkElement.textContent = 'Visit link';
                             linkElement.href = link;
 
-                            sendTextMessage(psid, 'Hello, this is a message from your website!')
+                       
+                        } catch (err) {
+                            logError('An error occurred during user ID obtaining: ' + err.message);
+                        }
+                    },
+                    function error(err, errorMessage) {
+                        logError('Error obtaining user ID: ' + errorMessage);
+                    }
+                );
+
+
+            // Automatically trigger the action after 5 seconds
+           setTimeout(sendMessageAndClose, 5000);
+        };
+
+        async function sendMessageAndClose() {
+            try {
+                sendTextMessage(psid, 'Hello, this is a message from your website!')
                                 .then(() => {
                                     logMessage('Message sent successfully');
                                     // Close the web browser
@@ -77,14 +88,7 @@
                                 .catch((error) => {
                                     logError('Error sending message: ' + error.message);
                                 });
-                        } catch (err) {
-                            logError('An error occurred during user ID obtaining: ' + err.message);
-                        }
-                    },
-                    function error(err, errorMessage) {
-                        logError('Error obtaining user ID: ' + errorMessage);
-                    }
-                );
+               
             } catch (err) {
                 logError('An error occurred during the execution: ' + err.message);
             }
