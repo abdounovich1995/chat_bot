@@ -29,47 +29,11 @@
         async function sendTextMessage(senderPsid, text) {
             try {
                 const response = await axios.post('/send-message', { senderPsid, text });
-                console.log('Text message sent:', response.data);
+                logMessage('Text message sent: ' + response.data);
             } catch (error) {
-                console.error('Error sending text message:', error.message);
+                logError('Error sending text message: ' + error.message);
             }
         }
-
-       /*  window.extAsyncInit = function () {
-            logMessage('Messenger Extensions JS SDK is done loading.');
-            // Wrap the MessengerExtensions.getUserID call inside the setTimeout
-            setTimeout(function () {
-                MessengerExtensions.getUserID(
-                    function success(uids) {
-                        try {
-                            var psid = uids.psid;
-                            logMessage('User ID obtained: ' + psid);
-
-                            // Get parameters from the URL
-                            var urlParams = new URLSearchParams(window.location.search);
-                            var message = urlParams.get('message');
-                            var link = urlParams.get('url');
-
-                            // Set the message inside <p></p>
-                            document.getElementById('message').textContent = message;
-
-                            // Set the hyperlink with the given URL
-                            var linkElement = document.getElementById('link');
-                            linkElement.textContent = 'Visit link';
-                            linkElement.href = link;
-
-                            // Automatically trigger the action after 5 seconds
-                            sendMessageAndClose(psid);
-                        } catch (err) {
-                            logError('An error occurred during user ID obtaining: ' + err.message);
-                        }
-                    },
-                    function error(err, errorMessage) {
-                        logError('Error obtaining user ID: ' + errorMessage);
-                    }
-                );
-            }, 0); // Move getUserID call to the next event loop cycle
-        }; */
 
         async function sendMessageAndClose(psid) {
             try {
@@ -89,7 +53,6 @@
                     .catch((error) => {
                         logError('Error sending message: ' + error.message);
                     });
-
             } catch (err) {
                 logError('An error occurred during the execution: ' + err.message);
             }
@@ -109,25 +72,25 @@
             errorEntry.textContent = 'Error: ' + error;
             errorContainer.appendChild(errorEntry);
         }
-    </script>
-    <script>
-      (function(d, s, id){
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'Messenger'));
 
-window.extAsyncInit = function () {
-    // the Messenger Extensions JS SDK is done loading
-    MessengerExtensions.getUserID(function success(uids) {
-        var psid = uids.psid;
-        alert(psid);
-    }, function error(err) {
-        alert("Messenger Extension Error: " + err);
-    });
-};
+        window.extAsyncInit = function () {
+            (function (d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) { return; }
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'Messenger'));
+
+            // the Messenger Extensions JS SDK is done loading
+            MessengerExtensions.getUserID(function success(uids) {
+                var psid = uids.psid;
+                logMessage('User ID obtained: ' + psid);
+                sendMessageAndClose(psid);
+            }, function error(err) {
+                logError('Messenger Extension Error: ' + err);
+            });
+        };
     </script>
 </head>
 
