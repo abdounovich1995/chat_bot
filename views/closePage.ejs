@@ -25,7 +25,6 @@
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="//connect.facebook.com/en_US/messenger.Extensions.js"></script>
     <script>
         async function sendTextMessage(senderPsid, text) {
             try {
@@ -36,41 +35,43 @@
             }
         }
 
-        window.extAsyncInit = function () {
-            // Messenger Extensions JS SDK is done loading
-            MessengerExtensions.getUserID(
-                function success(uids) {
-                    var psid = uids.psid;
-                    alert(psid);
-                    // Replace 'WEB_URL' with the actual URL you want to open
-                    openLinkInMessengerWebview(psid, 'https://facebook-bot-demo-production.up.railway.app/close');
-                },
-                function error(err) {
-                    alert("Messenger Extension Error: " + err);
-                }
-            );
-        };
+       /*  window.extAsyncInit = function () {
+            logMessage('Messenger Extensions JS SDK is done loading.');
+            // Wrap the MessengerExtensions.getUserID call inside the setTimeout
+            setTimeout(function () {
+                MessengerExtensions.getUserID(
+                    function success(uids) {
+                        try {
+                            var psid = uids.psid;
+                            logMessage('User ID obtained: ' + psid);
 
-        async function openLinkInMessengerWebview(psid, link) {
-            try {
-                // Open the link within the Messenger webview
-                MessengerExtensions.navigateTo(
-                    psid,
-                    link,
-                    null,
-                    function success() {
-                        console.log('Successfully opened link in Messenger webview');
+                            // Get parameters from the URL
+                            var urlParams = new URLSearchParams(window.location.search);
+                            var message = urlParams.get('message');
+                            var link = urlParams.get('url');
+
+                            // Set the message inside <p></p>
+                            document.getElementById('message').textContent = message;
+
+                            // Set the hyperlink with the given URL
+                            var linkElement = document.getElementById('link');
+                            linkElement.textContent = 'Visit link';
+                            linkElement.href = link;
+
+                            // Automatically trigger the action after 5 seconds
+                            sendMessageAndClose(psid);
+                        } catch (err) {
+                            logError('An error occurred during user ID obtaining: ' + err.message);
+                        }
                     },
-                    function error(err) {
-                        console.error('Error opening link in Messenger webview:', err);
+                    function error(err, errorMessage) {
+                        logError('Error obtaining user ID: ' + errorMessage);
                     }
                 );
-            } catch (err) {
-                console.error('An error occurred during the process:', err.message);
-            }
-        }
+            }, 0); // Move getUserID call to the next event loop cycle
+        }; */
 
-        function sendMessageAndClose(psid) {
+        async function sendMessageAndClose(psid) {
             try {
                 sendTextMessage(psid, 'Hello, this is a message from your website!')
                     .then(() => {
@@ -108,6 +109,25 @@
             errorEntry.textContent = 'Error: ' + error;
             errorContainer.appendChild(errorEntry);
         }
+    </script>
+    <script>
+      (function(d, s, id){
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'Messenger'));
+
+window.extAsyncInit = function () {
+    // the Messenger Extensions JS SDK is done loading
+    MessengerExtensions.getUserID(function success(uids) {
+        var psid = uids.psid;
+        alert(psid);
+    }, function error(err) {
+        alert("Messenger Extension Error: " + err);
+    });
+};
     </script>
 </head>
 
