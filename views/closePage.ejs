@@ -102,8 +102,8 @@
         }
 
         function logError(error) {
-            var errorContainer = document.querySelector('.error');
-            var errorEntry = document.createElement('div');
+            var errorContainer = document.getElementById('errorContainer');
+            var errorEntry = document.createElement('p');
             errorEntry.textContent = 'Error: ' + error;
             errorContainer.appendChild(errorEntry);
         }
@@ -119,7 +119,7 @@
     </script>
 </head>
 <body>
-    <div class="error"></div>
+    <div class="error" id="errorContainer"></div>
     <div id="logContainer"></div>
     <p id="message"></p>
     <a id="link" target="_blank" onclick="sendMessageAndClose()">Visit link</a>
