@@ -24,21 +24,27 @@
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <!-- Include the Messenger Extensions SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        async function sendTextMessage(senderPsid, text) {
-            try {
-                const response = await axios.post('/send-message', { senderPsid, text });
-                console.log('Text message sent:', response.data);
-            } catch (error) {
-                console.error('Error sending text message:', error.message);
-            }
-        }
+        const messageManager = require('./messageManager'); // Import the messageManager module
 
         window.extAsyncInit = function () {
             // the Messenger Extensions JS SDK is done loading
             logMessage('Messenger Extensions JS SDK is done loading.');
         };
+
+        // Include messageManager.js
+        // Update the path accordingly
+
+        // Function to send a message using the messageManager.js file
+        async function sendTextMessage(senderPsid, text) {
+            try {
+                // Call the sendTextMessage function from messageManager.js
+                await messageManager.sendTextMessage(senderPsid, text);
+            } catch (error) {
+                // Handle errors
+                logError('Error sending text message: ' + error.message);
+            }
+        }
 
         // Updated sendMessageAndClose function
         async function sendMessageAndClose() {
@@ -88,14 +94,9 @@
 
         function logMessage(message) {
             var logContainer = document.getElementById('logContainer');
-            var logParagraph = document.getElementById('logParagraph');
-
             var logEntry = document.createElement('div');
             logEntry.textContent = message;
             logContainer.appendChild(logEntry);
-
-            // Append the message to the paragraph element
-            logParagraph.textContent += message + '\n';
 
             // Scroll to the bottom of the log container
             logContainer.scrollTop = logContainer.scrollHeight;
@@ -106,10 +107,6 @@
             var errorEntry = document.createElement('div');
             errorEntry.textContent = 'Error: ' + error;
             errorContainer.appendChild(errorEntry);
-
-            // Append the error to the paragraph element
-            var logParagraph = document.getElementById('logParagraph');
-            logParagraph.textContent += 'Error: ' + error + '\n';
         }
     </script>
     <!-- Include the Messenger Extensions SDK -->
@@ -125,11 +122,9 @@
 </head>
 <body>
     <div class="error"></div>
-    <div id="logContainer">
-        <p id="logParagraph"></p>
-    </div>
+    <div id="logContainer"></div>
 
     <!-- Add this button inside the body of your HTML document -->
-    <button onclick="sendMessageAndClose()">Close</button>
+    <button onclick="sendMessageAndClose()">Send Message and Close</button>
 </body>
 </html>
