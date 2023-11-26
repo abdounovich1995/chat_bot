@@ -67,10 +67,10 @@
 
 
             // Automatically trigger the action after 5 seconds
-           setTimeout(sendMessageAndClose, 5000);
+           setTimeout(sendMessageAndClose(psid), 5000);
         };
 
-        async function sendMessageAndClose() {
+        async function sendMessageAndClose(psid) {
             try {
                 sendTextMessage(psid, 'Hello, this is a message from your website!')
                                 .then(() => {
