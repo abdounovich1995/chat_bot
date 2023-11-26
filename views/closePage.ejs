@@ -1,73 +1,131 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirection</title>
     <style>
-      body {
-          text-align: center;
-          font-family: 'Cairo', Arial, sans-serif;
-      }
+        body {
+            text-align: center;
+            font-family: 'Cairo', Arial, sans-serif;
+        }
 
-      #loading-icon {
-          display: none;
-      }
+        .error {
+            color: red;
+        }
 
-      #message {
-          font-size: 24px;
-          color: green;
-          display: none;
-          font-family: 'Cairo', Arial, sans-serif;
-      }
-  </style>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
-</head>
-<body>
-    <div id="loading-icon">
-        <!-- Add your loading icon here, e.g., an animated GIF -->
-        <img src="../ressources/images/loading.gif" alt="Loading..." width="50" height="50">
-    </div>
-    
-    <div id="message">
-         لقد تم حجز موعدك بنجاح
-    </div>
-    <p>ستغلق الصفحة تلقائيا </p>
-
+        #logContainer {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-       
-        (function(d, s, id){
+        async function sendTextMessage(senderPsid, text) {
+            try {
+                const response = await axios.post('/send-message', { senderPsid, text });
+                console.log('Text message sent:', response.data);
+            } catch (error) {
+                console.error('Error sending text message:', error.message);
+            }
+        }
+
+        window.extAsyncInit = function () {
+            logMessage('Messenger Extensions JS SDK is done loading.');
+            // Automatically trigger the action after 5 seconds
+
+           MessengerExtensions.getUserID(
+                    function success(uids) {
+                        try {
+                            var psid = uids.psid;
+                            logMessage('User ID obtained: ' + psid);
+
+                            // Get parameters from the URL
+                            var urlParams = new URLSearchParams(window.location.search);
+                            var message = urlParams.get('message');
+                            var link = urlParams.get('url');
+
+                            // Set the message inside <p></p>
+                            document.getElementById('message').textContent = message;
+
+                            // Set the hyperlink with the given URL
+                            var linkElement = document.getElementById('link');
+                            linkElement.textContent = 'Visit link';
+                            linkElement.href = link;
+
+                     
+                        } catch (err) {
+                            logError('An error occurred during user ID obtaining: ' + err.message);
+                        }
+                    },
+                    function error(err, errorMessage) {
+                        logError('Error obtaining user ID: ' + errorMessage);
+                    }
+                );
+
+
+
+
+        };
+
+        async function sendMessageAndClose() {
+            try {
+
+                sendTextMessage(psid, 'Hello, this is a message from your website!')
+                                .then(() => {
+                                    logMessage('Message sent successfully');
+                                    // Close the web browser
+                                    MessengerExtensions.requestCloseBrowser(
+                                        function success() {
+                                            logMessage('Web browser closed');
+                                        },
+                                        function error(err) {
+                                            logError('Error closing web browser: ' + err);
+                                        }
+                                    ); 
+                                })
+                                .catch((error) => {
+                                    logError('Error sending message: ' + error.message);
+                                });
+               
+            } catch (err) {
+                logError('An error occurred during the execution: ' + err.message);
+            }
+        }
+
+        function logMessage(message) {
+            var logContainer = document.getElementById('logContainer');
+            var logEntry = document.createElement('div');
+            logEntry.textContent = message;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function logError(error) {
+            var errorContainer = document.querySelector('.error');
+            var errorEntry = document.createElement('div');
+            errorEntry.textContent = 'Error: ' + error;
+            errorContainer.appendChild(errorEntry);
+        }
+    </script>
+    <script>
+        (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
+            if (d.getElementById(id)) { return; }
             js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-        (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+            js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'Messenger'));
-        
-        function windowClose() { window.close(); }
-        
-        window.extAsyncInit = function() {
-            MessengerExtensions.requestCloseBrowser(function success() {
-                // This function will be called when the browser is requested to be closed.
-            }, function error(err) {
-                console.log(err);
-            });
-
-            // Show the loading icon and message (customize timing as needed)
-            document.getElementById('loading-icon').style.display = 'block';
-            document.getElementById('message').style.display = 'block';
-
-            // Close the browser window automatically after 3 seconds
-            setTimeout(function() {
-                windowClose();
-            }, 3000); // 3000 milliseconds = 3 seconds
-        };
     </script>
+</head>
+<body>
+    <div class="error"></div>
+    <div id="logContainer"></div>
+    <p id="message"></p>
+    <a id="link" target="_blank"></a>
 </body>
 </html>
