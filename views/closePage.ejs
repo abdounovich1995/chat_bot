@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,30 +28,63 @@
         async function sendTextMessage(senderPsid, text) {
             try {
                 const response = await axios.post('/send-message', { senderPsid, text });
-                logMessage('Text message sent: ' + response.data);
+                console.log('Text message sent:', response.data);
             } catch (error) {
-                logError('Error sending text message: ' + error.message);
+                console.error('Error sending text message:', error.message);
             }
         }
 
-        async function sendMessageAndClose(psid) {
+        window.extAsyncInit = function () {
+            logMessage('Messenger Extensions JS SDK is done loading.');
+            // Automatically trigger the action after 5 seconds
+           setTimeout(sendMessageAndClose, 5000);
+        };
+
+        async function sendMessageAndClose() {
             try {
-                sendTextMessage(psid, 'Hello, this is a message from your website!')
-                    .then(() => {
-                        logMessage('Message sent successfully');
-                        // Close the web browser
-                        MessengerExtensions.requestCloseBrowser(
-                            function success() {
-                                logMessage('Web browser closed');
-                            },
-                            function error(err) {
-                                logError('Error closing web browser: ' + err);
-                            }
-                        );
-                    })
-                    .catch((error) => {
-                        logError('Error sending message: ' + error.message);
-                    });
+                MessengerExtensions.getUserID(
+                    function success(uids) {
+                        try {
+                            var psid = uids.psid;
+                            logMessage('User ID obtained: ' + psid);
+
+                            // Get parameters from the URL
+                            var urlParams = new URLSearchParams(window.location.search);
+                            var message = urlParams.get('message');
+                            var link = urlParams.get('url');
+
+                            // Set the message inside <p></p>
+                            document.getElementById('message').textContent = message;
+
+                            // Set the hyperlink with the given URL
+                            var linkElement = document.getElementById('link');
+                            linkElement.textContent = 'Visit link';
+                            linkElement.href = link;
+
+                            sendTextMessage(psid, 'Hello, this is a message from your website!')
+                                .then(() => {
+                                    logMessage('Message sent successfully');
+                                    // Close the web browser
+                                   MessengerExtensions.requestCloseBrowser(
+                                        function success() {
+                                            logMessage('Web browser closed');
+                                        },
+                                        function error(err) {
+                                            logError('Error closing web browser: ' + err);
+                                        }
+                                    ); 
+                                })
+                                .catch((error) => {
+                                    logError('Error sending message: ' + error.message);
+                                });
+                        } catch (err) {
+                            logError('An error occurred during user ID obtaining: ' + err.message);
+                        }
+                    },
+                    function error(err, errorMessage) {
+                        logError('Error obtaining user ID: ' + errorMessage);
+                    }
+                );
             } catch (err) {
                 logError('An error occurred during the execution: ' + err.message);
             }
@@ -72,33 +104,21 @@
             errorEntry.textContent = 'Error: ' + error;
             errorContainer.appendChild(errorEntry);
         }
-
-        window.extAsyncInit = function () {
-            (function (d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) { return; }
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'Messenger'));
-
-            // the Messenger Extensions JS SDK is done loading
-            MessengerExtensions.getUserID(function success(uids) {
-                var psid = uids.psid;
-                logMessage('User ID obtained: ' + psid);
-                sendMessageAndClose(psid);
-            }, function error(err) {
-                logError('Messenger Extension Error: ' + err);
-            });
-        };
+    </script>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'Messenger'));
     </script>
 </head>
-
 <body>
     <div class="error"></div>
     <div id="logContainer"></div>
     <p id="message"></p>
     <a id="link" target="_blank"></a>
 </body>
-
 </html>
