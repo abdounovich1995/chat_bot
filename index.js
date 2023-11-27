@@ -86,11 +86,11 @@ console.log(appointmentDetails);
           type: 'template',
           payload: {
             template_type: 'button',
-            text: req.body.text,
+            text: req.body.text+"✅",
             buttons: [
               {
                 type: 'web_url',
-                title: 'تفاصيل الموعد',
+                title: '📅 تفاصيل الموعد',
                 url: link,
               },
               
