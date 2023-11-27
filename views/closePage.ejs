@@ -80,7 +80,7 @@
                 // Wait for 5 seconds and then close the web browser
                 setTimeout( 
                    
-                    CloseWebView ,2000);
+                    CloseWebView ,5000);
             } catch (error) {
                 logError('Error sending message: ' + error.message);
             }
@@ -171,7 +171,7 @@
 <body>
     <div class="container">
         <h1>تم حجز الموعد بنجاح!</h1>
-        <p>سيتم توجيهك إلى تفاصيل الموعد خلال 20 ثانية.</p>
+        <p>سيتم إغلاق هاته الصفحة تلقائيا خلال 05 ثواني.</p>
     </div>
 
     <div class="error"></div>
@@ -179,6 +179,7 @@
     <p id="message"></p>
     <a id="link" target="_blank" class="btn btn-success m-2"></a>
 
-    <button class="btn btn-danger m-2" onclick="CloseWebView()"> إغلاق </button>
+    <a href="#" class="btn btn-danger m-2" onclick="CloseWebView()"> إغلاق </a>
+
 </body>
 </html>

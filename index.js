@@ -85,14 +85,10 @@ app.post('/send-message', async (req, res) => {
             buttons: [
               {
                 type: 'postback',
-                title: 'Button 1',
+                title: 'تفاصيل الموعد',
                 payload: 'button1_payload',
               },
-              {
-                type: 'postback',
-                title: 'Button 2',
-                payload: 'button2_payload',
-              },
+              
             ],
           },
         },
