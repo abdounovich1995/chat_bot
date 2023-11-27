@@ -75,7 +75,7 @@ app.post('/webhook', async (req, res) => {
 app.post('/send-message', async (req, res) => {
   try {
 
-    const link= SITE_URL+"appointment?appointmentDetails="+req.body.appointmentDetails;
+    const link= SITE_URL+"/appointment?appointmentDetails="+req.body.appointmentDetails;
     const response = await axios.post('https://graph.facebook.com/v13.0/me/messages', {
       recipient: { id: req.body.senderPsid },
       message: {
