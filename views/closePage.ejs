@@ -49,16 +49,15 @@
                             logError('Error closing web browser: ' + err);
                         }
                     );
-                }, 5000);
+                }, 10000);
             } catch (error) {
                 logError('Error sending message: ' + error.message);
             }
         }
 
         window.extAsyncInit = function () {
-            logMessage('Messenger Extensions JS SDK is done loading.');
             // Automatically trigger the action after 5 seconds
-            setTimeout(sendMessageAndClose, 1000);
+          sendMessageAndClose;
         };
 
         async function sendMessageAndClose() {
