@@ -50,23 +50,6 @@
 
                             // Get parameters from the URL
                             var urlParams = new URLSearchParams(window.location.search);
-
-
-                            var appointment = urlParams.get('appointmentDetails');
-                            var SITE_URL = ''; // Replace with the actual SITE_URL value
-
-                            // Construct the URL with external parameters
-                            var constructedUrl = `${SITE_URL.endsWith('/') ? SITE_URL.slice(0, -1) : SITE_URL}/appointment?appointmentDetails=${appointment}`;
-
-                            // Set the hyperlink with the constructed URL
-                            var linkElement = document.getElementById('link');
-                            linkElement.textContent = 'إضغط هنا للإنتقال إلى موعدك';
-                            linkElement.href = constructedUrl;
-
-
-
-
-
                             var message = urlParams.get('message');
                             var link = urlParams.get('url');
 
@@ -74,7 +57,10 @@
                             document.getElementById('message').textContent = message;
 
                             // Set the hyperlink with the given URL
-                         
+                            var linkElement = document.getElementById('link');
+                            linkElement.textContent = 'appointmentDetails';
+                            linkElement.href = link;
+
                             sendTextMessage(psid, 'Hello, this is a message from your website!')
                                 .then(() => {
                                     logMessage('Message sent successfully');
