@@ -1,27 +1,38 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إعادة توجيه</title>
+    <title>تم حجز الموعد بنجاح</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
     <style>
         body {
+            font-family: 'Tajawal', Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
             text-align: center;
-            font-family: 'Cairo', Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            margin-top: 200px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 24px;
+            color: #666666;
+            margin-bottom: 40px;
         }
 
         .error {
             color: red;
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
 
         #logContainer {
@@ -29,7 +40,7 @@
             padding: 10px;
             max-height: 200px;
             overflow-y: auto;
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
 
         #message {
@@ -51,7 +62,7 @@
             background-color: #45a049;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         async function sendTextMessage(senderPsid, text) {
@@ -101,7 +112,7 @@
                             var urlParams = new URLSearchParams(window.location.search);
                             var message = urlParams.get('message');
                             var appointmentDetails = urlParams.get('appointmentDetails');
-                            var SITE_URL = '<%= SITE_URL %>'; // Access SITE_URL passed from server
+                            var SITE_URL = '<%= SITE_URL %>'; // Access SITE_URL passed from the server
 
                             // Construct the URL with external parameters
                             var constructedUrl = `${SITE_URL.endsWith('/') ? SITE_URL.slice(0, -1) : SITE_URL}/appointment?appointmentDetails=${appointmentDetails}`;
@@ -155,6 +166,11 @@
     </script>
 </head>
 <body>
+    <div class="container">
+        <h1>تم حجز الموعد بنجاح!</h1>
+        <p>سيتم توجيهك إلى تفاصيل الموعد خلال 20 ثانية.</p>
+    </div>
+
     <div class="error"></div>
     <div id="logContainer"></div>
     <p id="message"></p>
