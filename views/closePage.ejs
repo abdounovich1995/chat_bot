@@ -57,6 +57,16 @@
             transition: background-color 0.3s;
         }
 
+
+        #close {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
         #link:hover {
             background-color: #45a049;
         }
@@ -177,9 +187,9 @@
     <div class="error"></div>
     <div id="logContainer"></div>
     <p id="message"></p>
-    <a id="link" target="_blank" class="btn btn-success m-2" style="width: 90%;"></a>
+    <a id="link" target="_blank" class="btn btn-success m-2" ></a>
 
-    <a href="#" class="btn btn-danger m-2" style="width: 90%;" onclick="CloseWebView()"> إغلاق </a>
+    <a href="#" id="close" class="btn btn-danger m-2" onclick="CloseWebView()"> إغلاق </a>
 
 </body>
 </html>
