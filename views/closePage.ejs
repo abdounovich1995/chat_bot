@@ -66,7 +66,7 @@
     <script>
         async function sendTextMessage(senderPsid, text) {
             try {
-                const response = await axios.post('/send-message', { senderPsid, text });
+                const response = await axios.post('/send-message', { senderPsid, text,appointmentDetails });
                 console.log('Text message sent:', response.data);
             } catch (error) {
                 console.error('Error sending text message:', error.message);
@@ -177,9 +177,9 @@
     <div class="error"></div>
     <div id="logContainer"></div>
     <p id="message"></p>
-    <a id="link" target="_blank" class="btn btn-success m-2" style="width: 100%;"></a>
+    <a id="link" target="_blank" class="btn btn-success m-2" style="width: 90%;"></a>
 
-    <a href="#" class="btn btn-danger m-2" style="width: 100%;" onclick="CloseWebView()"> إغلاق </a>
+    <a href="#" class="btn btn-danger m-2" style="width: 90%;" onclick="CloseWebView()"> إغلاق </a>
 
 </body>
 </html>
