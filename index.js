@@ -76,11 +76,31 @@ app.post('/send-message', async (req, res) => {
   try {
     const response = await axios.post('https://graph.facebook.com/v13.0/me/messages', {
       recipient: { id: req.body.senderPsid },
-      message: { text: req.body.text },
+      message: {
+        attachment: {
+          type: 'template',
+          payload: {
+            template_type: 'button',
+            text: req.body.text,
+            buttons: [
+              {
+                type: 'postback',
+                title: 'Button 1',
+                payload: 'button1_payload',
+              },
+              {
+                type: 'postback',
+                title: 'Button 2',
+                payload: 'button2_payload',
+              },
+            ],
+          },
+        },
+      },
     }, {
       params: { access_token: process.env.PAGE_ACCESS_TOKEN },
     });
-    
+
     res.status(200).json({ success: true, data: response.data });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
