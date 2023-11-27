@@ -122,7 +122,7 @@
 
                             // Set the hyperlink with the constructed URL
                             var linkElement = document.getElementById('link');
-                            linkElement.textContent = 'إضغط هنا للإنتقال إلى موعدك';
+                            linkElement.textContent = 'تفاصيل موعدك';
                             linkElement.href = constructedUrl;
 
                             // Set the message inside <p></p>
@@ -177,8 +177,8 @@
     <div class="error"></div>
     <div id="logContainer"></div>
     <p id="message"></p>
-    <a id="link" target="_blank"></a>
+    <a id="link" target="_blank" class="btn btn-success m-2"></a>
 
-    <button class="btn btn-danger" onclick="CloseWebView()"> إغلاق </button>
+    <button class="btn btn-danger m-2" onclick="CloseWebView()"> إغلاق </button>
 </body>
 </html>
