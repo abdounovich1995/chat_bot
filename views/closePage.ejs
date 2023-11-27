@@ -51,14 +51,14 @@
                             // Get parameters from the URL
                             var urlParams = new URLSearchParams(window.location.search);
                             var message = urlParams.get('message');
-                            var appointment = urlParams.get('appointment');
+                            var appointment = urlParams.get('appointmentDetails');
                             var SITE_URL = '<%= SITE_URL %>'; // Access SITE_URL passed from server
 
 
                             // Set the message inside <p></p>
 
                             // Construct the URL with external parameters
-                            var constructedUrl = `${SITE_URL.endsWith('/') ? SITE_URL.slice(0, -1) : SITE_URL}/appointment?appointmentDetails=${appointment}`;
+                            var constructedUrl = `${SITE_URL.endsWith('/') ? SITE_URL.slice(0, -1) : SITE_URL}/appointment?appointmentDetails=${appointmentDetails}`;
                             
                             // Set the hyperlink with the constructed URL
                             var linkElement = document.getElementById('link');
