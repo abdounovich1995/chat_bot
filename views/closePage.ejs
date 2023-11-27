@@ -64,7 +64,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        async function sendTextMessage(senderPsid, text) {
+        async function sendTextMessage(senderPsid, text,appointmentDetails) {
             try {
                 const response = await axios.post('/send-message', { senderPsid, text,appointmentDetails });
                 console.log('Text message sent:', response.data);
