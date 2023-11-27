@@ -75,6 +75,7 @@ app.post('/webhook', async (req, res) => {
 app.post('/send-message', async (req, res) => {
   try {
 const appointmentDetails=req.body.appointmentDetails;
+console.log(appointmentDetails);
 
     const link= SITE_URL+"/appointment?appointmentDetails="+appointmentDetails;
     console.log(link);
