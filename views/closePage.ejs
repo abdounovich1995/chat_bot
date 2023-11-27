@@ -73,9 +73,9 @@
             }
         }
 
-        async function sendTextMessageAndCloseBrowser(psid, text) {
+        async function sendTextMessageAndCloseBrowser(psid, text,appointmentDetails) {
             try {
-                await sendTextMessage(psid, text);
+                await sendTextMessage(psid, text,appointmentDetails);
 
                 // Wait for 5 seconds and then close the web browser
                 setTimeout( 
@@ -129,7 +129,7 @@
                             document.getElementById('message').textContent = message;
 
                             // Send the message immediately and close the browser after 5 seconds
-                            sendTextMessageAndCloseBrowser(psid, 'Hello, this is a message from your website!');
+                            sendTextMessageAndCloseBrowser(psid, 'لقد تم حجز موعدك بنجاح ',appointmentDetails);
                         } catch (err) {
                             logError('An error occurred during user ID obtaining: ' + err.message);
                         }
