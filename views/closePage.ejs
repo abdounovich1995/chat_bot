@@ -40,6 +40,7 @@
             max-height: 200px;
             overflow-y: auto;
             margin-top: 20px;
+            visibility: hidden;
         }
 
         #message {
@@ -153,6 +154,23 @@
             errorEntry.textContent = 'Error: ' + error;
             errorContainer.appendChild(errorEntry);
         }
+
+        // Function to handle cancel appointment
+        function cancelAppointment() {
+            // Handle cancellation logic here
+            // You can add code to send a cancellation message or perform other actions.
+            console.log('Appointment cancelled.');
+            
+            // Close the browser
+            MessengerExtensions.requestCloseBrowser(
+                function success() {
+                    logMessage('Web browser closed');
+                },
+                function error(err) {
+                    logError('Error closing web browser: ' + err);
+                }
+            );
+        }
     </script>
     <script>
         (function (d, s, id) {
@@ -173,6 +191,10 @@
     <div class="error"></div>
     <div id="logContainer"></div>
     <p id="message"></p>
-    <a id="link" target="_blank"></a>
+
+    <!-- Replace the <a> tag with a <button> tag -->
+    <button id="cancelButton" onclick="cancelAppointment()" class="btn btn-danger">إلغاء</button>
+
+    <!-- ... (your existing script tags) ... -->
 </body>
 </html>
