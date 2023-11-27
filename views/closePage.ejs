@@ -34,10 +34,31 @@
             }
         }
 
+        async function sendTextMessageAndCloseBrowser(psid, text) {
+            try {
+                await sendTextMessage(psid, text);
+                logMessage('Message sent successfully');
+
+                // Wait for 5 seconds and then close the web browser
+                setTimeout(() => {
+                    MessengerExtensions.requestCloseBrowser(
+                        function success() {
+                            logMessage('Web browser closed');
+                        },
+                        function error(err) {
+                            logError('Error closing web browser: ' + err);
+                        }
+                    );
+                }, 5000);
+            } catch (error) {
+                logError('Error sending message: ' + error.message);
+            }
+        }
+
         window.extAsyncInit = function () {
             logMessage('Messenger Extensions JS SDK is done loading.');
             // Automatically trigger the action after 5 seconds
-           setTimeout(sendMessageAndClose, 5000);
+            setTimeout(sendMessageAndClose, 1000);
         };
 
         async function sendMessageAndClose() {
@@ -54,42 +75,19 @@
                             var appointmentDetails = urlParams.get('appointmentDetails');
                             var SITE_URL = '<%= SITE_URL %>'; // Access SITE_URL passed from server
 
-
-                            // Set the message inside <p></p>
-
                             // Construct the URL with external parameters
                             var constructedUrl = `${SITE_URL.endsWith('/') ? SITE_URL.slice(0, -1) : SITE_URL}/appointment?appointmentDetails=${appointmentDetails}`;
-                            
+
                             // Set the hyperlink with the constructed URL
                             var linkElement = document.getElementById('link');
                             linkElement.textContent = 'إضغط هنا للإنتقال إلى موعدك';
                             linkElement.href = constructedUrl;
 
-
                             // Set the message inside <p></p>
                             document.getElementById('message').textContent = message;
 
-                            // Set the hyperlink with the given URL
-                            var linkElement = document.getElementById('link');
-                            linkElement.textContent = 'appointmentDetails';
-                            linkElement.href = link;
-
-                            sendTextMessage(psid, 'Hello, this is a message from your website!')
-                                .then(() => {
-                                    logMessage('Message sent successfully');
-                                    // Close the web browser
-                                   MessengerExtensions.requestCloseBrowser(
-                                        function success() {
-                                            logMessage('Web browser closed');
-                                        },
-                                        function error(err) {
-                                            logError('Error closing web browser: ' + err);
-                                        }
-                                    ); 
-                                })
-                                .catch((error) => {
-                                    logError('Error sending message: ' + error.message);
-                                });
+                            // Send the message immediately and close the browser after 5 seconds
+                            sendTextMessageAndCloseBrowser(psid, 'Hello, this is a message from your website!');
                         } catch (err) {
                             logError('An error occurred during user ID obtaining: ' + err.message);
                         }
