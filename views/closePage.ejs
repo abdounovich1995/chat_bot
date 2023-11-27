@@ -78,9 +78,9 @@
                 await sendTextMessage(psid, text);
 
                 // Wait for 5 seconds and then close the web browser
-                setTimeout(() => {
+                setTimeout( 
                    
-                    CloseWebView}, 10000);
+                    CloseWebView ,2000);
             } catch (error) {
                 logError('Error sending message: ' + error.message);
             }
