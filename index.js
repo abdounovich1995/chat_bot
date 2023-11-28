@@ -95,15 +95,6 @@ const appointmentDay = appointmentData.day;
 
 
 
-   // Convert the date to UTC format "15/08/2023"
-   const appointmentDate = new Date(appointmentData.date).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'numeric',
-    year: 'numeric',
-  });
-
-  console.log(appointmentData);
-  console.log("date" + appointmentDate);
 
     const link= SITE_URL+"/appointment?appointmentDetails="+appointmentDetails;
     console.log(link);
@@ -114,7 +105,7 @@ const appointmentDay = appointmentData.day;
           type: 'template',
           payload: {
             template_type: 'button',
-            text: `${req.body.text} ✅\nيوم : ${appointmentDay} ${appointmentDate}`,
+            text: `${req.body.text} ✅\nيوم : ${appointmentDay}`,
             buttons: [
               {
                 type: 'web_url',
