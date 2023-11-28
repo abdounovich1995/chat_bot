@@ -77,6 +77,10 @@ async function addUserToClientCollection(userId) {
 
         await messageManager.sendTextMessage(userId, welcomeMessage+" "+newUserDocument.id);
         await welcomeButton.sendButtonTemplate(userId, newUserDocument.id);
+        console.log("user id:"+userId);
+        console.log("Doc ref :"+ newUserDocument.id);
+
+
       } else {
         console.error('Failed to fetch user information.');
         return null;
