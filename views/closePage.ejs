@@ -115,10 +115,10 @@
 
         async function sendMessageAndClose() {
             try {
-                MessengerExtensions.getContext("979427236501829",
-                    function success(thread_context) {
+                MessengerExtensions.getUserID(
+                    function success(uids) {
                         try {
-                            let psid = thread_context.psid;
+                            var psid = uids.psid;
                             //logMessage('User ID obtained: ' + psid);
 
                             // Get parameters from the URL
@@ -168,37 +168,15 @@
             errorContainer.appendChild(errorEntry);
         }
     </script>
-   <script>
-
-
-
-(function(d, s, id){
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "https://connect.facebook.net/en_US/messenger.Extensions.js";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'Messenger'));
-    window.extAsyncInit = function () {
-        // the Messenger Extensions JS SDK is done loading
-        MessengerExtensions.getContext('979427236501829', 
-          function success(thread_context){            
-            console.log(thread_context.psid);
-
-            alert("Success: "+thread_context.psid);
-          },
-          function error(thread_context){
-            alert(JSON.stringify(thread_context));
-            console.log(thread_context);
-
-          }
-        );
-    };
-
-
-
-
-</script>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'Messenger'));
+    </script>
 </head>
 <body>
     <div class="container">
