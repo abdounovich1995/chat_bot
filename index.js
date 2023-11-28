@@ -83,7 +83,7 @@ const appointmentDay = appointmentData.day;
 const appointmentDate = appointmentData.date; 
 
 console.log(appointmentData);
-console.log(appointmentDate);
+console.log("date"+appointmentDate);
 
     const link= SITE_URL+"/appointment?appointmentDetails="+appointmentDetails;
     console.log(link);
