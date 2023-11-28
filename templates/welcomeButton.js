@@ -2,7 +2,7 @@
 const axios = require('axios'); // Import the axios library
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-const SITE_URL = process.env.SITE_URL;
+const SITE_URL =process.env.SITE_URL;
 
 
 
@@ -57,7 +57,7 @@ try {
   
   
     try {
-      const response = await axios.post(`https://graph.facebook.com/v16.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, requestBody);
+      const response = await axios.post(`https://graph.facebook.com/v18.0/me/messages?access_token=${PAGE_ACCESS_TOKEN}`, requestBody);
       console.log('Button template sent:', response.data);
     } catch (error) {
       console.error('Error sending button template:', error.response.data);
