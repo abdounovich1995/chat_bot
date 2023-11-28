@@ -13,7 +13,7 @@ async function setPersistentMenu(psid,userRef) {
           call_to_actions: [
             {
                 type: 'web_url', // Change the button type to 'web_url'
-                url: `${SITE_URL}/redirectPage?clientPSID=${psid} `,
+                url: `${SITE_URL}/redirectPage?clientPSID=${psid}`,
                 title: ' حـجـز مـوعـد 📅',
                 messenger_extensions :'true',
                 webview_height_ratio:'tall',
@@ -21,7 +21,7 @@ async function setPersistentMenu(psid,userRef) {
             },
             {
               type: 'web_url', // Change the button type to 'web_url'
-              url: `${SITE_URL}/client-profile-show?clientRef=${userRef} `,
+              url: `${SITE_URL}/client-profile-show?clientRef=${userRef}`,
               title: ' حسابي 👔',
               messenger_extensions :'true',
               webview_height_ratio:'tall',
@@ -30,7 +30,7 @@ async function setPersistentMenu(psid,userRef) {
 
           {
             type: 'web_url', 
-            url: `https://facebook-bot-demo-production.up.railway.app/close?siteUrl=${SITE_URL} `,
+            url: `https://facebook-bot-demo-production.up.railway.app/close?siteUrl=${SITE_URL}`,
             title: ' Close web',
             messenger_extensions :'true',
             webview_height_ratio:'tall',
