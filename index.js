@@ -6,6 +6,7 @@ const messageManager = require('./messageManager');
 const payloads = require('./payloads');
 const verifyWebhook = require('./webhookVerification');
 const genericTemplate = require('./templates/genericTemplate');
+const firebaseService = require('./firebaseService'); // Import your Firebase service module here
 
 const app = express();
 app.use(bodyParser.json());
@@ -75,23 +76,55 @@ app.post('/webhook', async (req, res) => {
 app.post('/send-message', async (req, res) => {
   try {
 const appointmentDetails=req.body.appointmentDetails;
-console.log(appointmentDetails);
+
+
+
+
+
+
+
+
+
+
+const appointmentData = await firebaseService.getAppointmentDetails(appointmentDetails);
+
+
+
+
+
+
+
+
+
+const appointmentDay = appointmentData.day; 
+
+
+
+
+
+
+
+
+
+
 
     const link= SITE_URL+"/appointment?appointmentDetails="+appointmentDetails;
     console.log(link);
-    const response = await axios.post('https://graph.facebook.com/v13.0/me/messages', {
+    const response = await axios.post('https://graph.facebook.com/v18.0/me/messages', {
       recipient: { id: req.body.senderPsid },
       message: {
         attachment: {
           type: 'template',
           payload: {
             template_type: 'button',
-            text: req.body.text+"✅",
+            text: `${req.body.text} ✅\nيوم : ${appointmentDay}`,
             buttons: [
               {
                 type: 'web_url',
                 title: '📅 تفاصيل الموعد',
                 url: link,
+                messenger_extensions :true,
+                webview_height_ratio:'tall',
               },
               
             ],
@@ -107,6 +140,12 @@ console.log(appointmentDetails);
     res.status(500).json({ success: false, error: error.message });
   }
 });
+
+
+
+
+
+
 
 
 // Function to get the user's name
@@ -133,7 +172,7 @@ app.get('/picture/:senderId', async (req, res) => {
 
   try {
     // Fetch user's profile picture from Facebook
-    const response = await axios.get(`https://graph.facebook.com/v13.0/${senderId}/picture`, {
+    const response = await axios.get(`https://graph.facebook.com/v18.0/${senderId}/picture`, {
       params: {
         access_token: PAGE_ACCESS_TOKEN,
         redirect: false,

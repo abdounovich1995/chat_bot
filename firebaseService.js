@@ -75,8 +75,12 @@ async function addUserToClientCollection(userId) {
         const username = await getUserName(userId);
         const welcomeMessage = `🙋‍♂️ مرحبا بك , ${username}!`;
 
-        await messageManager.sendTextMessage(userId, welcomeMessage);
+        await messageManager.sendTextMessage(userId, welcomeMessage+" "+newUserDocument.id);
         await welcomeButton.sendButtonTemplate(userId, newUserDocument.id);
+        console.log("user id:"+userId);
+        console.log("Doc ref :"+ newUserDocument.id);
+
+
       } else {
         console.error('Failed to fetch user information.');
         return null;
@@ -114,6 +118,11 @@ cron.schedule('59 23 * * *', async () => {
 });
 
 
+// Function to get appointment details from Firebase
+const getAppointmentDetails = async (appointmentDetails) => {
+  const appointmentSnapshot = await admin.firestore().collection('appointments').doc(appointmentDetails).get();
+  return appointmentSnapshot.data();
+};
 
 
 async function updateAppointmentsType() {
@@ -179,7 +188,7 @@ async function updateAppointmentsType() {
 async function getUserName(userId) {
   try {
     const response = await axios.get(
-      `https://graph.facebook.com/v13.0/${userId}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`
+      `https://graph.facebook.com/v18.0/${userId}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`
     );
 
     if (response.data.name) {
@@ -195,7 +204,7 @@ async function getUserName(userId) {
 
 async function getUserInfo(psid) {
   try {
-    const response = await axios.get(`https://graph.facebook.com/v13.0/${psid}`, {
+    const response = await axios.get(`https://graph.facebook.com/v18.0/${psid}`, {
       params: {
         fields: 'first_name,last_name,profile_pic',
         access_token: PAGE_ACCESS_TOKEN,
@@ -221,4 +230,5 @@ module.exports = {
   addUserToClientCollection,
   getTypesData,
   getClientReferenceByPSID,
+  getAppointmentDetails,
 };
