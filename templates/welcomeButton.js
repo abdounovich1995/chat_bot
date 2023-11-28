@@ -26,7 +26,7 @@ try {
                 type: 'web_url', // Change the button type to 'web_url'
                 url: `${SITE_URL}/redirectPage?clientPSID=${userId}`,
                 title: ' حـجـز مـوعـد 📅',
-                messenger_extensions :'true',
+                messenger_extensions :true,
                 webview_height_ratio:'tall',
 
             },
@@ -34,7 +34,7 @@ try {
               type: 'web_url', // Change the button type to 'web_url'
               url: `${SITE_URL}/client-profile-show?clientRef=${userRef}`,
               title: ' حسابي 👔',
-              messenger_extensions :'true',
+              messenger_extensions :true,
               webview_height_ratio:'tall',
 
           },
@@ -43,7 +43,7 @@ try {
             type: 'web_url', 
             url: `https://facebook-bot-demo-production.up.railway.app/close?siteUrl=${SITE_URL}`,
             title: ' Close',
-            messenger_extensions :'true',
+            messenger_extensions :true,
             webview_height_ratio:'tall',
 
         },
