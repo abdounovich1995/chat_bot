@@ -80,8 +80,10 @@ const appointmentDetails=req.body.appointmentDetails;
 
 const appointmentData = await firebaseService.getAppointmentDetails(appointmentDetails);
 const appointmentDay = appointmentData.day; 
+const appointmentDate = appointmentData.date; 
+
 console.log(appointmentData);
-console.log(appointmentDay);
+console.log(appointmentDate);
 
     const link= SITE_URL+"/appointment?appointmentDetails="+appointmentDetails;
     console.log(link);
@@ -92,7 +94,7 @@ console.log(appointmentDay);
           type: 'template',
           payload: {
             template_type: 'button',
-            text: `${req.body.text} ✅\nيوم : ${appointmentDay}`,
+            text: `${req.body.text} ✅\nيوم : ${appointmentDay} ${appointmentDate}`,
             buttons: [
               {
                 type: 'web_url',
