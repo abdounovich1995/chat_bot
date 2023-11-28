@@ -111,7 +111,7 @@ const appointmentDay = appointmentData.day;
                 type: 'web_url',
                 title: '📅 تفاصيل الموعد',
                 url: link,
-                messenger_extensions :'true',
+                messenger_extensions :true,
                 webview_height_ratio:'tall',
               },
               

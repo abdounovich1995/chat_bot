@@ -204,7 +204,7 @@ async function getUserName(userId) {
 
 async function getUserInfo(psid) {
   try {
-    const response = await axios.get(`https://graph.facebook.com/v13.0/${psid}`, {
+    const response = await axios.get(`https://graph.facebook.com/v18.0/${psid}`, {
       params: {
         fields: 'first_name,last_name,profile_pic',
         access_token: PAGE_ACCESS_TOKEN,
