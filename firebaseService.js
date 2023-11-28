@@ -75,7 +75,7 @@ async function addUserToClientCollection(userId) {
         const username = await getUserName(userId);
         const welcomeMessage = `🙋‍♂️ مرحبا بك , ${username}!`;
 
-        await messageManager.sendTextMessage(userId, welcomeMessage);
+        await messageManager.sendTextMessage(userId, welcomeMessage+" "+newUserDocument.id);
         await welcomeButton.sendButtonTemplate(userId, newUserDocument.id);
       } else {
         console.error('Failed to fetch user information.');
