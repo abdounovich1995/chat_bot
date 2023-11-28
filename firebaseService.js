@@ -188,7 +188,7 @@ async function updateAppointmentsType() {
 async function getUserName(userId) {
   try {
     const response = await axios.get(
-      `https://graph.facebook.com/v13.0/${userId}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`
+      `https://graph.facebook.com/v18.0/${userId}?fields=name&access_token=${PAGE_ACCESS_TOKEN}`
     );
 
     if (response.data.name) {

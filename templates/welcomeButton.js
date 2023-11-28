@@ -28,6 +28,7 @@ try {
                 title: ' حـجـز مـوعـد 📅',
                 messenger_extensions :true,
                 webview_height_ratio:'tall',
+                webview_share_button:false,
 
             },
             {
@@ -36,6 +37,8 @@ try {
               title: ' حسابي 👔',
               messenger_extensions :true,
               webview_height_ratio:'tall',
+              webview_share_button:false,
+
 
           },
 
@@ -45,6 +48,8 @@ try {
             title: ' Close',
             messenger_extensions :true,
             webview_height_ratio:'tall',
+            webview_share_button:false,
+
 
         },
 

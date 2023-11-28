@@ -78,7 +78,19 @@ app.post('/send-message', async (req, res) => {
 const appointmentDetails=req.body.appointmentDetails;
 
 
+
+
+
+
+
+
+
+
 const appointmentData = await firebaseService.getAppointmentDetails(appointmentDetails);
+
+
+
+
 
 
 
