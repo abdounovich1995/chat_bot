@@ -117,6 +117,12 @@ console.log(appointmentDate);
 });
 
 
+
+
+
+
+
+
 // Function to get the user's name
 async function getUserName(senderPsid) {
   try {
