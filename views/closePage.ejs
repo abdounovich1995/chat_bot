@@ -181,7 +181,6 @@
     }(document, 'script', 'Messenger'));
     window.extAsyncInit = function () {
         var isSupported = MessengerExtensions.isInExtension(); 
-        alert(isSupported);
         // the Messenger Extensions JS SDK is done loading
         MessengerExtensions.getContext('979427236501829', 
           function success(result){
