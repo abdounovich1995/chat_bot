@@ -1,196 +1,26 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تم حجز الموعد بنجاح</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Custom CSS -->
-    <style>
-        body {
-            font-family: 'Tajawal', Arial, sans-serif;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            text-align: center;
-            margin-top: 200px;
-        }
-
-        h1 {
-            font-size: 36px;
-            color: #333333;
-            margin-bottom: 20px;
-        }
-
-        p {
-            font-size: 24px;
-            color: #666666;
-            margin-bottom: 40px;
-        }
-
-        .error {
-            color: red;
-            margin-top: 20px;
-        }
-
-        #logContainer {
-            padding: 10px;
-            max-height: 200px;
-            overflow-y: auto;
-            margin-top: 20px;
-        }
-
-        #message {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-
-        #link {
-            display: block;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-
-        #close {
-            display: block;
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        #link:hover {
-            background-color: #45a049;
-        }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-        async function sendTextMessage(senderPsid, text,appointmentDetails) {
-            try {
-                const response = await axios.post('/send-message', { senderPsid, text,appointmentDetails });
-                console.log('Text message sent:', response.data);
-            } catch (error) {
-                console.error('Error sending text message:', error.message);
-            }
-        }
-
-        async function sendTextMessageAndCloseBrowser(psid, text,appointmentDetails) {
-            try {
-                await sendTextMessage(psid, text,appointmentDetails);
-
-                // Wait for 5 seconds and then close the web browser
-                setTimeout( 
-                   
-                    CloseWebView ,5000);
-            } catch (error) {
-                logError('Error sending message: ' + error.message);
-            }
-        }
-
-        window.extAsyncInit = function () {
-            // Automatically trigger the action after 5 seconds
-            sendMessageAndClose();
-        };
-
-        async function CloseWebView(){
-
-            MessengerExtensions.requestCloseBrowser(
-                        function success() {
-                            logMessage('Web browser closed');
-                        },
-                        function error(err) {
-                            logError('Error closing web browser: ' + err);
-                        }
-                    );
-        }
-
-        async function sendMessageAndClose() {
-            try {
-                MessengerExtensions.getUserID(
-                    function success(uids) {
-                        try {
-                            var psid = uids.psid;
-                            //logMessage('User ID obtained: ' + psid);
-
-                            // Get parameters from the URL
-                            var urlParams = new URLSearchParams(window.location.search);
-                            var message = urlParams.get('message');
-                            var appointmentDetails = urlParams.get('appointmentDetails');
-                            var SITE_URL = '<%= SITE_URL %>'; // Access SITE_URL passed from the server
-
-                            // Construct the URL with external parameters
-                            var constructedUrl = `${SITE_URL.endsWith('/') ? SITE_URL.slice(0, -1) : SITE_URL}/appointment?appointmentDetails=${appointmentDetails}`;
-
-                            // Set the hyperlink with the constructed URL
-                            var linkElement = document.getElementById('link');
-                            linkElement.textContent = 'تفاصيل موعدك';
-                            linkElement.href = constructedUrl;
-
-                            // Set the message inside <p></p>
-                            document.getElementById('message').textContent = message;
-
-                            // Send the message immediately and close the browser after 5 seconds
-                            sendTextMessageAndCloseBrowser(psid, 'لقد تم حجز موعدك بنجاح ',appointmentDetails);
-                        } catch (err) {
-                            logError('An error occurred during user ID obtaining: ' + err.message);
-                        }
-                    },
-                    function error(err, errorMessage) {
-                        logError('Error obtaining user ID: ' + errorMessage);
-                    }
-                );
-            } catch (err) {
-                logError('An error occurred during the execution: ' + err.message);
-            }
-        }
-
-        function logMessage(message) {
-            var logContainer = document.getElementById('logContainer');
-            var logEntry = document.createElement('div');
-            logEntry.textContent = message;
-            logContainer.appendChild(logEntry);
-            logContainer.scrollTop = logContainer.scrollHeight;
-        }
-
-        function logError(error) {
-            var errorContainer = document.querySelector('.error');
-            var errorEntry = document.createElement('div');
-            errorEntry.textContent = 'Error: ' + error;
-            errorContainer.appendChild(errorEntry);
-        }
-    </script>
-    <script>
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) { return; }
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'Messenger'));
-    </script>
-</head>
 <body>
-    <div class="container">
-        <h1>تم حجز الموعد بنجاح!</h1>
-        <p>سيتم إغلاق هاته الصفحة تلقائيا خلال 05 ثواني.</p>
-    </div>
-
-    <div class="error"></div>
-    <div id="logContainer"></div>
-    <p id="message"></p>
-    <a id="link" target="_blank" class="btn btn-success m-2" ></a>
-
-    <a href="#" id="close" class="btn btn-danger m-2" onclick="CloseWebView()"> إغلاق </a>
-
-</body>
-</html>
-
+    <script>
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+          return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'Messenger'));
+      window.extAsyncInit = function() {
+        alert('loaded sdk');
+      };
+      function getUser() {
+        MessengerExtensions.getUserID(function success(uids) {
+          var psid = uids.psid;
+          alert(JSON.stringify(psid));
+        }, function error(err, errorMessage) {
+          alert(JSON.stringify(errorMessage));
+        });
+      }
+    </script>
+    <input type="button" onclick="getUser()" value="Get user id" />
+  </body>
