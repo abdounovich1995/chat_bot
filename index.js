@@ -87,7 +87,7 @@ console.log(appointmentDate);
 
     const link= SITE_URL+"/appointment?appointmentDetails="+appointmentDetails;
     console.log(link);
-    const response = await axios.post('https://graph.facebook.com/v13.0/me/messages', {
+    const response = await axios.post('https://graph.facebook.com/v18.0/me/messages', {
       recipient: { id: req.body.senderPsid },
       message: {
         attachment: {
@@ -147,7 +147,7 @@ app.get('/picture/:senderId', async (req, res) => {
 
   try {
     // Fetch user's profile picture from Facebook
-    const response = await axios.get(`https://graph.facebook.com/v13.0/${senderId}/picture`, {
+    const response = await axios.get(`https://graph.facebook.com/v18.0/${senderId}/picture`, {
       params: {
         access_token: PAGE_ACCESS_TOKEN,
         redirect: false,
