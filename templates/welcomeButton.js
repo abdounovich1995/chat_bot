@@ -6,7 +6,7 @@ const SITE_URL = process.env.SITE_URL;
 
 
 
-  async function sendButtonTemplate(userId) {
+  async function sendButtonTemplate(userId,userRef) {
 
 try {
 
@@ -24,7 +24,7 @@ try {
             buttons: [
               {
                 type: 'web_url', // Change the button type to 'web_url'
-                url: `${SITE_URL}/redirectPage?clientPSID=${psid} `,
+                url: `${SITE_URL}/redirectPage?clientPSID=${userId} `,
                 title: ' حـجـز مـوعـد 📅',
                 messenger_extensions :'true',
                 webview_height_ratio:'tall',
