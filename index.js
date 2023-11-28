@@ -6,6 +6,7 @@ const messageManager = require('./messageManager');
 const payloads = require('./payloads');
 const verifyWebhook = require('./webhookVerification');
 const genericTemplate = require('./templates/genericTemplate');
+const firebaseService = require('./firebaseService'); // Import your Firebase service module here
 
 const app = express();
 app.use(bodyParser.json());
@@ -77,7 +78,7 @@ app.post('/send-message', async (req, res) => {
 const appointmentDetails=req.body.appointmentDetails;
 
 
-const appointmentData = await getAppointmentDetails(appointmentDetails);
+const appointmentData = await firebaseService.getAppointmentDetails(appointmentDetails);
 const appointmentDate = appointmentData.date; 
 
     const link= SITE_URL+"/appointment?appointmentDetails="+appointmentDetails;
