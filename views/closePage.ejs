@@ -115,39 +115,40 @@
 
         async function sendMessageAndClose() {
             try {
-                MessengerExtensions.getUserID(
-                    function success(uids) {
-                        try {
-                            var psid = uids.psid;
-                            //logMessage('User ID obtained: ' + psid);
+                MessengerExtensions.getContext('979427236501829', 
+    function success(context) {
+        try {
+            var psid = context.psid;
+            //logMessage('User ID obtained: ' + psid);
 
-                            // Get parameters from the URL
-                            var urlParams = new URLSearchParams(window.location.search);
-                            var message = urlParams.get('message');
-                            var appointmentDetails = urlParams.get('appointmentDetails');
-                            var SITE_URL = '<%= SITE_URL %>'; // Access SITE_URL passed from the server
+            // Get parameters from the URL
+            var urlParams = new URLSearchParams(window.location.search);
+            var message = urlParams.get('message');
+            var appointmentDetails = urlParams.get('appointmentDetails');
+            var SITE_URL = '<%= SITE_URL %>'; // Access SITE_URL passed from the server
 
-                            // Construct the URL with external parameters
-                            var constructedUrl = `${SITE_URL.endsWith('/') ? SITE_URL.slice(0, -1) : SITE_URL}/appointment?appointmentDetails=${appointmentDetails}`;
+            // Construct the URL with external parameters
+            var constructedUrl = `${SITE_URL.endsWith('/') ? SITE_URL.slice(0, -1) : SITE_URL}/appointment?appointmentDetails=${appointmentDetails}`;
 
-                            // Set the hyperlink with the constructed URL
-                            var linkElement = document.getElementById('link');
-                            linkElement.textContent = 'تفاصيل موعدك';
-                            linkElement.href = constructedUrl;
+            // Set the hyperlink with the constructed URL
+            var linkElement = document.getElementById('link');
+            linkElement.textContent = 'تفاصيل موعدك';
+            linkElement.href = constructedUrl;
 
-                            // Set the message inside <p></p>
-                            document.getElementById('message').textContent = message;
+            // Set the message inside <p></p>
+            document.getElementById('message').textContent = message;
 
-                            // Send the message immediately and close the browser after 5 seconds
-                            sendTextMessageAndCloseBrowser(psid, 'لقد تم حجز موعدك بنجاح ',appointmentDetails);
-                        } catch (err) {
-                            logError('An error occurred during user ID obtaining: ' + err.message);
-                        }
-                    },
-                    function error(err, errorMessage) {
-                        logError('Error obtaining user ID: ' + errorMessage);
-                    }
-                );
+            // Send the message immediately and close the browser after 5 seconds
+            sendTextMessageAndCloseBrowser(psid, 'لقد تم حجز موعدك بنجاح ',appointmentDetails);
+        } catch (err) {
+            logError('An error occurred during context obtaining: ' + err.message);
+        }
+    },
+    function error(err, errorMessage) {
+        logError('Error obtaining context: ' + errorMessage);
+    }
+);
+
             } catch (err) {
                 logError('An error occurred during the execution: ' + err.message);
             }
