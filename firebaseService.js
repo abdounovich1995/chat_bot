@@ -114,6 +114,11 @@ cron.schedule('59 23 * * *', async () => {
 });
 
 
+// Function to get appointment details from Firebase
+const getAppointmentDetails = async (appointmentDetails) => {
+  const appointmentSnapshot = await admin.firestore().collection('appointments').doc(appointmentDetails).get();
+  return appointmentSnapshot.data();
+};
 
 
 async function updateAppointmentsType() {
@@ -221,4 +226,5 @@ module.exports = {
   addUserToClientCollection,
   getTypesData,
   getClientReferenceByPSID,
+  getAppointmentDetails,
 };

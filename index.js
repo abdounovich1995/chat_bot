@@ -75,7 +75,10 @@ app.post('/webhook', async (req, res) => {
 app.post('/send-message', async (req, res) => {
   try {
 const appointmentDetails=req.body.appointmentDetails;
-console.log(appointmentDetails);
+
+
+const appointmentData = await getAppointmentDetails(appointmentDetails);
+const appointmentDate = appointmentData.date; 
 
     const link= SITE_URL+"/appointment?appointmentDetails="+appointmentDetails;
     console.log(link);
@@ -86,7 +89,7 @@ console.log(appointmentDetails);
           type: 'template',
           payload: {
             template_type: 'button',
-            text: req.body.text+"✅",
+            text: `${req.body.text} ✅\nAppointment Date: ${appointmentDate}`,
             buttons: [
               {
                 type: 'web_url',
