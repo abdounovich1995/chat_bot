@@ -79,11 +79,29 @@ const appointmentDetails=req.body.appointmentDetails;
 
 
 const appointmentData = await firebaseService.getAppointmentDetails(appointmentDetails);
-const appointmentDay = appointmentData.day; 
-const appointmentDate = appointmentData.date; 
 
-console.log(appointmentData);
-console.log("date"+appointmentDate);
+
+
+
+
+const appointmentDay = appointmentData.day; 
+
+
+
+
+
+
+
+
+
+
+const appointmentDate = new Date(appointmentData.date);
+
+// Format the date as "dd/mm/yyyy"
+const formattedDate = appointmentDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+console.log("date" + formattedDate);
+
 
     const link= SITE_URL+"/appointment?appointmentDetails="+appointmentDetails;
     console.log(link);
@@ -94,12 +112,14 @@ console.log("date"+appointmentDate);
           type: 'template',
           payload: {
             template_type: 'button',
-            text: `${req.body.text} ✅\nيوم : ${appointmentDay} ${appointmentDate}`,
+            text: `${req.body.text} ✅\nيوم : ${appointmentDay} ${formattedDate}`,
             buttons: [
               {
                 type: 'web_url',
                 title: '📅 تفاصيل الموعد',
                 url: link,
+                messenger_extensions :'true',
+                webview_height_ratio:'tall',
               },
               
             ],
