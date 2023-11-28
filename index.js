@@ -80,6 +80,8 @@ const appointmentDetails=req.body.appointmentDetails;
 
 const appointmentData = await firebaseService.getAppointmentDetails(appointmentDetails);
 const appointmentDate = appointmentData.date; 
+console.log(appointmentData);
+console.log(appointmentDate);
 
     const link= SITE_URL+"/appointment?appointmentDetails="+appointmentDetails;
     console.log(link);
