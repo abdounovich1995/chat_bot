@@ -79,14 +79,8 @@ const appointmentDetails=req.body.appointmentDetails;
 
 
 const appointmentData = await firebaseService.getAppointmentDetails(appointmentDetails);
-
-const rawDate = appointmentData.date; // Assuming date is a JavaScript Date object
-
-// Format the date as "DD/MM/YYYY"
-const formattedDate = rawDate.toLocaleDateString('en-GB'); 
-
 const appointmentDay = appointmentData.day; 
-console.log(formattedDate);
+console.log(appointmentData);
 console.log(appointmentDay);
 
     const link= SITE_URL+"/appointment?appointmentDetails="+appointmentDetails;
@@ -98,7 +92,7 @@ console.log(appointmentDay);
           type: 'template',
           payload: {
             template_type: 'button',
-            text: `${req.body.text} ✅\nيوم : ${appointmentDay} ${formattedDate}`,
+            text: `${req.body.text} ✅\nيوم : ${appointmentDay}`,
             buttons: [
               {
                 type: 'web_url',
