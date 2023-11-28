@@ -4,52 +4,62 @@
     <meta charset="UTF-8">
     <title>Set hotel references</title>
 </head>
-<script>
-    (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'Messenger'));
-
-    window.extAsyncInit = function() {
-        // the Messenger Extensions JS SDK is done loading
-        MessengerExtensions.getContext('979427236501829',
-            function success(thread_context){
-                // success
-                document.getElementById("psid").value= thread_context.psid ;
-console.log("psid: "+thread_context.psid);
-            },
-            function error(err){
-                // error
-                console.log(err);
-            }
-        );
-    };
-
-    function handleSaveBtn() {
-        //close the webview
-        MessengerExtensions.requestCloseBrowser(function success() {
-            // webview closed
-        }, function error(err) {
-            // an error occurred
-            console.log(err);
-        });
-    }
-
-</script>
 <body>
-    <input type="text"  name="psid" value="test" id="psid">
-
+    <input type="text" name="psid" value="test" id="psid">
     
-
-
     <div>
         <br>
         <a href="#" onclick="handleSaveBtn()">SAVE</a>
     </div>
 
+    <p id="error-message"></p>
 
+    <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/messenger.Extensions.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'Messenger'));
+
+        window.extAsyncInit = function() {
+            try {
+                // the Messenger Extensions JS SDK is done loading
+                MessengerExtensions.getContext('979427236501829',
+                    function success(thread_context) {
+                        // success
+                        document.getElementById("psid").value = thread_context.psid;
+                        console.log("psid: " + thread_context.psid);
+                    },
+                    function error(err) {
+                        // error
+                        console.log(err);
+                        displayErrorMessage("Error: " + err.message);
+                    }
+                );
+            } catch (ex) {
+                console.log(ex);
+                displayErrorMessage("Exception: " + ex.message);
+            }
+        };
+
+        function displayErrorMessage(message) {
+            // Display error message in the paragraph element with id "error-message"
+            var errorMessageElement = document.getElementById("error-message");
+            errorMessageElement.textContent = message;
+        }
+
+        function handleSaveBtn() {
+            //close the webview
+            MessengerExtensions.requestCloseBrowser(function success() {
+                // webview closed
+            }, function error(err) {
+                // an error occurred
+                console.log(err);
+                displayErrorMessage("Error closing webview: " + err.message);
+            });
+        }
+    </script>
 </body>
 </html>
