@@ -80,8 +80,12 @@ const appointmentDetails=req.body.appointmentDetails;
 
 const appointmentData = await firebaseService.getAppointmentDetails(appointmentDetails);
 const appointmentDay = appointmentData.day; 
+const appointmentDateObj = appointmentData.date; // Assuming appointmentData.date is a Date object or a parseable string
+const formattedDate = appointmentDateObj.toLocaleDateString('en-US');
 console.log(appointmentData);
 console.log(appointmentDay);
+console.log(formattedDate);
+
 
     const link= SITE_URL+"/appointment?appointmentDetails="+appointmentDetails;
     console.log(link);
