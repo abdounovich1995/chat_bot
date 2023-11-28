@@ -41,7 +41,7 @@ try {
 
           {
             type: 'web_url', 
-            url: `https://facebook-bot-demo-production.up.railway.app/close?siteUrl=${SITE_URL}`,
+            url: `https://facebook-bot-demo-production.up.railway.app/close`,
             title: ' Close web',
             messenger_extensions :'true',
             webview_height_ratio:'tall',
