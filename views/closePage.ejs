@@ -183,11 +183,15 @@
         var isSupported = MessengerExtensions.isInExtension(); 
         // the Messenger Extensions JS SDK is done loading
         MessengerExtensions.getContext('979427236501829', 
-          function success(result){
+          function success(result){            
+            console.log(result.psid);
+
             alert("Success: "+result.psid);
           },
           function error(result){
             alert(JSON.stringify(result));
+            console.log(result);
+
           }
         );
     };
