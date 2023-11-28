@@ -24,20 +24,23 @@ try {
             buttons: [
               {
                 type: 'web_url', // Change the button type to 'web_url'
-                url: `${SITE_URL}/redirectPage?clientPSID=${userId} `,
+                url: `${SITE_URL}/redirectPage?clientPSID=${psid} `,
                 title: ' حـجـز مـوعـد 📅',
                 messenger_extensions :'true',
                 webview_height_ratio:'tall',
-              },
+                webview_share_button:'hide'
 
-                  {
-                    type:"web_url",
-                    title:"تصفح مواعيدي 📋 ",
-                    url: `https://facebook-bot-demo-production.up.railway.app/close`,
-                    messenger_extensions :'true',
-                    webview_height_ratio:'tall',
-                    webview_share_button:'hide'
-                  }
+            },
+            {
+              type: 'web_url', // Change the button type to 'web_url'
+              url: `${SITE_URL}/client-profile-show?clientRef=${userRef} `,
+              title: ' حسابي 👔',
+              messenger_extensions :'true',
+              webview_height_ratio:'tall',
+              webview_share_button:'hide'
+
+          },
+
             ]
             
           }
