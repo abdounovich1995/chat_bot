@@ -5,7 +5,7 @@ const SITE_URL = process.env.SITE_URL;
 
 async function setWhitelistedDomains() {
   const appSettings = {
-    whitelisted_domains: "https://facebook-bot-demo-production.up.railway.app/close",
+    whitelisted_domains: ["https://facebook-bot-demo-production.up.railway.app/close"],
   };
 
   const accessToken = PAGE_ACCESS_TOKEN;
