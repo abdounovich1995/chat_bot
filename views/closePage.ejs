@@ -118,7 +118,7 @@
                 MessengerExtensions.getContext("979427236501829",
                     function success(thread_context) {
                         try {
-                            var psid = thread_context.psid;
+                            let psid = thread_context.psid;
                             //logMessage('User ID obtained: ' + psid);
 
                             // Get parameters from the URL
@@ -169,14 +169,7 @@
         }
     </script>
    <script>
-    window.fbAsyncInit = function() {
-        FB.init({
-  appId      : '979427236501829',
-  status     : true,
-  xfbml      : true,
-  version    : 'v2.7' // or v2.6, v2.5, v2.4, v2.3
-});
-    };
+
 
     (function(d, s, id){
   var js, fjs = d.getElementsByTagName(s)[0];
