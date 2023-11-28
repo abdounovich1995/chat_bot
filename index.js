@@ -98,7 +98,7 @@ const appointmentDay = appointmentData.day;
 const appointmentDate = new Date(appointmentData.date);
 
 // Format the date as "dd/mm/yyyy"
-const formattedDate = appointmentDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' });
+const formattedDate = appointmentDate;
 
 console.log("date" + formattedDate);
 
