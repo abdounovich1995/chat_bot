@@ -4,7 +4,7 @@ const axios = require('axios'); // Import the axios library
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const SITE_URL = process.env.SITE_URL;
 
-const fullUrl=                 `${SITE_URL}/redirectPage?clientPSID=${userId}?siteUrl=${SITE_URL}?pageAccessToken=${PAGE_ACCESS_TOKEN} `;
+const fullUrl=SITE_URL+"/redirectPage?clientPSID="+userId+"?siteUrl="+SITE_URL+"?pageAccessToken="+PAGE_ACCESS_TOKEN;
 console.log(fullUrl);
 
 
