@@ -32,7 +32,8 @@ app.set('view engine', 'ejs');
 
 // Define a route handler for '/close'
 app.get('/close', (req, res) => {
-  res.render('close') // Create a 'closePage.ejs' template
+  res.render('closePage',{SITE_URL,
+  }); // Create a 'closePage.ejs' template
 });
 
 // Handle Facebook Webhook events
