@@ -8,8 +8,7 @@ async function handlePostback(webhookEvent) {
   if (webhookEvent.postback) {
     if (webhookEvent.postback.payload === 'GET_STARTED_PAYLOAD') {
       const senderPsid = webhookEvent.sender.id; 
-      welcomeButton.sendButtonTemplate(senderPsid,senderPsid);
-      return;
+    
       await firebaseService.addUserToClientCollection(senderPsid);
 const userRef= await  firebaseService.getClientReferenceByPSID(senderPsid);
       setMenu.setPersistentMenu(senderPsid,userRef);
