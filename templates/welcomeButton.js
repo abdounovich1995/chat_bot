@@ -4,9 +4,6 @@ const axios = require('axios'); // Import the axios library
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const SITE_URL = process.env.SITE_URL;
 
-
-
-
   async function sendButtonTemplate(userId) {
 const fullUrl=SITE_URL+"/redirectPage?clientPSID="+userId+"&pageAccessToken="+PAGE_ACCESS_TOKEN+"&siteUrl="+SITE_URL;
 
