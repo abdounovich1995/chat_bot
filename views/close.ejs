@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger Extension Page</title>
+</head>
+<body>
+
+<!-- Your page content goes here -->
+
+<button onclick="closeWebview()">Close Webview</button>
+
+<!-- Container for displaying messages -->
+<div id="messageContainer"></div>
+
+<script>
+  window.extAsyncInit = function() {
+    // Initialize the Messenger Extensions SDK
+    // Replace YOUR_APP_ID with your Facebook App ID
+    MessengerExtensions.init('979427236501829', function success() {
+      // The Messenger Extensions SDK is successfully initialized
+      displayMessage('Messenger Extensions SDK initialized');
+      
+      // Now you can use Messenger Extensions API
+    }, function error(err) {
+      // Handle initialization error
+      displayError('Error initializing Messenger Extensions SDK: ' + err);
+    });
+  };
+
+  // Load the Messenger Extensions SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.com/en_US/messenger.Extensions.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'Messenger'));
+
+  // Function to close the webview
+  function closeWebview() {
+    // Use the Messenger Extensions SDK to request closing the webview
+    MessengerExtensions.requestCloseBrowser(function success() {
+      // The request to close the webview was successful
+      displayMessage('Webview closed successfully');
+    }, function error(err) {
+      // Handle error when closing the webview
+      displayError('Error closing webview: ' + err);
+    });
+  }
+
+  // Function to display messages
+  function displayMessage(message) {
+    var messageContainer = document.getElementById('messageContainer');
+    var messageDiv = document.createElement('div');
+    messageDiv.innerText = message;
+    messageContainer.appendChild(messageDiv);
+  }
+
+  // Function to display errors
+  function displayError(error) {
+    var messageContainer = document.getElementById('messageContainer');
+    var errorDiv = document.createElement('div');
+    errorDiv.style.color = 'red'; // Set color to red for better visibility
+    errorDiv.innerText = 'Error: ' + error;
+    messageContainer.appendChild(errorDiv);
+  }
+</script>
+
+</body>
+</html>
