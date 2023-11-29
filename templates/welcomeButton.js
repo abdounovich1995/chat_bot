@@ -55,4 +55,7 @@ async function sendButtonTemplate(psid, userRef) {
   }
 }
 
-module.exports = { sendButtonTemplate };
+
+module.exports = {
+  sendButtonTemplate,
+};
