@@ -75,10 +75,9 @@ async function addUserToClientCollection(userId) {
         const username = await getUserName(userId);
         const welcomeMessage = `🙋‍♂️ مرحبا بك , ${username}!`;
 
-        await messageManager.sendTextMessage(userId, welcomeMessage+" "+newUserDocument.id);
+        await messageManager.sendTextMessage(userId, welcomeMessage);
         await welcomeButton.sendButtonTemplate(userId, newUserDocument.id);
-        console.log("user id:"+userId);
-        console.log("Doc ref :"+ newUserDocument.id);
+ 
 
 
       } else {
