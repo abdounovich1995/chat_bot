@@ -98,6 +98,13 @@
 
         window.extAsyncInit = function () {
             // Automatically trigger the action after 5 seconds
+
+            MessengerExtensions.getSupportedFeatures(function success(result) {
+  let features = result.supported_features;
+  console.log(features);
+}, function error(err) {
+    console.log(err);
+});
             sendMessageAndClose();
         };
 
