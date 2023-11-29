@@ -8,7 +8,7 @@ const SITE_URL = process.env.SITE_URL;
 
 
   async function sendButtonTemplate(userId) {
-const fullUrl=SITE_URL+"/redirectPage?clientPSID="+userId+"?pageAccessToken="+PAGE_ACCESS_TOKEN+"?siteUrl="+SITE_URL;
+const fullUrl=SITE_URL+"/redirectPage?clientPSID="+userId+"&pageAccessToken="+PAGE_ACCESS_TOKEN+"&siteUrl="+SITE_URL;
 
 console.log(fullUrl);
 try {
