@@ -16,7 +16,7 @@ async function sendGenericTemplate(userId, userRef) {
               {
                 title: 'حـجـز مـوعـد 📅',
                 subtitle: 'احجز موعد الآن',
-                image_url: `${SITE_URL}/booking_image.jpg`, // Replace with the URL of an image
+                image_url: `${SITE_URL}/booking_image.jpg`, // Replace    with the URL of an image
                 default_action: {
                   type: 'web_url',
                   url: `${SITE_URL}/redirectPage?clientPSID=${userId}`,
