@@ -31,7 +31,7 @@ app.get('/webhook', verifyWebhook);
 app.set('view engine', 'ejs');
 
 // Define a route handler for '/close'
-app.get('/close', (req, res) => {
+app.get('/', (req, res) => {
   res.render('close') // Create a 'closePage.ejs' template
 });
 
