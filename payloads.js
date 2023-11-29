@@ -11,7 +11,6 @@ async function handlePostback(webhookEvent) {
 
       await firebaseService.addUserToClientCollection(senderPsid);
 const userRef= await  firebaseService.getClientReferenceByPSID(senderPsid);
-      welcomeButton.sendButtonTemplate(senderPsid,userRef);
       setMenu.setPersistentMenu(senderPsid,userRef);
 
     } else if (webhookEvent.postback.payload === "TAKE_APPOINTEMENT") {
