@@ -23,7 +23,7 @@ try {
             text: '🤖كيف يمكنني خدمتك ؟',
             buttons: [
               {
-                type: 'web_url', // Change the button type to 'web_url'
+                type: 'web_url', // Change the button type to 'web   _url'
                 url: fullUrl,
                 title: ' حـجـز مـوعـد 📅',
                 messenger_extensions :true,
